@@ -1,0 +1,777 @@
+<!doctype html>
+<html lang="th">
+<head>
+<meta charset="utf-8">
+<title>ป.58 พิเศษ</title>
+
+<style>
+@media print{
+  body{
+    font-size:95%;
+    /* ❌ ไม่พิมพ์ปุ่ม */
+  .no-print{ display:none !important; }
+  }
+}
+body{
+  margin:0;
+  font-family:"TH Sarabun New","Kanit",sans-serif;
+}
+
+/* ===== style จาก Google Sheets (คงไว้เฉพาะที่ใช้จริง) ===== */
+.ritz .waffle a { color: inherit; }
+.ritz .waffle .s16{border-bottom:1px solid #000;background:#fff;text-align:center;font-size:9pt;}
+.ritz .waffle .s7{border-bottom:1px dotted #000;border-right:1px solid #000;text-align:left;font-size:9pt;}
+.ritz .waffle .s11{border-bottom:1px dotted #000;text-align:right;font-size:7pt;}
+.ritz .waffle .s18{text-align:center;text-decoration:underline;font-size:7pt;}
+.ritz .waffle .s1{text-align:center;font-size:9pt;}
+.ritz .waffle .s19{text-align:right;font-size:7pt;}
+.ritz .waffle .s8{border-bottom:1px dotted #000;border-right:1px solid #000;text-align:center;font-size:9pt;}
+.ritz .waffle .s12{border-bottom:1px dotted #000;text-align:center;font-size:7pt;}
+.ritz .waffle .s3{text-align:center;font-size:11pt;}
+.ritz .waffle .s10{border-bottom:1px dotted #000;text-align:center;text-decoration:underline;font-size:7pt;}
+.ritz .waffle .s6{border-bottom:1px solid #000;border-right:1px solid #000;text-align:center;font-weight:bold;font-size:9pt;}
+.ritz .waffle .s9{border-bottom:1px dotted #000;text-align:center;font-size:9pt;}
+.ritz .waffle .s14{border-bottom:1px solid #000;text-align:center;text-decoration:underline;font-size:7pt;}
+.ritz .waffle .s15{border-bottom:0px solid #000;text-align:center;font-size:7pt;}
+.ritz .waffle .s17{border-bottom:1px solid #000;border-right:1px solid #000;text-align:center;font-size:9pt;}
+.ritz .waffle .s13{border-bottom:1px solid #000;text-align:right;font-size:7pt;}
+.ritz .waffle .s0{text-align:left;font-size:8pt;}
+.ritz .waffle .s4{border-bottom:1px solid #000;text-align:center;font-size:10pt;}
+.ritz .waffle .s5{border-bottom:1px solid #000;border-right:1px solid #000;text-align:center;font-weight:bold;font-size:9pt;}
+.ritz .waffle .s20{text-align:center;font-size:7pt;}
+.ritz .waffle .s2{text-align:left;font-size:9pt;}
+
+table.waffle{
+  width:100%;
+  border-collapse:collapse;
+}
+.row-write td{
+  padding-top:30px;
+  padding-bottom:8px;
+}
+	table.waffle {
+  border: 2px solid #000;
+}
+
+.left{
+  text-align:left !important;
+}
+.center{
+  text-align:center !important;
+}
+.right{
+  text-align:right !important;
+}
+
+</style>
+</head>
+
+<body>
+  <!-- ✅ ปุ่มกลับหน้าแรก -->
+<div class="no-print" style="margin:10px">
+  <button onclick="goBack()" style="
+    padding:8px 14px;
+    border-radius:8px;
+    border:0;
+    background:#ff8fb1;
+    color:#fff;
+    cursor:pointer;
+  ">
+    ⬅ กลับหน้าแรก
+  </button>
+</div>
+
+<div class="ritz">
+
+<table class="waffle">
+
+<tbody>
+
+<tr>
+  <td class="s3" colspan="14">
+    บัญชีรับ-ส่งมอบถุงไปรษณีย์ด่วนพิเศษ ระหว่าง ปณ.ในพื้นที่ กับ ศป.อบ.
+  </td>
+</tr>
+
+<tr>
+  <td class="s4" colspan="14">
+  ประจำวันที่ <span id="day"></span>
+  เดือน <span id="month"></span>
+  พ.ศ. <span id="year"></span>
+</td>
+</tr>
+
+<!-- ====== ตารางจริง (ยกมาจากต้นฉบับ) ====== -->
+
+<tr class="row-write">
+  <td class="s5">ต้นทาง</td>
+  <td class="s5" colspan="2">ศป.อุบลฯ</td>
+  <td class="s5">ศป.นม.</td>
+  <td class="s5">ศป.อด.</td>
+  <td class="s5">ศป.ขก.</td>
+  <td class="s6" colspan="2">อื่นๆ</td>
+
+  <td class="s5">ต้นทาง</td>
+  <td class="s5" colspan="2">ศป.อุบลฯ</td>
+  <td class="s5">ศป.นม.</td>
+  <td class="s5">ศป.อด.</td>
+  <td class="s5">ศป.ขก.</td>
+</tr>
+
+<tr>
+  <td class="s7"></td>
+  <td class="s8">ถุง</td><td class="s8">R/U</td>
+  <td class="s8"></td><td class="s8"></td><td class="s8"></td>
+  <td class="s9"></td>
+
+  <td class="s7"></td>
+  <td class="s8"></td><td class="s8">ถุง</td>
+  <td class="s8">R/U</td><td class="s8"></td><td class="s8"></td>
+  <td class="s9"></td>
+</tr>
+
+<tr>
+  <td class="s7">วารินชำราบ</td>
+  <td class="s8"></td><td class="s8"></td>
+  <td class="s8"></td><td class="s8"></td><td class="s8"></td>
+  <td class="s9"></td>
+
+  <td class="s7"></td>
+  <td class="s8 left">บึงบูรพ์</td><td class="s8"></td>
+  <td class="s8"></td><td class="s8"></td><td class="s8"></td>
+	<td class="s9"></td>
+</tr>
+	
+<tr>
+  <td class="s1 s7">รวม</td>
+  <td class="s8"></td><td class="s8">ถุง</td>
+  <td class="s8"></td><td class="s8">Roll</td><td class="s8"></td>
+  <td class="s9"></td>
+
+  <td class="s7"></td>
+  <td class="s8 left"> ราษีไศล</td><td class="s8"></td>
+  <td class="s8"></td><td class="s8"></td><td class="s8"></td>
+  <td class="s9"></td>
+</tr>
+
+<tr>
+  <td class="s7"> อุบลราชธานี</td>
+  <td class="s8"></td><td class="s8"></td>
+  <td class="s8"></td><td class="s8"></td><td class="s8"></td>
+  <td class="s9"></td>
+
+  <td class="s7"></td>
+  <td class="s1 s8">รวม</td><td class="s8"></td>
+  <td class="s8">ถุง</td><td class="s8"></td><td class="s8">Roll</td>
+  <td class="s9"></td>
+</tr>
+	
+	<tr>
+  <td class="s7"> ปทุมาลัย</td>
+  <td class="s8"></td><td class="s8"></td>
+  <td class="s8"></td><td class="s8"></td><td class="s8"></td>
+  <td class="s9"></td>
+
+  <td class="s7"></td>
+  <td class="s8 left"> คำเขื่อนแก้ว</td><td class="s8"></td>
+  <td class="s8"></td><td class="s8"></td><td class="s8"></td>
+  <td class="s9"></td>
+</tr>
+	
+	<tr>
+  <td class="s7"> คต.ดอนกลาง</td>
+  <td class="s8"></td><td class="s8"></td>
+  <td class="s8"></td><td class="s8"></td><td class="s8"></td>
+  <td class="s9"></td>
+
+  <td class="s7"></td>
+  <td class="s8 left"> มหาชนะชัย</td><td class="s8"></td>
+  <td class="s8"></td><td class="s8"></td><td class="s8"></td>
+  <td class="s9"></td>
+</tr>
+	
+	<tr>
+  <td class="s7"> คต.หนองบัว</td>
+  <td class="s8"></td><td class="s8"></td>
+  <td class="s8"></td><td class="s8"></td><td class="s8"></td>
+  <td class="s9"></td>
+
+  <td class="s7"></td>
+  <td class="s8 left"> เขื่องใน</td><td class="s8"></td>
+  <td class="s8"></td><td class="s8"></td><td class="s8"></td>
+  <td class="s9"></td>
+</tr>
+	
+	<tr>
+  <td class="s7"> คต.ศาลากลาง</td>
+  <td class="s8"></td><td class="s8"></td>
+  <td class="s8"></td><td class="s8"></td><td class="s8"></td>
+  <td class="s9"></td>
+
+  <td class="s7"></td>
+  <td class="s8">รวม</td><td class="s8"></td>
+  <td class="s8">ถุง</td><td class="s8"></td>
+  <td class="s8">Roll</td><td class="s8"></td>
+</tr>
+	
+	<tr>
+  <td class="s7"> ปณย.อุบลฯ</td>
+  <td class="s8"></td><td class="s8"></td>
+  <td class="s8"></td><td class="s8"></td><td class="s8"></td>
+  <td class="s9"></td>
+
+  <td class="s7"></td>
+  <td class="s8 left"> กุดชุม</td><td class="s8"></td>
+  <td class="s8"></td><td class="s8"></td><td class="s8"></td>
+  <td class="s9"></td>
+</tr>
+	
+	<tr>
+  <td class="s7"> คปณ.นาเมือง</td>
+  <td class="s8"></td><td class="s8"></td>
+  <td class="s8"></td><td class="s8"></td><td class="s8"></td>
+  <td class="s9"></td>
+
+  <td class="s7"></td>
+  <td class="s8 left"> ทรายมูล</td><td class="s8"></td>
+  <td class="s8"></td><td class="s8"></td><td class="s8"></td>
+  <td class="s9"></td>
+</tr>
+	
+	<tr>
+  <td class="s1 s7">รวม</td>
+  <td class="s8"></td><td class="s8">ถุง</td>
+  <td class="s8"></td><td class="s8">Roll</td><td class="s8"></td>
+  <td class="s9"></td>
+
+  <td class="s7"></td>
+  <td class="s8 left"> ยโสธร</td><td class="s8"></td>
+  <td class="s8"></td><td class="s8"></td><td class="s8"></td>
+  <td class="s9"></td>
+</tr>
+	
+	<tr>
+  <td class="s7"> แจ้งสนิท</td>
+  <td class="s8"></td><td class="s8"></td>
+  <td class="s8"></td><td class="s8"></td><td class="s8"></td>
+  <td class="s9"></td>
+
+  <td class="s7"></td>
+  <td class="s8 left"> ดงแคนใหญ่</td><td class="s8"></td>
+  <td class="s8"></td><td class="s8"></td><td class="s8"></td>
+  <td class="s9"></td>
+</tr>
+	
+	<tr>
+  <td class="s7"> วนารมย์</td>
+  <td class="s8"></td><td class="s8"></td>
+  <td class="s8"></td><td class="s8"></td><td class="s8"></td>
+  <td class="s9"></td>
+
+  <td class="s7"></td>
+  <td class="s8 left"> บ้านกอก</td><td class="s8"></td>
+  <td class="s8"></td><td class="s8"></td><td class="s8"></td>
+  <td class="s9"></td>
+</tr>
+	
+	<tr>
+  <td class="s1 s7">รวม</td>
+  <td class="s8"></td><td class="s8">ถุง</td>
+  <td class="s8"></td><td class="s8">Roll</td><td class="s8"></td>
+  <td class="s9"></td>
+
+  <td class="s7"></td>
+  <td class="s8 left"> คปณ.เทคนิค</td><td class="s8"></td>
+  <td class="s8"></td><td class="s8"></td><td class="s8"></td>
+  <td class="s9"></td>
+</tr>
+	
+	<tr>
+  <td class="s7"> โขงเจียม</td>
+  <td class="s8"></td><td class="s8"></td>
+  <td class="s8"></td><td class="s8"></td><td class="s8"></td>
+  <td class="s9"></td>
+
+  <td class="s7"></td>
+  <td class="s8">รวม</td><td class="s8"></td>
+  <td class="s8">ถุง</td><td class="s8"></td><td class="s8">Roll</td>
+  <td class="s9"></td>
+</tr>
+	
+	<tr>
+  <td class="s7"> สิรินธร</td>
+  <td class="s8"></td><td class="s8"></td>
+  <td class="s8"></td><td class="s8"></td><td class="s8"></td>
+  <td class="s9"></td>
+
+  <td class="s7"></td>
+  <td class="s8 left"> ป่าติ้ว</td><td class="s8"></td>
+  <td class="s8"></td><td class="s8"></td><td class="s8"></td>
+  <td class="s9"></td>
+</tr>
+	
+	<tr>
+  <td class="s7"> พิบูลมังสาหาร</td>
+  <td class="s8"></td><td class="s8"></td>
+  <td class="s8"></td><td class="s8"></td><td class="s8"></td>
+  <td class="s9"></td>
+
+  <td class="s7"></td>
+  <td class="s8 left"> ม่วงสามสิบ</td><td class="s8"></td>
+  <td class="s8"></td><td class="s8"></td><td class="s8"></td>
+  <td class="s9"></td>
+</tr>
+	
+	<tr>
+  <td class="s7"> คต.ช่องเม็ก</td>
+  <td class="s8"></td><td class="s8"></td>
+  <td class="s8"></td><td class="s8"></td><td class="s8"></td>
+  <td class="s9"></td>
+
+  <td class="s7"></td>
+  <td class="s8 left"> หัวตะพาน</td><td class="s8"></td>
+  <td class="s8"></td><td class="s8"></td><td class="s8"></td>
+  <td class="s9"></td>
+</tr>
+	
+	<tr>
+  <td class="s1 s7">วรวม</td>
+  <td class="s8"></td><td class="s8">ถุง</td>
+  <td class="s8"></td><td class="s8">Roll</td><td class="s8"></td>
+  <td class="s9"></td>
+
+  <td class="s7"></td>
+  <td class="s8">รวม</td><td class="s8"></td>
+  <td class="s8">ถุง</td><td class="s8"></td><td class="s8">Roll</td>
+  <td class="s9"></td>
+</tr>
+	
+	<tr>
+  <td class="s7"> ศรีเมืองใหม่</td>
+  <td class="s8"></td><td class="s8"></td>
+  <td class="s8"></td><td class="s8"></td><td class="s8"></td>
+  <td class="s9"></td>
+
+  <td class="s7"></td>
+  <td class="s8 left"> กันทรลักษ์</td><td class="s8"></td>
+  <td class="s8"></td><td class="s8"></td><td class="s8"></td>
+  <td class="s9"></td>
+</tr>
+	
+	<tr>
+  <td class="s7"> ตาลสุม</td>
+  <td class="s8"></td><td class="s8"></td>
+  <td class="s8"></td><td class="s8"></td><td class="s8"></td>
+  <td class="s9"></td>
+
+  <td class="s7"></td>
+  <td class="s8 left"> โนนคูณ</td><td class="s8"></td>
+  <td class="s8"></td><td class="s8"></td><td class="s8"></td>
+  <td class="s9"></td>
+</tr>
+	
+	<tr>
+  <td class="s1 s7">รวม</td>
+  <td class="s8"></td><td class="s8">ถุง</td>
+  <td class="s8"></td><td class="s8">Roll</td><td class="s8"></td>
+  <td class="s9"></td>
+
+  <td class="s7"></td>
+  <td class="s8 left"> บ้านสำโรง</td><td class="s8"></td>
+  <td class="s8"></td><td class="s8"></td><td class="s8"></td>
+  <td class="s9"></td>
+</tr>
+	
+	<tr>
+  <td class="s7"> น้ำยืน</td>
+  <td class="s8"></td><td class="s8"></td>
+  <td class="s8"></td><td class="s8"></td><td class="s8"></td>
+  <td class="s9"></td>
+
+  <td class="s7"></td>
+  <td class="s8 left">คต.เบ็ญจลักษ์</td><td class="s8"></td>
+  <td class="s8"></td><td class="s8"></td><td class="s8"></td>
+  <td class="s9"></td>
+</tr>
+	
+	<tr>
+  <td class="s7"> เดชอุดม</td>
+  <td class="s8"></td><td class="s8"></td>
+  <td class="s8"></td><td class="s8"></td><td class="s8"></td>
+  <td class="s9"></td>
+
+  <td class="s7"></td>
+  <td class="s8">รวม</td><td class="s8"></td>
+  <td class="s8">ถุง</td><td class="s8"></td><td class="s8">Roll</td>
+  <td class="s9"></td>
+</tr>
+	
+	<tr>
+  <td class="s7"> คต. ศรีไค</td>
+  <td class="s8"></td><td class="s8"></td>
+  <td class="s8"></td><td class="s8"></td><td class="s8"></td>
+  <td class="s9"></td>
+
+  <td class="s7"></td>
+  <td class="s8 left"> ขุขันธ์</td><td class="s8"></td>
+  <td class="s8"></td><td class="s8"></td><td class="s8"></td>
+  <td class="s9"></td>
+</tr>
+	
+	<tr>
+  <td class="s7"> คต. ม.อุบลฯ</td>
+  <td class="s8"></td><td class="s8"></td>
+  <td class="s8"></td><td class="s8"></td><td class="s8"></td>
+  <td class="s9"></td>
+
+  <td class="s7"></td>
+  <td class="s8 left"> ไพรบึง</td><td class="s8"></td>
+  <td class="s8"></td><td class="s8"></td><td class="s8"></td>
+  <td class="s9"></td>
+</tr>
+	
+	<tr>
+  <td class="s1 s7">รวม</td>
+  <td class="s8"></td><td class="s8">ถุง</td>
+  <td class="s8"></td><td class="s8">Roll</td><td class="s8"></td>
+  <td class="s9"></td>
+
+  <td class="s7"></td>
+  <td class="s8 left"> ขุนหาญ</td><td class="s8"></td>
+  <td class="s8"></td><td class="s8"></td><td class="s8"></td>
+  <td class="s9"></td>
+</tr>
+	
+	<tr>
+  <td class="s7"> นาจะหลวย</td>
+  <td class="s8"></td><td class="s8"></td>
+  <td class="s8"></td><td class="s8"></td><td class="s8"></td>
+  <td class="s9"></td>
+
+  <td class="s7"></td>
+  <td class="s8">รวม</td><td class="s8"></td>
+  <td class="s8">ถุง</td><td class="s8"></td><td class="s8">Roll</td>
+  <td class="s9"></td>
+</tr>
+	
+	<tr>
+  <td class="s7"> บุญฑริก</td>
+  <td class="s8"></td><td class="s8"></td>
+  <td class="s8"></td><td class="s8"></td><td class="s8"></td>
+  <td class="s9"></td>
+
+  <td class="s7"></td>
+  <td class="s8 left"> ค้อวัง</td><td class="s8"></td>
+  <td class="s8"></td><td class="s8"></td><td class="s8"></td>
+  <td class="s9"></td>
+</tr>
+	
+	<tr>
+  <td class="s1 s7">รวม</td>
+  <td class="s8"></td><td class="s8">ถุง</td>
+  <td class="s8"></td><td class="s8">Roll</td><td class="s8"></td>
+  <td class="s9"></td>
+
+  <td class="s7"></td>
+  <td class="s8 left"> ยางชุมน้อย</td><td class="s8"></td>
+  <td class="s8"></td><td class="s8"></td><td class="s8"></td>
+  <td class="s9"></td>
+</tr>
+	
+	<tr>
+  <td class="s7"> ปทุมราชวงศา</td>
+  <td class="s8"></td><td class="s8"></td>
+  <td class="s8"></td><td class="s8"></td><td class="s8"></td>
+  <td class="s9"></td>
+
+  <td class="s7"></td>
+  <td class="s8 left"> กันทรารมย์</td><td class="s8"></td>
+  <td class="s8"></td><td class="s8"></td><td class="s8"></td>
+  <td class="s9"></td>
+</tr>
+	
+	<tr>
+  <td class="s7"> กุดข้าวปุ้น</td>
+  <td class="s8"></td><td class="s8"></td>
+  <td class="s8"></td><td class="s8"></td><td class="s8"></td>
+  <td class="s9"></td>
+
+  <td class="s7"></td>
+  <td class="s8 left"> ห้วยขะยุง</td><td class="s8"></td>
+  <td class="s8"></td><td class="s8"></td><td class="s8"></td>
+  <td class="s9"></td>
+</tr>
+	
+	<tr>
+  <td class="s7"> พนา</td>
+  <td class="s8"></td><td class="s8"></td>
+  <td class="s8"></td><td class="s8"></td><td class="s8"></td>
+  <td class="s9"></td>
+
+  <td class="s7"></td>
+  <td class="s8">รวม</td><td class="s8"></td>
+  <td class="s8">ถุง</td><td class="s8"></td><td class="s8">Roll</td>
+  <td class="s9"></td>
+</tr>
+	
+	<tr>
+  <td class="s7"> ตระการพืชผล</td>
+  <td class="s8"></td><td class="s8"></td>
+  <td class="s8"></td><td class="s8"></td><td class="s8"></td>
+  <td class="s9"></td>
+
+  <td class="s7"></td>
+  <td class="s8 left"> อุทุมพรพิสัย</td><td class="s8"></td>
+  <td class="s8"></td><td class="s8"></td><td class="s8"></td>
+  <td class="s9"></td>
+</tr>
+	
+	<tr>
+  <td class="s1 s7">รวม</td>
+  <td class="s8"></td><td class="s8">ถุง</td>
+  <td class="s8"></td><td class="s8">Roll</td><td class="s8"></td>
+  <td class="s9"></td>
+
+  <td class="s7"></td>
+  <td class="s8 left"> ห้วยทับทัน</td><td class="s8"></td>
+  <td class="s8"></td><td class="s8"></td><td class="s8"></td>
+  <td class="s9"></td>
+</tr>
+	
+	<tr>
+  <td class="s7"> เขมราฐ</td>
+  <td class="s8"></td><td class="s8"></td>
+  <td class="s8"></td><td class="s8"></td><td class="s8"></td>
+  <td class="s9"></td>
+
+  <td class="s7"></td>
+  <td class="s8">รวม</td><td class="s8"></td>
+  <td class="s8">ถุง</td><td class="s8"></td><td class="s8">Roll</td>
+  <td class="s9"></td>
+</tr>
+	
+	<tr>
+  <td class="s7"> โพธิ์ไทร</td>
+  <td class="s8"></td><td class="s8"></td>
+  <td class="s8"></td><td class="s8"></td><td class="s8"></td>
+  <td class="s9"></td>
+
+  <td class="s7"></td>
+  <td class="s8 left"> ศรีสะเกษ</td><td class="s8"></td>
+  <td class="s8"></td><td class="s8"></td><td class="s8"></td>
+  <td class="s9"></td>
+</tr>
+	
+	<tr>
+  <td class="s7"> ชานุมาน</td>
+  <td class="s8"></td><td class="s8"></td>
+  <td class="s8"></td><td class="s8"></td><td class="s8"></td>
+  <td class="s9"></td>
+
+  <td class="s7"></td>
+  <td class="s8 left"> ปรางค์กู่</td><td class="s8"></td>
+  <td class="s8"></td><td class="s8"></td><td class="s8"></td>
+  <td class="s9"></td>
+</tr>
+	
+	<tr>
+  <td class="s7">ดอนตาล</td>
+  <td class="s8"></td><td class="s8"></td>
+  <td class="s8"></td><td class="s8"></td><td class="s8"></td>
+  <td class="s9"></td>
+
+  <td class="s7"></td>
+  <td class="s8 left"> พยุห์</td><td class="s8"></td>
+  <td class="s8"></td><td class="s8"></td><td class="s8"></td>
+  <td class="s9"></td>
+</tr>
+	
+	<tr>
+  <td class="s1 s7">รวม</td>
+  <td class="s8"></td><td class="s8">ถุง</td>
+  <td class="s8"></td><td class="s8">Roll</td><td class="s8"></td>
+  <td class="s9"></td>
+
+  <td class="s7"></td>
+  <td class="s8 left"> ศรีรัตนะ</td><td class="s8"></td>
+  <td class="s8"></td><td class="s8"></td><td class="s8"></td>
+  <td class="s9"></td>
+</tr>
+	
+	<tr>
+  <td class="s7"> เลิงนกทา</td>
+  <td class="s8"></td><td class="s8"></td>
+  <td class="s8"></td><td class="s8"></td><td class="s8"></td>
+  <td class="s9"></td>
+
+  <td class="s7"></td>
+  <td class="s8" left> ว้งหิน</td><td class="s8"></td>
+  <td class="s8"></td><td class="s8"></td><td class="s8"></td>
+  <td class="s9"></td>
+</tr>
+	
+	<tr>
+  <td class="s7"> เสนางคนิคม</td>
+  <td class="s8"></td><td class="s8"></td>
+  <td class="s8"></td><td class="s8"></td><td class="s8"></td>
+  <td class="s9"></td>
+
+  <td class="s7"></td>
+  <td class="s8 left"> เมืองใต้</td><td class="s8"></td>
+  <td class="s8"></td><td class="s8"></td><td class="s8"></td>
+  <td class="s9"></td>
+</tr>
+	
+	<tr>
+  <td class="s7"> ลืออำนาจ</td>
+  <td class="s8"></td><td class="s8"></td>
+  <td class="s8"></td><td class="s8"></td><td class="s8"></td>
+  <td class="s9"></td>
+
+  <td class="s7"></td>
+  <td class="s8">รวม</td><td class="s8"></td>
+  <td class="s8">ถุง</td><td class="s8"></td><td class="s8">Roll</td>
+  <td class="s9"></td>
+</tr>
+	
+	<tr>
+  <td class="s1 s7">รวม</td>
+  <td class="s8"></td><td class="s8">ถุง</td>
+  <td class="s8"></td><td class="s8">Roll</td><td class="s8"></td>
+  <td class="s9"></td>
+
+  <td class="s7"></td>
+  <td class="s8"></td><td class="s8"></td>
+  <td class="s8"></td><td class="s8"></td><td class="s8"></td>
+  <td class="s9"></td>
+</tr>
+	
+	<tr>
+  <td class="s7"> อำนาจเจริญ</td>
+  <td class="s8"></td><td class="s8"></td>
+  <td class="s8"></td><td class="s8"></td><td class="s8"></td>
+  <td class="s9"></td>
+
+  <td class="s7"></td>
+  <td class="s8">รวมทั้งสิ้น</td><td class="s8"></td>
+  <td class="s8"></td><td class="s8"></td><td class="s8"></td>
+  <td class="s9"></td>
+</tr>
+	
+	<tr>
+  <td class="s7"> ปตท.อำนาจฯ</td>
+  <td class="s8"></td><td class="s8"></td>
+  <td class="s8"></td><td class="s8"></td><td class="s8"></td>
+  <td class="s9"></td>
+
+  <td class="s7"></td>
+  <td class="s8"></td><td class="s8"></td>
+  <td class="s8"></td><td class="s8"></td><td class="s8"></td>
+  <td class="s9"></td>
+</tr>
+	
+	
+	<tr>
+  <td class="s1 s7">รวม</td>
+  <td class="s8"></td><td class="s8">ถุง</td>
+  <td class="s8"></td><td class="s8">Roll</td><td class="s8"></td>
+  <td class="s9"></td>
+
+  <td class="s7"></td>
+  <td class="s8">รวมทั้งสิ้น</td><td class="s8"></td>
+  <td class="s8">ถุง</td><td class="s8"></td><td class="s8">Roll</td>
+  <td class="s9"></td>
+</tr>
+
+<!-- ====== (ตารางยาว: แถวอื่น ๆ ให้คัดลอกต่อได้เลยจากต้นฉบับ) ====== -->
+
+<tr class="row-write">
+  <td class="s1" colspan="6">ลงชื่อ..................................... ผู้ส่งมอบ</td>
+  <td></td>
+  <td class="s1" colspan="6">ลงชื่อ..................................... ผู้รับมอบ</td>
+</tr>
+
+<tr class="row-write">
+  <td class="s1" colspan="6">
+    วันที่ <span id="d2-day"></span>
+    เดือน <span id="d2-month"></span>
+    พ.ศ. <span id="d2-year"></span>
+    เวลา <span id="d2-time"></span> น.
+  </td>
+  <td></td>
+  <td class="s1" colspan="6">
+    วันที่ ........ เดือน ........ พ.ศ. ........ เวลา ........ น.
+  </td>
+</tr>
+
+  
+
+</tbody>
+</table>
+
+</div>
+  
+<script>
+function goBack(){
+  if (window.history.length > 1) {
+    window.history.back();   // ✅ กลับไปหน้า index ที่เปิดมา
+  } else {
+    window.location.replace("/");
+  }
+}
+</script>
+ <script>
+(function setThaiDateTime(){
+  const now = new Date();
+
+  const day = now.getDate();
+  const monthNames = [
+    "มกราคม","กุมภาพันธ์","มีนาคม","เมษายน",
+    "พฤษภาคม","มิถุนายน","กรกฎาคม","สิงหาคม",
+    "กันยายน","ตุลาคม","พฤศจิกายน","ธันวาคม"
+  ];
+  const month = monthNames[now.getMonth()];
+  const year = now.getFullYear() + 543;
+
+  const hh = String(now.getHours()).padStart(2,"0");
+  const mm = String(now.getMinutes()).padStart(2,"0");
+  const time = `${hh}:${mm}`;
+
+  const d = document.getElementById("d2-day");
+  const m = document.getElementById("d2-month");
+  const y = document.getElementById("d2-year");
+  const t = document.getElementById("d2-time");
+
+  if(d) d.textContent = day;
+  if(m) m.textContent = month;
+  if(y) y.textContent = year;
+  if(t) t.textContent = time;
+})();
+</script>
+  <script>
+(function setThaiDate(){
+  const now = new Date();
+
+  const day = now.getDate();
+  const monthNames = [
+    "มกราคม","กุมภาพันธ์","มีนาคม","เมษายน",
+    "พฤษภาคม","มิถุนายน","กรกฎาคม","สิงหาคม",
+    "กันยายน","ตุลาคม","พฤศจิกายน","ธันวาคม"
+  ];
+  const month = monthNames[now.getMonth()];
+  const year = now.getFullYear() + 543;
+
+  const d = document.getElementById("day");
+  const m = document.getElementById("month");
+  const y = document.getElementById("year");
+
+  if(d) d.textContent = day;
+  if(m) m.textContent = month;
+  if(y) y.textContent = year;
+})();
+</script>
+
+
+  
+</body>
+</html>
