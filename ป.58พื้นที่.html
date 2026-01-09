@@ -12,6 +12,76 @@
   .no-print{ display:none !important; }
   }
 }
+  /* ===== A4 PRINT SETUP ===== */
+@page{
+  size: A4 portrait;
+  margin: 18mm;
+}
+
+html, body{
+  width: 210mm;
+  height: 297mm;
+  margin: 0;
+  padding: 0;
+}
+
+/* ไม่ให้ตารางแตกหน้า */
+table, tr, td{
+  page-break-inside: avoid;
+}
+
+/* ซ่อนสิ่งที่ไม่ต้องพิมพ์ */
+@media print{
+  .no-print{
+    display:none !important;
+  }
+
+  /* เอาสีไฮไลต์ออกตอนพิมพ์ */
+  .hl-have,
+  .hl-warn{
+    background:none !important;
+  }
+}
+  .page-a4{
+  box-sizing: border-box;
+  width: 100%;
+}
+  /* ===== BUTTON STYLE ===== */
+.btn-export{
+  padding:8px 14px;
+  margin-right:6px;
+  border-radius:8px;
+  border:0;
+  cursor:pointer;
+  font-size:14px;
+  font-family:"TH Sarabun New","Kanit",sans-serif;
+}
+
+/* ปุ่มกลับ */
+.btn-back{
+  background:#ff8fb1;
+  color:#fff;
+}
+
+/* Export HTML */
+.btn-html{
+  background:#f56060;
+  color:#fff;
+}
+
+/* Export PDF */
+.btn-pdf{
+  background:#0a8b0f;
+  color:#fff;
+}
+
+/* hover */
+.btn-export:hover{
+  opacity:0.85;
+}
+
+
+
 body{
   margin:0;
   font-family:"TH Sarabun New","Kanit",sans-serif;
@@ -65,21 +135,23 @@ table.waffle{
 
 </style>
 </head>
-
 <body>
   <!-- ✅ ปุ่มกลับหน้าแรก -->
 <div class="no-print" style="margin:10px">
-  <button onclick="goBack()" style="
-    padding:8px 14px;
-    border-radius:8px;
-    border:0;
-    background:#ff8fb1;
-    color:#fff;
-    cursor:pointer;
-  ">
+  <button onclick="goBack()" class="btn-export btn-back">
     ⬅ กลับหน้าแรก
   </button>
+
+  <button onclick="exportHTML()" class="btn-export btn-html">
+    📄 Export HTML
+  </button>
+
+  <button onclick="exportPDF()" class="btn-export btn-pdf">
+    🖨 Export PDF
+  </button>
 </div>
+
+<div class="page-a4">  
 
 <div class="ritz">
 
@@ -132,13 +204,13 @@ table.waffle{
 
 <tr>
   <td class="s7">วารินชำราบ</td>
-  <td class="s8"></td><td class="s8"></td>
+  <td class="s8" id="cnt-bag-3419034010"></td><td class="s8" id="cnt-roll-3419034010"></td>
   <td class="s8"></td><td class="s8"></td><td class="s8"></td>
   <td class="s9"></td>
 
   <td class="s7"></td>
-  <td class="s8 left">บึงบูรพ์</td><td class="s8"></td>
-  <td class="s8"></td><td class="s8"></td><td class="s8"></td>
+  <td class="s8 left">บึงบูรพ์</td><td class="s8" id="cnt-bag-3322034010"></td>
+  <td class="s8" id="cnt-roll-3322034010"></td><td class="s8"></td><td class="s8"></td>
 	<td class="s9"></td>
 </tr>
 	
@@ -149,14 +221,14 @@ table.waffle{
   <td class="s9"></td>
 
   <td class="s7"></td>
-  <td class="s8 left"> ราษีไศล</td><td class="s8"></td>
-  <td class="s8"></td><td class="s8"></td><td class="s8"></td>
+  <td class="s8 left"> ราษีไศล</td><td class="s8" id="cnt-bag-3316034010"></td>
+  <td class="s8" id="cnt-roll-3316034010"></td><td class="s8"></td><td class="s8"></td>
   <td class="s9"></td>
 </tr>
 
 <tr>
   <td class="s7"> อุบลราชธานี</td>
-  <td class="s8"></td><td class="s8"></td>
+  <td class="s8" id="cnt-bag-3400034010"></td><td class="s8" id="cnt-roll-3400034010"></td>
   <td class="s8"></td><td class="s8"></td><td class="s8"></td>
   <td class="s9"></td>
 
@@ -168,12 +240,12 @@ table.waffle{
 	
 	<tr>
   <td class="s7"> ปทุมาลัย</td>
-  <td class="s8"></td><td class="s8"></td>
+  <td class="s8" id="cnt-bag-3400134010"></td><td class="s8"></td>
   <td class="s8"></td><td class="s8"></td><td class="s8"></td>
   <td class="s9"></td>
 
   <td class="s7"></td>
-  <td class="s8 left"> คำเขื่อนแก้ว</td><td class="s8"></td>
+  <td class="s8 left"> คำเขื่อนแก้ว</td><td class="s8" id="cnt-bag-3511034010"></td>
   <td class="s8"></td><td class="s8"></td><td class="s8"></td>
   <td class="s9"></td>
 </tr>
@@ -185,8 +257,8 @@ table.waffle{
   <td class="s9"></td>
 
   <td class="s7"></td>
-  <td class="s8 left"> มหาชนะชัย</td><td class="s8"></td>
-  <td class="s8"></td><td class="s8"></td><td class="s8"></td>
+  <td class="s8 left"> มหาชนะชัย</td><td class="s8" id="cnt-bag-3513034010"></td>
+  <td class="s8" id="cnt-roll-3513034010"></td><td class="s8"></td><td class="s8"></td>
   <td class="s9"></td>
 </tr>
 	
@@ -197,8 +269,8 @@ table.waffle{
   <td class="s9"></td>
 
   <td class="s7"></td>
-  <td class="s8 left"> เขื่องใน</td><td class="s8"></td>
-  <td class="s8"></td><td class="s8"></td><td class="s8"></td>
+  <td class="s8 left"> เขื่องใน</td><td class="s8" id="cnt-bag-3415034010"></td>
+  <td class="s8" id="cnt-roll-3415034010"></td><td class="s8"></td><td class="s8"></td>
   <td class="s9"></td>
 </tr>
 	
@@ -221,7 +293,7 @@ table.waffle{
   <td class="s9"></td>
 
   <td class="s7"></td>
-  <td class="s8 left"> กุดชุม</td><td class="s8"></td>
+  <td class="s8 left"> กุดชุม</td><td class="s8" id="cnt-bag-3514034010"></td>
   <td class="s8"></td><td class="s8"></td><td class="s8"></td>
   <td class="s9"></td>
 </tr>
@@ -233,7 +305,7 @@ table.waffle{
   <td class="s9"></td>
 
   <td class="s7"></td>
-  <td class="s8 left"> ทรายมูล</td><td class="s8"></td>
+  <td class="s8 left"> ทรายมูล</td><td class="s8" id="cnt-bag-3517034010"></td>
   <td class="s8"></td><td class="s8"></td><td class="s8"></td>
   <td class="s9"></td>
 </tr>
@@ -245,31 +317,31 @@ table.waffle{
   <td class="s9"></td>
 
   <td class="s7"></td>
-  <td class="s8 left"> ยโสธร</td><td class="s8"></td>
-  <td class="s8"></td><td class="s8"></td><td class="s8"></td>
+  <td class="s8 left"> ยโสธร</td><td class="s8" id="cnt-bag-3500034010"></td>
+  <td class="s8" id="cnt-roll-3500034010"></td><td class="s8"></td><td class="s8"></td>
   <td class="s9"></td>
 </tr>
 	
 	<tr>
   <td class="s7"> แจ้งสนิท</td>
-  <td class="s8"></td><td class="s8"></td>
+  <td class="s8" id="cnt-bag-3400234010"></td><td class="s8" id="cnt-roll-3400234010"></td>
   <td class="s8"></td><td class="s8"></td><td class="s8"></td>
   <td class="s9"></td>
 
   <td class="s7"></td>
-  <td class="s8 left"> ดงแคนใหญ่</td><td class="s8"></td>
+  <td class="s8 left"> ดงแคนใหญ่</td><td class="s8" id="cnt-bag-3518034010"></td>
   <td class="s8"></td><td class="s8"></td><td class="s8"></td>
   <td class="s9"></td>
 </tr>
 	
 	<tr>
   <td class="s7"> วนารมย์</td>
-  <td class="s8"></td><td class="s8"></td>
+  <td class="s8" id="cnt-bag-3400334010"></td><td class="s8" id="cnt-roll-3400334010"></td>
   <td class="s8"></td><td class="s8"></td><td class="s8"></td>
   <td class="s9"></td>
 
   <td class="s7"></td>
-  <td class="s8 left"> บ้านกอก</td><td class="s8"></td>
+  <td class="s8 left"> บ้านกอก</td><td class="s8" id="cnt-bag-3432034010"></td>
   <td class="s8"></td><td class="s8"></td><td class="s8"></td>
   <td class="s9"></td>
 </tr>
@@ -288,7 +360,7 @@ table.waffle{
 	
 	<tr>
   <td class="s7"> โขงเจียม</td>
-  <td class="s8"></td><td class="s8"></td>
+  <td class="s8" id="cnt-bag-3422034010"></td><td class="s8" id="cnt-roll-3422034010"></td>
   <td class="s8"></td><td class="s8"></td><td class="s8"></td>
   <td class="s9"></td>
 
@@ -300,43 +372,43 @@ table.waffle{
 	
 	<tr>
   <td class="s7"> สิรินธร</td>
-  <td class="s8"></td><td class="s8"></td>
+  <td class="s8" id="cnt-bag-3435034010"></td><td class="s8"></td>
   <td class="s8"></td><td class="s8"></td><td class="s8"></td>
   <td class="s9"></td>
 
   <td class="s7"></td>
-  <td class="s8 left"> ป่าติ้ว</td><td class="s8"></td>
-  <td class="s8"></td><td class="s8"></td><td class="s8"></td>
+  <td class="s8 left"> ป่าติ้ว</td><td class="s8" id="cnt-bag-3515034010"></td>
+  <td class="s8" id="cnt-roll-3515034010"></td><td class="s8"></td><td class="s8"></td>
   <td class="s9"></td>
 </tr>
 	
 	<tr>
   <td class="s7"> พิบูลมังสาหาร</td>
-  <td class="s8"></td><td class="s8"></td>
+  <td class="s8" id="cnt-bag-3411034010"></td><td class="s8" id="cnt-roll-3411034010"></td>
   <td class="s8"></td><td class="s8"></td><td class="s8"></td>
   <td class="s9"></td>
 
   <td class="s7"></td>
-  <td class="s8 left"> ม่วงสามสิบ</td><td class="s8"></td>
-  <td class="s8"></td><td class="s8"></td><td class="s8"></td>
+  <td class="s8 left"> ม่วงสามสิบ</td><td class="s8" id="cnt-bag-3414034010"></td>
+  <td class="s8" id="cnt-roll-3414034010"></td><td class="s8"></td><td class="s8"></td>
   <td class="s9"></td>
 </tr>
 	
 	<tr>
   <td class="s7"> คต.ช่องเม็ก</td>
-  <td class="s8"></td><td class="s8"></td>
+  <td class="s8" id="cnt-bag-0007434010"></td><td class="s8"></td>
   <td class="s8"></td><td class="s8"></td><td class="s8"></td>
   <td class="s9"></td>
 
   <td class="s7"></td>
-  <td class="s8 left"> หัวตะพาน</td><td class="s8"></td>
+  <td class="s8 left"> หัวตะพาน</td><td class="s8" id="cnt-bag-3724034010"></td>
   <td class="s8"></td><td class="s8"></td><td class="s8"></td>
   <td class="s9"></td>
 </tr>
 	
 	<tr>
-  <td class="s1 s7">วรวม</td>
-  <td class="s8"></td><td class="s8">ถุง</td>
+  <td class="s1 s7">รวม</td>
+  <td class="s8" id="g-bag-ubon"></td><td class="s8">ถุง</td>
   <td class="s8"></td><td class="s8">Roll</td><td class="s8"></td>
   <td class="s9"></td>
 
@@ -348,24 +420,24 @@ table.waffle{
 	
 	<tr>
   <td class="s7"> ศรีเมืองใหม่</td>
-  <td class="s8"></td><td class="s8"></td>
+  <td class="s8" id="cnt-bag-3425034010"></td><td class="s8" id="cnt-roll-3425034010"></td>
   <td class="s8"></td><td class="s8"></td><td class="s8"></td>
   <td class="s9"></td>
 
   <td class="s7"></td>
-  <td class="s8 left"> กันทรลักษ์</td><td class="s8"></td>
-  <td class="s8"></td><td class="s8"></td><td class="s8"></td>
+  <td class="s8 left"> กันทรลักษ์</td><td class="s8" id="cnt-bag-3311034010"></td>
+  <td class="s8" id="cnt-roll-3311034010"></td><td class="s8"></td><td class="s8"></td>
   <td class="s9"></td>
 </tr>
 	
 	<tr>
   <td class="s7"> ตาลสุม</td>
-  <td class="s8"></td><td class="s8"></td>
+  <td class="s8" id="cnt-bag-3433034010"></td><td class="s8" id="cnt-roll-3433034010"></td>
   <td class="s8"></td><td class="s8"></td><td class="s8"></td>
   <td class="s9"></td>
 
   <td class="s7"></td>
-  <td class="s8 left"> โนนคูณ</td><td class="s8"></td>
+  <td class="s8 left"> โนนคูณ</td><td class="s8" id="cnt-bag-3325034010"></td>
   <td class="s8"></td><td class="s8"></td><td class="s8"></td>
   <td class="s9"></td>
 </tr>
@@ -377,14 +449,14 @@ table.waffle{
   <td class="s9"></td>
 
   <td class="s7"></td>
-  <td class="s8 left"> บ้านสำโรง</td><td class="s8"></td>
+  <td class="s8 left"> บ้านสำโรง</td><td class="s8" id="cnt-bag-3436034010"></td>
   <td class="s8"></td><td class="s8"></td><td class="s8"></td>
   <td class="s9"></td>
 </tr>
 	
 	<tr>
   <td class="s7"> น้ำยืน</td>
-  <td class="s8"></td><td class="s8"></td>
+  <td class="s8" id="cnt-bag-3426034010"></td><td class="s8" id="cnt-roll-3426034010"></td>
   <td class="s8"></td><td class="s8"></td><td class="s8"></td>
   <td class="s9"></td>
 
@@ -396,7 +468,7 @@ table.waffle{
 	
 	<tr>
   <td class="s7"> เดชอุดม</td>
-  <td class="s8"></td><td class="s8"></td>
+  <td class="s8" id="cnt-bag-3416034010"></td><td class="s8" id="cnt-roll-3416034010"></td>
   <td class="s8"></td><td class="s8"></td><td class="s8"></td>
   <td class="s9"></td>
 
@@ -413,8 +485,8 @@ table.waffle{
   <td class="s9"></td>
 
   <td class="s7"></td>
-  <td class="s8 left"> ขุขันธ์</td><td class="s8"></td>
-  <td class="s8"></td><td class="s8"></td><td class="s8"></td>
+  <td class="s8 left"> ขุขันธ์</td><td class="s8" id="cnt-bag-3314034010"></td>
+  <td class="s8" id="cnt-roll-3314034010"></td><td class="s8"></td><td class="s8"></td>
   <td class="s9"></td>
 </tr>
 	
@@ -425,8 +497,8 @@ table.waffle{
   <td class="s9"></td>
 
   <td class="s7"></td>
-  <td class="s8 left"> ไพรบึง</td><td class="s8"></td>
-  <td class="s8"></td><td class="s8"></td><td class="s8"></td>
+  <td class="s8 left"> ไพรบึง</td><td class="s8" id="cnt-bag-3318034010"></td>
+  <td class="s8" id="cnt-roll-3318034010"></td><td class="s8"></td><td class="s8"></td>
   <td class="s9"></td>
 </tr>
 	
@@ -437,14 +509,14 @@ table.waffle{
   <td class="s9"></td>
 
   <td class="s7"></td>
-  <td class="s8 left"> ขุนหาญ</td><td class="s8"></td>
-  <td class="s8"></td><td class="s8"></td><td class="s8"></td>
+  <td class="s8 left"> ขุนหาญ</td><td class="s8" id="cnt-bag-3315034010"></td>
+  <td class="s8" id="cnt-roll-3315034010"></td><td class="s8"></td><td class="s8"></td>
   <td class="s9"></td>
 </tr>
 	
 	<tr>
   <td class="s7"> นาจะหลวย</td>
-  <td class="s8"></td><td class="s8"></td>
+  <td class="s8" id="cnt-bag-3428034010"></td><td class="s8" id="cnt-roll-3428034010"></td>
   <td class="s8"></td><td class="s8"></td><td class="s8"></td>
   <td class="s9"></td>
 
@@ -456,12 +528,12 @@ table.waffle{
 	
 	<tr>
   <td class="s7"> บุญฑริก</td>
-  <td class="s8"></td><td class="s8"></td>
+  <td class="s8" id="cnt-bag-3423034010"></td><td class="s8" id="cnt-roll-3423034010"></td>
   <td class="s8"></td><td class="s8"></td><td class="s8"></td>
   <td class="s9"></td>
 
   <td class="s7"></td>
-  <td class="s8 left"> ค้อวัง</td><td class="s8"></td>
+  <td class="s8 left"> ค้อวัง</td><td class="s8" id="cnt-bag-3516034010"></td>
   <td class="s8"></td><td class="s8"></td><td class="s8"></td>
   <td class="s9"></td>
 </tr>
@@ -473,38 +545,38 @@ table.waffle{
   <td class="s9"></td>
 
   <td class="s7"></td>
-  <td class="s8 left"> ยางชุมน้อย</td><td class="s8"></td>
+  <td class="s8 left"> ยางชุมน้อย</td><td class="s8" id="cnt-bag-3319034010"></td>
   <td class="s8"></td><td class="s8"></td><td class="s8"></td>
   <td class="s9"></td>
 </tr>
 	
 	<tr>
   <td class="s7"> ปทุมราชวงศา</td>
-  <td class="s8"></td><td class="s8"></td>
+  <td class="s8" id="cnt-bag-3711034010"></td><td class="s8" id="cnt-roll-3711034010"></td>
   <td class="s8"></td><td class="s8"></td><td class="s8"></td>
   <td class="s9"></td>
 
   <td class="s7"></td>
-  <td class="s8 left"> กันทรารมย์</td><td class="s8"></td>
-  <td class="s8"></td><td class="s8"></td><td class="s8"></td>
+  <td class="s8 left"> กันทรารมย์</td><td class="s8" id="cnt-bag-3313034010"></td>
+  <td class="s8" id="cnt-roll-3313034010"></td><td class="s8"></td><td class="s8"></td>
   <td class="s9"></td>
 </tr>
 	
 	<tr>
   <td class="s7"> กุดข้าวปุ้น</td>
-  <td class="s8"></td><td class="s8"></td>
+  <td class="s8" id="cnt-bag-3427034010"></td><td class="s8" id="cnt-roll-3427034010"></td>
   <td class="s8"></td><td class="s8"></td><td class="s8"></td>
   <td class="s9"></td>
 
   <td class="s7"></td>
-  <td class="s8 left"> ห้วยขะยุง</td><td class="s8"></td>
+  <td class="s8 left"> ห้วยขะยุง</td><td class="s8" id="cnt-bag-3431034010"></td>
   <td class="s8"></td><td class="s8"></td><td class="s8"></td>
   <td class="s9"></td>
 </tr>
 	
 	<tr>
   <td class="s7"> พนา</td>
-  <td class="s8"></td><td class="s8"></td>
+  <td class="s8" id="cnt-bag-3718034010"></td><td class="s8" id="cnt-roll-3718034010"></td>
   <td class="s8"></td><td class="s8"></td><td class="s8"></td>
   <td class="s9"></td>
 
@@ -516,13 +588,13 @@ table.waffle{
 	
 	<tr>
   <td class="s7"> ตระการพืชผล</td>
-  <td class="s8"></td><td class="s8"></td>
+  <td class="s8" id="cnt-bag-3413034010"></td><td class="s8" id="cnt-roll-3413034010"></td>
   <td class="s8"></td><td class="s8"></td><td class="s8"></td>
   <td class="s9"></td>
 
   <td class="s7"></td>
-  <td class="s8 left"> อุทุมพรพิสัย</td><td class="s8"></td>
-  <td class="s8"></td><td class="s8"></td><td class="s8"></td>
+  <td class="s8 left"> อุทุมพรพิสัย</td><td class="s8" id="cnt-bag-3312034010"></td>
+  <td class="s8" id="cnt-roll-3312034010"></td><td class="s8"></td><td class="s8"></td>
   <td class="s9"></td>
 </tr>
 	
@@ -533,14 +605,14 @@ table.waffle{
   <td class="s9"></td>
 
   <td class="s7"></td>
-  <td class="s8 left"> ห้วยทับทัน</td><td class="s8"></td>
+  <td class="s8 left"> ห้วยทับทัน</td><td class="s8" id="cnt-bag-3321034010"></td>
   <td class="s8"></td><td class="s8"></td><td class="s8"></td>
   <td class="s9"></td>
 </tr>
 	
 	<tr>
   <td class="s7"> เขมราฐ</td>
-  <td class="s8"></td><td class="s8"></td>
+  <td class="s8" id="cnt-bag-3417034010"></td><td class="s8" id="cnt-roll-3417034010"></td>
   <td class="s8"></td><td class="s8"></td><td class="s8"></td>
   <td class="s9"></td>
 
@@ -552,24 +624,24 @@ table.waffle{
 	
 	<tr>
   <td class="s7"> โพธิ์ไทร</td>
-  <td class="s8"></td><td class="s8"></td>
+  <td class="s8" id="cnt-bag-3434034010"></td><td class="s8" id="cnt-roll-3434034010"></td>
   <td class="s8"></td><td class="s8"></td><td class="s8"></td>
   <td class="s9"></td>
 
   <td class="s7"></td>
-  <td class="s8 left"> ศรีสะเกษ</td><td class="s8"></td>
-  <td class="s8"></td><td class="s8"></td><td class="s8"></td>
+  <td class="s8 left"> ศรีสะเกษ</td><td class="s8" id="cnt-bag-3300034010"></td>
+  <td class="s8" id="cnt-roll-3300034010"></td><td class="s8"></td><td class="s8"></td>
   <td class="s9"></td>
 </tr>
 	
 	<tr>
   <td class="s7"> ชานุมาน</td>
-  <td class="s8"></td><td class="s8"></td>
+  <td class="s8" id="cnt-bag-3721034010"></td><td class="s8" id="cnt-roll-3721034010"></td>
   <td class="s8"></td><td class="s8"></td><td class="s8"></td>
   <td class="s9"></td>
 
   <td class="s7"></td>
-  <td class="s8 left"> ปรางค์กู่</td><td class="s8"></td>
+  <td class="s8 left"> ปรางค์กู่</td><td class="s8" id="cnt-bag-3317034010"></td>
   <td class="s8"></td><td class="s8"></td><td class="s8"></td>
   <td class="s9"></td>
 </tr>
@@ -581,7 +653,7 @@ table.waffle{
   <td class="s9"></td>
 
   <td class="s7"></td>
-  <td class="s8 left"> พยุห์</td><td class="s8"></td>
+  <td class="s8 left"> พยุห์</td><td class="s8" id="cnt-bag-3323034010"></td>
   <td class="s8"></td><td class="s8"></td><td class="s8"></td>
   <td class="s9"></td>
 </tr>
@@ -593,38 +665,38 @@ table.waffle{
   <td class="s9"></td>
 
   <td class="s7"></td>
-  <td class="s8 left"> ศรีรัตนะ</td><td class="s8"></td>
+  <td class="s8 left"> ศรีรัตนะ</td><td class="s8" id="cnt-bag-3324034010"></td>
   <td class="s8"></td><td class="s8"></td><td class="s8"></td>
   <td class="s9"></td>
 </tr>
 	
 	<tr>
   <td class="s7"> เลิงนกทา</td>
-  <td class="s8"></td><td class="s8"></td>
+  <td class="s8" id="cnt-bag-3512034010"></td><td class="s8" id="cnt-roll-3512034010"></td>
   <td class="s8"></td><td class="s8"></td><td class="s8"></td>
   <td class="s9"></td>
 
   <td class="s7"></td>
-  <td class="s8 left"> ว้งหิน</td><td class="s8"></td>
+  <td class="s8 left"> ว้งหิน</td><td class="s8" id="cnt-bag-3327034010"></td>
   <td class="s8"></td><td class="s8"></td><td class="s8"></td>
   <td class="s9"></td>
 </tr>
 	
 	<tr>
   <td class="s7"> เสนางคนิคม</td>
-  <td class="s8"></td><td class="s8"></td>
+  <td class="s8" id="cnt-bag-3729034010"></td><td class="s8" id="cnt-roll-3729034010"></td>
   <td class="s8"></td><td class="s8"></td><td class="s8"></td>
   <td class="s9"></td>
 
   <td class="s7"></td>
-  <td class="s8 left"> เมืองใต้</td><td class="s8"></td>
+  <td class="s8 left"> เมืองใต้</td><td class="s8" id="cnt-bag-3300134010"></td>
   <td class="s8"></td><td class="s8"></td><td class="s8"></td>
   <td class="s9"></td>
 </tr>
 	
 	<tr>
   <td class="s7"> ลืออำนาจ</td>
-  <td class="s8"></td><td class="s8"></td>
+  <td class="s8" id="cnt-bag-3712034010"></td><td class="s8" id="cnt-roll-3712034010"></td>
   <td class="s8"></td><td class="s8"></td><td class="s8"></td>
   <td class="s9"></td>
 
@@ -648,12 +720,12 @@ table.waffle{
 	
 	<tr>
   <td class="s7"> อำนาจเจริญ</td>
-  <td class="s8"></td><td class="s8"></td>
+  <td class="s8" id="cnt-bag-3700034010"></td><td class="s8" id="cnt-roll-3700034010"></td>
   <td class="s8"></td><td class="s8"></td><td class="s8"></td>
   <td class="s9"></td>
 
   <td class="s7"></td>
-  <td class="s8">รวมทั้งสิ้น</td><td class="s8"></td>
+  <td class="s8">รวมทั้งสิ้น</td><td class="s8" id="sum-row-01-all"></td>
   <td class="s8"></td><td class="s8"></td><td class="s8"></td>
   <td class="s9"></td>
 </tr>
@@ -678,8 +750,8 @@ table.waffle{
   <td class="s9"></td>
 
   <td class="s7"></td>
-  <td class="s8">รวมทั้งสิ้น</td><td class="s8"></td>
-  <td class="s8">ถุง</td><td class="s8"></td><td class="s8">Roll</td>
+  <td class="s8">รวมทั้งสิ้น</td><td class="s8" id="sum-row-01-bag"></td>
+  <td class="s8">ถุง</td><td class="s8" id="sum-row-01-roll"></td><td class="s8">Roll</td>
   <td class="s9"></td>
 </tr>
 
@@ -710,6 +782,7 @@ table.waffle{
 </table>
 
 </div>
+</div>  
   
 <script>
 function goBack(){
@@ -770,8 +843,151 @@ function goBack(){
   if(y) y.textContent = year;
 })();
 </script>
-
-
   
+ <script>
+const scanA = JSON.parse(localStorage.getItem("scan-A") || []);
+
+/* ===== COUNTIF แยกชนิด ===== */
+function COUNTIF_TYPE(arr, keyword, type){
+  return arr.filter(
+    v => v.type === type && v.code.includes(keyword)
+  ).length;
+}
+
+/* ===== คำนวณอัตโนมัติทุกช่อง ===== */
+document.querySelectorAll('[id^="cnt-"]').forEach(td => {
+  const parts = td.id.split("-");
+  // cnt-bag-3419034010
+  const mode = parts[1];
+  const code = parts.slice(2).join("-");
+
+  let value = "";
+
+  if(mode === "bag"){
+    value = COUNTIF_TYPE(scanA, code, "bag");
+  }
+  else if(mode === "roll"){
+    value = COUNTIF_TYPE(scanA, code, "roll");
+  }
+  else if(mode === "all"){
+    value =
+      COUNTIF_TYPE(scanA, code, "bag") +
+      COUNTIF_TYPE(scanA, code, "roll");
+  }
+
+  td.textContent = value || "";
+});
+</script>
+  <script>
+/* ===== รวมค่าตาม prefix ===== */
+function sumByPrefix(prefix){
+  let total = 0;
+  document.querySelectorAll(`[id^="${prefix}"]`).forEach(el => {
+    const v = parseInt(el.textContent || "0", 10);
+    if(!isNaN(v)) total += v;
+  });
+  return total;
+}
+
+/* ===== รวมแต่ละแถว ===== */
+document.querySelectorAll('[id^="sum-row-"]').forEach(td => {
+  const parts = td.id.split("-");
+  // sum-row-01-bag
+  const row = parts[2];
+  const type = parts[3];
+
+  let prefix = `cnt-${type}-`;
+
+  if(type === "all"){
+    const bag = sumByPrefix(`cnt-bag-`);
+    const roll = sumByPrefix(`cnt-roll-`);
+    td.textContent = bag + roll;
+  }else{
+    td.textContent = sumByPrefix(prefix);
+  }
+});
+</script>
+  <script>
+document.getElementById("sum-grand-bag").textContent =
+  sumByPrefix("cnt-bag-");
+
+document.getElementById("sum-grand-roll").textContent =
+  sumByPrefix("cnt-roll-");
+
+document.getElementById("sum-grand-all").textContent =
+  sumByPrefix("cnt-bag-") + sumByPrefix("cnt-roll-");
+</script>
+  <script>
+/* ===== CONFIG: กลุ่มเมือง ===== */
+const CITY_GROUPS = {
+  coknjem: ["3422034010", "3411034010", "3435034010"]
+};
+
+/* ===== นับหลายรหัส + แยกถุง / ROLL ===== */
+function COUNT_GROUP(codes, type){
+  return scanA.filter(v =>
+    v.type === type &&
+    codes.some(code => v.code.includes(code))
+  ).length;
+}
+
+/* ===== ใส่ค่าลงตาราง ===== */
+function fillGroup(groupKey){
+  const codes = CITY_GROUPS[groupKey];
+  if(!codes) return;
+
+  const bag  = COUNT_GROUP(codes, "bag");
+  const roll = COUNT_GROUP(codes, "roll");
+
+  const elBag  = document.getElementById(`g-bag-${groupKey}`);
+  const elRoll = document.getElementById(`g-roll-${groupKey}`);
+  const elAll  = document.getElementById(`g-all-${groupKey}`);
+
+  if(elBag)  elBag.textContent  = bag;
+  if(elRoll) elRoll.textContent = roll;
+  if(elAll)  elAll.textContent  = bag + roll;
+}
+
+/* ===== เรียกใช้งาน ===== */
+fillGroup("ubon");
+</script>
+  <script>
+/* ===== Export เป็น HTML ===== */
+function exportHTML(){
+  const content = document.querySelector(".page-a4").outerHTML;
+
+  const html = `
+<!doctype html>
+<html lang="th">
+<head>
+<meta charset="utf-8">
+<title>ป.58 Export</title>
+<style>
+${document.querySelector("style").innerHTML}
+</style>
+</head>
+<body>
+${content}
+</body>
+</html>
+  `;
+
+  const blob = new Blob([html], {type:"text/html;charset=utf-8"});
+  const url = URL.createObjectURL(blob);
+
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = "ป.58.html";
+  a.click();
+
+  URL.revokeObjectURL(url);
+}
+
+/* ===== Export เป็น PDF ===== */
+function exportPDF(){
+  window.print();
+}
+</script>
+
 </body>
 </html>
