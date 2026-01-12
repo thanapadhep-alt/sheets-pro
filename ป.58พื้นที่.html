@@ -786,11 +786,8 @@ table.waffle{
   
 <script>
 function goBack(){
-  if (window.history.length > 1) {
-    window.history.back();   // ✅ กลับไปหน้า index ที่เปิดมา
-  } else {
-    window.location.replace("/");
-  }
+  location.href = "./index.html";  // ✅ ห้ามใช้ "/"
+ }
 }
 </script>
  <script>
