@@ -34,12 +34,12 @@ self.addEventListener("fetch", (event) => {
 
   // เปิดหน้าเว็บ (HTML Navigation)
   if (req.mode === "navigate") {
-    event.respondWith(
-      fetch(req).catch(() => caches.match("./index.html"))
-    );
-    return;
-  }
-
+  event.respondWith(
+    caches.match(req).then((cached) => cached || fetch(req))
+      .catch(() => caches.match("./index.html"))
+  );
+  return;
+}
   // ไฟล์อื่นๆ
   event.respondWith(
     caches.match(req).then((cached) => {
