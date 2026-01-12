@@ -786,10 +786,17 @@ table.waffle{
   
 <script>
 function goBack(){
-  location.href = "./index.html";  // ✅ ห้ามใช้ "/"
- }
+  // ถ้ามี history ให้ย้อนกลับ
+  if (history.length > 1) {
+    history.back();
+    return;
+  }
+
+  // ถ้าไม่มี history (เช่นเปิดหน้า 2 ตรงๆ / PWA)
+  location.href = "./index.html";
 }
 </script>
+
  <script>
 (function setThaiDateTime(){
   const now = new Date();
