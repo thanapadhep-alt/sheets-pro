@@ -5,88 +5,55 @@
 <title>ป.58 พิเศษ</title>
 
 <style>
-/* ===== MOBILE / SCREEN VIEW ===== */
-/* A4 จริง */
+/* ===== A4 PRINT SETUP ===== */
 @page{
   size: A4 portrait;
   margin: 18mm;
 }
 
-/* ✅ ทำให้กระดาษสูงเต็ม A4 ตอน print */
-@media print{
-  html, body{
-    width: 210mm;
-    height: 297mm;
-  }
-
-  .sheet{
-    width: 210mm;
-    height: 261mm; /* 297 - margin บนล่าง 36mm = 261mm */
-    position: relative;
-  }
-
-  /* ✅ ตารางหลักสูงเต็มแผ่น */
-  .main-table{
-    width: 100%;
-    height: 210mm; /* ปรับได้ */
-  }
-
-  /* ✅ ตารางลายเซ็นติดล่าง */
-  .sign-table{
-    position: absolute;
-    left: 0;
-    right: 0;
-    bottom: 0;
-  }
-}
-  /* ปุ่ม */
-  .nav3{
-    margin: 6px 0 !important;
-  }
-}
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-/* จัดให้อยู่กลางหน้าจอ */
-body{
+/* ===== SCREEN (มือถือ/คอม) ===== */
+html, body{
   margin:0;
-  padding:16px;
+  padding:0;
+}
+
+body{
   font-family:"Angsana New", serif;
   font-size:16pt;
-}
-  
-  /* ===== BUTTON STYLE ===== */
-  .btn-export{
-  padding:8px 14px;
-  margin-right:6px;
-  border-radius:8px;
-  border:0;
-  cursor:pointer;
-  font-size:14px;
-  font-family:"TH Sarabun New","Kanit",sans-serif;
+  background:#f5f5f5;
 }
 
-/* Export HTML */
-.btn-html{
-  background:#080000;
-  color:#fff;
+/* โหมดจอ: ให้แสดงเป็นกระดาษกลางจอ */
+.page{
+  min-height:100vh;
+  display:flex;
+  justify-content:center;
+  align-items:flex-start;
+  padding:14px;
 }
 
-/* Export PDF */
-.btn-pdf{
-  background:#e81e1e;
-  color:#fff;
-}
-/* กล่องกระดาษ (A4) */
+/* กล่องกระดาษ A4 */
 .sheet{
   width:210mm;
-  max-width:100%;
+  background:#fff;
+  box-shadow:0 6px 16px rgba(0,0,0,.15);
+  padding:0;
 }
 
-/* ตาราง */
+/* ✅ มือถือ: scale ให้พอดีกับจอ ไม่บีบตาราง */
+@media screen and (max-width: 900px){
+  .sheet{
+    transform-origin: top center;
+    transform: scale(calc((100vw - 28px) / 210mm));
+  }
+}
+
+/* ===== ตาราง ===== */
 table{
   width:100%;
   border-collapse:collapse;
   table-layout:fixed;
-  border:1.2px solid #000;     /* กรอบนอก */
+  border:1.2px solid #000;
 }
 
 td{
@@ -95,8 +62,8 @@ td{
 }
 
 /* เส้นในตาราง */
-.b{ border:0.5px solid #999; } /* เส้นในบางลง */
-.bb{ border-bottom:1.2px solid #000; } /* เส้นเน้น */
+.b{ border:0.5px solid #999; }
+.bb{ border-bottom:1.2px solid #000; }
 .br{ border-right:1.2px solid #000; }
 
 /* ตัวอักษร */
@@ -108,22 +75,29 @@ td{
 
 .mt{ margin-top:6mm; }
 
-.logo{
-  position:absolute;
-  right:18mm;
-  top:18mm;
-  width:117px;
-  height:51px;
-  border:1px solid #000;
+/* ===== ปุ่ม ===== */
+.no-print{ margin:10px; }
+
+.btn-export{
+  padding:8px 14px;
+  margin-right:6px;
+  border-radius:8px;
+  border:0;
+  cursor:pointer;
+  font-size:14px;
+  font-family:"TH Sarabun New","Kanit",sans-serif;
 }
-  /* ✅ แถบเมนู 3 หน้า */
+
+.btn-html{ background:#080000; color:#fff; }
+.btn-pdf{ background:#e81e1e; color:#fff; }
+
+/* เมนู 3 หน้า */
 .nav3{
   display:flex;
   gap:8px;
   flex-wrap:wrap;
   margin:10px;
 }
-
 .nav3 button{
   padding:8px 14px;
   border-radius:10px;
@@ -133,17 +107,43 @@ td{
   font-weight:600;
   color:#fff;
 }
+.nav3 button:nth-child(1){ background:#ff5fa2; }
+.nav3 button:nth-child(2){ background:#225aff; }
+.nav3 button:nth-child(3){ background:#02cd5a; }
 
-/* สีแต่ละปุ่ม */
-.nav3 button:nth-child(1){ background:#ff5fa2; } /* หน้าแรก */
-.nav3 button:nth-child(2){ background:#225aff; } /* ป.58 */
-.nav3 button:nth-child(3){ background:#02cd5a; } /* SCB */
-
+/* ===== PRINT ===== */
 @media print{
-  .no-print{ display:none !important; }
-}
+  body{
+    background:#fff !important;
+  }
 
+  .no-print{ display:none !important; }
+
+  .page{
+    padding:0 !important;
+    min-height:auto !important;
+    display:block !important;
+  }
+
+  .sheet{
+    width:210mm !important;
+    height:261mm !important; /* 297 - 18mm*2 */
+    box-shadow:none !important;
+    overflow:hidden !important;
+  }
+
+  /* ✅ ให้ตัวหนังสือ/ตาราง "ย่อพอดี" ไม่ล้นหน้า */
+  table{
+    font-size:12pt !important;
+    line-height:1.05 !important;
+  }
+
+  td{
+    padding:1px 4px !important;
+  }
+}
 </style>
+
 </head>
 <body>
   <!-- ✅ เมนูสลับหน้า 3 หน้า (ไม่พิมพ์) -->
