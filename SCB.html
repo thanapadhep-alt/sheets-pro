@@ -5,42 +5,50 @@
 <title>ป.58 พิเศษ</title>
 
 <style>
-@media print{
-  .no-print{ display:none !important; }
-
-  html, body{
-    width:210mm;
-    height:297mm;
-    margin:0 !important;
-    padding:0 !important;
-  }
+/* ===== MOBILE / SCREEN VIEW ===== */
+@media screen and (max-width: 768px){
 
   body{
-    font-size:95%;
-    display:block !important;    /* กัน flex ทำเพี้ยน */
-  }
-
-  .page{
-    min-height:auto !important;
-    padding:0 !important;
-    margin:0 !important;
+    padding: 10px !important;
+    font-size: 14px !important;
     display:block !important;
   }
 
-  .sheet{
-    width:210mm !important;
-    max-width:210mm !important;
-    margin:0 !important;
+  /* ไม่ให้ A4 มาบังคับตอนดูในมือถือ */
+  .page{
+    min-height:auto !important;
+    display:block !important;
+    padding-top:10px !important;
   }
 
-  table{
-    page-break-inside: avoid !important;
+  /* ✅ ให้แผ่นกว้างตามจอมือถือ */
+  .sheet{
+    width: 100% !important;
+    max-width: 100% !important;
   }
-  tr, td{
-    page-break-inside: avoid !important;
+
+  /* ✅ ตารางไม่ให้บีบ */
+  table{
+    width:100% !important;
+    table-layout: auto !important; /* เปลี่ยนจาก fixed */
+  }
+
+  td{
+    padding: 6px 6px !important;
+    font-size: 14px !important;
+    word-break: break-word;
+  }
+
+  .bigtitle{ font-size: 20px !important; }
+  .top-title{ font-size: 16px !important; }
+  .small{ font-size: 12px !important; }
+
+  /* ปุ่ม */
+  .nav3{
+    margin: 6px 0 !important;
   }
 }
-
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 /* จัดให้อยู่กลางหน้าจอ */
 body{
   margin:0;
@@ -171,8 +179,8 @@ td{
 
   <tr>
     <td colspan="7" class="center top-title">
-      บัญชีรับ-ส่งมอบบริการ ธ.ไทยพาณิชย์ฯ ประจำสาย  ลส.ศป.อุบลราชธานี ถึง
-      <span class="bigtitle">ศป.อุบลราชธานี</span>
+      บัญชีรับ-ส่งมอบบริการ ธ.ไทยพาณิชย์ฯ ประจำสาย  ลส.ศป.อุบลราชธานี
+      <span class="s7"></span>
     </td>
   </tr>
 
