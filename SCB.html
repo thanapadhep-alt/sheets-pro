@@ -1,0 +1,370 @@
+<!doctype html>
+<html lang="th">
+<head>
+<meta charset="utf-8">
+<title>ป.58 พิเศษ</title>
+
+<style>
+@page{
+  size:A4;
+  margin:18mm;
+}
+
+/* จัดให้อยู่กลางหน้าจอ */
+body{
+  margin:0;
+  min-height:100vh;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  padding:16px;
+  font-family:"Angsana New", serif;
+  font-size:16pt;
+}
+
+/* กล่องกระดาษ (A4) */
+.sheet{
+  width:210mm;
+  max-width:100%;
+}
+
+/* ตาราง */
+table{
+  width:100%;
+  border-collapse:collapse;
+  table-layout:fixed;
+  border:1.2px solid #000;     /* กรอบนอก */
+}
+
+td{
+  padding:2px 6px;
+  vertical-align:middle;
+}
+
+/* เส้นในตาราง */
+.b{ border:0.5px solid #999; } /* เส้นในบางลง */
+.bb{ border-bottom:1.2px solid #000; } /* เส้นเน้น */
+.br{ border-right:1.2px solid #000; }
+
+/* ตัวอักษร */
+.center{ text-align:center; }
+.bold{ font-weight:bold; }
+.top-title{ font-size:16pt; font-weight:bold; }
+.bigtitle{ font-size:24pt; font-weight:bold; }
+.small{ font-size:10pt; }
+
+.mt{ margin-top:6mm; }
+
+.logo{
+  position:absolute;
+  right:18mm;
+  top:18mm;
+  width:117px;
+  height:51px;
+  border:1px solid #000;
+}
+  /* ✅ แถบเมนู 3 หน้า */
+.nav3{
+  display:flex;
+  gap:8px;
+  flex-wrap:wrap;
+  margin:10px;
+}
+
+.nav3 button{
+  padding:8px 14px;
+  border-radius:10px;
+  border:0;
+  cursor:pointer;
+  font-size:14px;
+  font-weight:600;
+  color:#fff;
+}
+
+/* สีแต่ละปุ่ม */
+.nav3 button:nth-child(1){ background:#ff5fa2; } /* หน้าแรก */
+.nav3 button:nth-child(2){ background:#4f7cff; } /* ป.58 */
+.nav3 button:nth-child(3){ background:#18a957; } /* SCB */
+
+@media print{
+  .no-print{ display:none !important; }
+}
+
+</style>
+</head>
+<body>
+  <!-- ✅ เมนูสลับหน้า 3 หน้า (ไม่พิมพ์) -->
+<div class="no-print nav3">
+  <button onclick="goHome()">🏠 หน้าแรก</button>
+  <button onclick="location.href='ป.58พื้นที่.html'">📄 ป.58พื้นที่</button>
+  <button onclick="location.href='SCB.html'">🏦 SCB</button>
+</div>
+
+<div class="sheet">
+<table>
+  <!-- แถวบน -->
+  <tr>
+    <td class="s7">ป.58 พิเศษSCB</td>
+    <td colspan="6"></td>
+  </tr>
+
+  <tr>
+    <td colspan="7" class="center top-title">
+      บัญชีรับ-ส่งมอบบริการ ธ.ไทยพาณิชย์ฯ ประจำสาย  ลส.ศป.อุบลราชธานี ถึง
+      <span class="bigtitle">ศป.อุบลราชธานี</span>
+    </td>
+  </tr>
+
+  <tr>
+    <td colspan="7" class="14 center">
+  ประจำวันที่ <span id="day"></span>
+  เดือน <span id="month"></span>
+  พ.ศ. <span id="year"></span>
+</td>
+  </tr>
+
+  <!-- หัวตาราง -->
+  <tr>
+    <td class="b center bold">ต้นทาง</td>
+    <td class="b center bold" style="width:80px;">จำนวน</td>
+    <td class="b center bold" style="width:60px;"></td>
+    <td class="b center bold" style="width:90px;">ประเภท</td>
+    <td class="b center bold" style="width:60px;"></td>
+    <td class="b center bold" colspan="2">หมายเลขป้ายปากถุง</td>
+  </tr>
+
+  <!-- แถวว่าง 1 -->
+  <tr>
+    <td class="b">&nbsp;</td>
+    <td class="b">&nbsp;</td>
+    <td class="b">&nbsp;</td>
+    <td class="b">&nbsp;</td>
+    <td class="b">&nbsp;</td>
+    <td class="b" colspan="2">&nbsp;</td>
+  </tr>
+
+  <!-- รายการ -->
+  <tr>
+    <td class="b">อุบลราชธานี</td>
+    <td class="b center">0</td>
+    <td class="b"></td>
+    <td class="b center">SCB</td>
+    <td class="b"></td>
+    <td class="b" colspan="2"></td>
+  </tr>
+
+  <tr>
+    <td class="b">วารินชำราบ</td>
+    <td class="b center">0</td>
+    <td class="b"></td>
+    <td class="b center">SCB</td>
+    <td class="b"></td>
+    <td class="b" colspan="2"></td>
+  </tr>
+
+  <tr>
+    <td class="b">ศรีสะเกษ</td>
+    <td class="b center">0</td>
+    <td class="b"></td>
+    <td class="b center">SCB</td>
+    <td class="b"></td>
+    <td class="b" colspan="2"></td>
+  </tr>
+
+  <tr>
+    <td class="b">อุทุมพรพิสัย</td>
+    <td class="b center">0</td>
+    <td class="b"></td>
+    <td class="b center">SCB</td>
+    <td class="b"></td>
+    <td class="b" colspan="2"></td>
+  </tr>
+
+  <tr>
+    <td class="b">ขุขันธ์</td>
+    <td class="b center">0</td>
+    <td class="b"></td>
+    <td class="b center">SCB</td>
+    <td class="b"></td>
+    <td class="b" colspan="2"></td>
+  </tr>
+
+  <tr>
+    <td class="b">เดชอุดม</td>
+    <td class="b center">0</td>
+    <td class="b"></td>
+    <td class="b center">SCB</td>
+    <td class="b"></td>
+    <td class="b" colspan="2"></td>
+  </tr>
+
+  <tr>
+    <td class="b">ยโสธร</td>
+    <td class="b center">0</td>
+    <td class="b"></td>
+    <td class="b center">SCB</td>
+    <td class="b"></td>
+    <td class="b" colspan="2"></td>
+  </tr>
+
+  <tr>
+    <td class="b">มหาชนะชัย</td>
+    <td class="b center">0</td>
+    <td class="b"></td>
+    <td class="b center">SCB</td>
+    <td class="b"></td>
+    <td class="b" colspan="2"></td>
+  </tr>
+
+  <tr>
+    <td class="b">อำนาจเจริญ</td>
+    <td class="b center">0</td>
+    <td class="b"></td>
+    <td class="b center">SCB</td>
+    <td class="b"></td>
+    <td class="b" colspan="2"></td>
+  </tr>
+
+  <tr>
+    <td class="b">กันทรลักษ์</td>
+    <td class="b center">0</td>
+    <td class="b"></td>
+    <td class="b center">SCB</td>
+    <td class="b"></td>
+    <td class="b" colspan="2"></td>
+  </tr>
+
+  <tr>
+    <td class="b">คต.ช่องเม็ก</td>
+    <td class="b center">0</td>
+    <td class="b"></td>
+    <td class="b center">SCB</td>
+    <td class="b"></td>
+    <td class="b" colspan="2"></td>
+  </tr>
+
+  <!-- เพิ่มแถวว่างให้เหมือนต้นฉบับ -->
+  <tr><td class="b">&nbsp;</td><td class="b"></td><td class="b"></td><td class="b"></td><td class="b"></td><td class="b" colspan="2"></td></tr>
+  <tr><td class="b">&nbsp;</td><td class="b"></td><td class="b"></td><td class="b"></td><td class="b"></td><td class="b" colspan="2"></td></tr>
+  <tr><td class="b">&nbsp;</td><td class="b"></td><td class="b"></td><td class="b"></td><td class="b"></td><td class="b" colspan="2"></td></tr>
+  <tr><td class="b">&nbsp;</td><td class="b"></td><td class="b"></td><td class="b"></td><td class="b"></td><td class="b" colspan="2"></td></tr>
+  <tr><td class="b">&nbsp;</td><td class="b"></td><td class="b"></td><td class="b"></td><td class="b"></td><td class="b" colspan="2"></td></tr>
+  <tr><td class="b">&nbsp;</td><td class="b"></td><td class="b"></td><td class="b"></td><td class="b"></td><td class="b" colspan="2"></td></tr>
+
+  <!-- รวม -->
+  <tr>
+    <td class="b bold">รวม</td>
+    <td class="b center bold">0</td>
+    <td class="b center bold">ถุง</td>
+    <td class="b"></td>
+    <td class="b"></td>
+    <td class="b" colspan="2"></td>
+  </tr>
+</table>
+
+<!-- ลายเซ็น -->
+<table class="mt sign-table">
+  <tr>
+    <td colspan="7" style="height:20px;"></td>
+  </tr>
+  <tr>
+    <td class="center small" colspan="3">
+      <div class="sig-line">ลงชื่อ.....................................ผู้ส่งมอบ</div>
+      <div></div>
+    </td>
+
+    <td></td>
+
+    <td class="center small" colspan="3">
+      <div class="sig-line">ลงชื่อ.....................................ผู้รับมอบ</div>
+      <div></div>
+    </td>
+  </tr>
+  <tr>
+    <td class="center small" colspan="3">
+      วันที่ <span id="d2-day"></span>
+      เดือน <span id="d2-month"></span>
+      พ.ศ. <span id="d2-year"></span>
+      เวลา <span id="d2-time"></span> น.
+    </td>
+
+    <td></td>
+
+    <td class="center small" colspan="3">
+      วันที่ ........ เดือน ........ พ.ศ. ........ เวลา ........ น.
+    </td>
+  </tr>
+</table>
+  
+</div>
+  <script>
+(function setThaiDateTime(){
+  const now = new Date();
+
+  const day = now.getDate();
+  const monthNames = [
+    "มกราคม","กุมภาพันธ์","มีนาคม","เมษายน",
+    "พฤษภาคม","มิถุนายน","กรกฎาคม","สิงหาคม",
+    "กันยายน","ตุลาคม","พฤศจิกายน","ธันวาคม"
+  ];
+  const month = monthNames[now.getMonth()];
+  const year = now.getFullYear() + 543;
+
+  const hh = String(now.getHours()).padStart(2,"0");
+  const mm = String(now.getMinutes()).padStart(2,"0");
+  const time = `${hh}:${mm}`;
+
+  const d = document.getElementById("d2-day");
+  const m = document.getElementById("d2-month");
+  const y = document.getElementById("d2-year");
+  const t = document.getElementById("d2-time");
+
+  if(d) d.textContent = day;
+  if(m) m.textContent = month;
+  if(y) y.textContent = year;
+  if(t) t.textContent = time;
+})();
+</script>
+  <script>
+(function setThaiDate(){
+  const now = new Date();
+
+  const day = now.getDate();
+  const monthNames = [
+    "มกราคม","กุมภาพันธ์","มีนาคม","เมษายน",
+    "พฤษภาคม","มิถุนายน","กรกฎาคม","สิงหาคม",
+    "กันยายน","ตุลาคม","พฤศจิกายน","ธันวาคม"
+  ];
+  const month = monthNames[now.getMonth()];
+  const year = now.getFullYear() + 543;
+
+  const d = document.getElementById("day");
+  const m = document.getElementById("month");
+  const y = document.getElementById("year");
+
+  if(d) d.textContent = day;
+  if(m) m.textContent = month;
+  if(y) y.textContent = year;
+})();
+</script>
+  <script>
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", async () => {
+    const reg = await navigator.serviceWorker.register("./service-worker.js");
+    reg.update();
+  });
+}
+</script>
+  <script>
+function goHome(){
+  // ✅ ถ้ามี history ให้กลับก่อน (ใช้กับ PWA ได้ดี)
+  if (history.length > 1) {
+    history.back();
+    return;
+  }
+  // ✅ fallback ไปหน้าแรกแบบชัวร์
+  location.href = "./index.html";
+}
+</script>
+</body>
+</html>
