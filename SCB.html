@@ -5,23 +5,78 @@
 <title>ป.58 พิเศษ</title>
 
 <style>
-@page{
-  size:A4;
-  margin:18mm;
+@media print{
+  .no-print{ display:none !important; }
+
+  html, body{
+    width:210mm;
+    height:297mm;
+    margin:0 !important;
+    padding:0 !important;
+  }
+
+  body{
+    font-size:95%;
+    display:block !important;    /* กัน flex ทำเพี้ยน */
+  }
+
+  .page{
+    min-height:auto !important;
+    padding:0 !important;
+    margin:0 !important;
+    display:block !important;
+  }
+
+  .sheet{
+    width:210mm !important;
+    max-width:210mm !important;
+    margin:0 !important;
+  }
+
+  table{
+    page-break-inside: avoid !important;
+  }
+  tr, td{
+    page-break-inside: avoid !important;
+  }
 }
 
 /* จัดให้อยู่กลางหน้าจอ */
 body{
   margin:0;
-  min-height:100vh;
-  display:flex;
-  justify-content:center;
-  align-items:center;
   padding:16px;
   font-family:"Angsana New", serif;
   font-size:16pt;
 }
+  .page{
+  min-height:100vh;
+  display:flex;
+  justify-content:center;
+  align-items:flex-start;
+  padding-top:20px;
+}
+  /* ===== BUTTON STYLE ===== */
+  .btn-export{
+  padding:8px 14px;
+  margin-right:6px;
+  border-radius:8px;
+  border:0;
+  cursor:pointer;
+  font-size:14px;
+  font-family:"TH Sarabun New","Kanit",sans-serif;
+}
 
+/* Export HTML */
+.btn-html{
+  background:#080000;
+  color:#fff;
+}
+
+/* Export PDF */
+.btn-pdf{
+  background:#e81e1e;
+  color:#fff;
+}
 /* กล่องกระดาษ (A4) */
 .sheet{
   width:210mm;
@@ -83,8 +138,8 @@ td{
 
 /* สีแต่ละปุ่ม */
 .nav3 button:nth-child(1){ background:#ff5fa2; } /* หน้าแรก */
-.nav3 button:nth-child(2){ background:#4f7cff; } /* ป.58 */
-.nav3 button:nth-child(3){ background:#18a957; } /* SCB */
+.nav3 button:nth-child(2){ background:#225aff; } /* ป.58 */
+.nav3 button:nth-child(3){ background:#02cd5a; } /* SCB */
 
 @media print{
   .no-print{ display:none !important; }
@@ -94,13 +149,21 @@ td{
 </head>
 <body>
   <!-- ✅ เมนูสลับหน้า 3 หน้า (ไม่พิมพ์) -->
-<div class="no-print nav3">
+<button onclick="exportHTML()" class="btn-export btn-html">
+    📄 Export HTML
+  </button>
+
+  <button onclick="exportPDF()" class="btn-export btn-pdf">
+    🖨 Export PDF
+  </button>
+  <div class="no-print nav3">
   <button onclick="goHome()">🏠 หน้าแรก</button>
   <button onclick="location.href='ป.58พื้นที่.html'">📄 ป.58พื้นที่</button>
   <button onclick="location.href='SCB.html'">🏦 SCB</button>
 </div>
 
-<div class="sheet">
+<div class="page">
+  <div class="sheet">
 <table>
   <!-- แถวบน -->
   <tr>
@@ -297,6 +360,7 @@ td{
 </table>
   
 </div>
+</div>
   <script>
 (function setThaiDateTime(){
   const now = new Date();
@@ -347,14 +411,7 @@ td{
   if(y) y.textContent = year;
 })();
 </script>
-  <script>
-if ("serviceWorker" in navigator) {
-  window.addEventListener("load", async () => {
-    const reg = await navigator.serviceWorker.register("./service-worker.js");
-    reg.update();
-  });
-}
-</script>
+  
   <script>
 function goHome(){
   // ✅ ถ้ามี history ให้กลับก่อน (ใช้กับ PWA ได้ดี)
@@ -364,6 +421,51 @@ function goHome(){
   }
   // ✅ fallback ไปหน้าแรกแบบชัวร์
   location.href = "./index.html";
+}
+</script>
+   <script>
+/* ===== Export เป็น HTML ===== */
+function exportHTML(){
+  const content = document.querySelector(".sheet").outerHTML;
+
+  const html = `
+<!doctype html>
+<html lang="th">
+<head>
+<meta charset="utf-8">
+<title>ป.58 Export</title>
+<style>
+${document.querySelector("style").innerHTML}
+</style>
+</head>
+<body>
+${content}
+</body>
+</html>
+  `;
+
+  const blob = new Blob([html], {type:"text/html;charset=utf-8"});
+  const url = URL.createObjectURL(blob);
+
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = "ป.58.html";
+  a.click();
+
+  URL.revokeObjectURL(url);
+}
+
+/* ===== Export เป็น PDF ===== */
+function exportPDF(){
+  window.print();
+}
+</script>
+  <script>
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", async () => {
+    const reg = await navigator.serviceWorker.register("./service-worker.js");
+    reg.update();
+  });
 }
 </script>
 </body>
