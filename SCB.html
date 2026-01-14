@@ -6,43 +6,39 @@
 
 <style>
 /* ===== MOBILE / SCREEN VIEW ===== */
-@media screen and (max-width: 768px){
+/* A4 จริง */
+@page{
+  size: A4 portrait;
+  margin: 18mm;
+}
 
-  body{
-    padding: 10px !important;
-    font-size: 14px !important;
-    display:block !important;
+/* ✅ ทำให้กระดาษสูงเต็ม A4 ตอน print */
+@media print{
+  html, body{
+    width: 210mm;
+    height: 297mm;
   }
 
-  /* ไม่ให้ A4 มาบังคับตอนดูในมือถือ */
-  .page{
-    min-height:auto !important;
-    display:block !important;
-    padding-top:10px !important;
-  }
-
-  /* ✅ ให้แผ่นกว้างตามจอมือถือ */
   .sheet{
-    width: 100% !important;
-    max-width: 100% !important;
+    width: 210mm;
+    height: 261mm; /* 297 - margin บนล่าง 36mm = 261mm */
+    position: relative;
   }
 
-  /* ✅ ตารางไม่ให้บีบ */
-  table{
-    width:100% !important;
-    table-layout: auto !important; /* เปลี่ยนจาก fixed */
+  /* ✅ ตารางหลักสูงเต็มแผ่น */
+  .main-table{
+    width: 100%;
+    height: 210mm; /* ปรับได้ */
   }
 
-  td{
-    padding: 6px 6px !important;
-    font-size: 14px !important;
-    word-break: break-word;
+  /* ✅ ตารางลายเซ็นติดล่าง */
+  .sign-table{
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
   }
-
-  .bigtitle{ font-size: 20px !important; }
-  .top-title{ font-size: 16px !important; }
-  .small{ font-size: 12px !important; }
-
+}
   /* ปุ่ม */
   .nav3{
     margin: 6px 0 !important;
@@ -56,13 +52,7 @@ body{
   font-family:"Angsana New", serif;
   font-size:16pt;
 }
-  .page{
-  min-height:100vh;
-  display:flex;
-  justify-content:center;
-  align-items:flex-start;
-  padding-top:20px;
-}
+  
   /* ===== BUTTON STYLE ===== */
   .btn-export{
   padding:8px 14px;
@@ -319,6 +309,15 @@ td{
   <tr><td class="b">&nbsp;</td><td class="b"></td><td class="b"></td><td class="b"></td><td class="b"></td><td class="b" colspan="2"></td></tr>
   <tr><td class="b">&nbsp;</td><td class="b"></td><td class="b"></td><td class="b"></td><td class="b"></td><td class="b" colspan="2"></td></tr>
   <tr><td class="b">&nbsp;</td><td class="b"></td><td class="b"></td><td class="b"></td><td class="b"></td><td class="b" colspan="2"></td></tr>
+  <tr><td class="b">&nbsp;</td><td class="b"></td><td class="b"></td><td class="b"></td><td class="b"></td><td class="b" colspan="2"></td></tr>
+  <tr><td class="b">&nbsp;</td><td class="b"></td><td class="b"></td><td class="b"></td><td class="b"></td><td class="b" colspan="2"></td></tr>
+  <tr><td class="b">&nbsp;</td><td class="b"></td><td class="b"></td><td class="b"></td><td class="b"></td><td class="b" colspan="2"></td></tr>
+  <tr><td class="b">&nbsp;</td><td class="b"></td><td class="b"></td><td class="b"></td><td class="b"></td><td class="b" colspan="2"></td></tr>
+  <tr><td class="b">&nbsp;</td><td class="b"></td><td class="b"></td><td class="b"></td><td class="b"></td><td class="b" colspan="2"></td></tr>
+  <tr><td class="b">&nbsp;</td><td class="b"></td><td class="b"></td><td class="b"></td><td class="b"></td><td class="b" colspan="2"></td></tr>
+  <tr><td class="b">&nbsp;</td><td class="b"></td><td class="b"></td><td class="b"></td><td class="b"></td><td class="b" colspan="2"></td></tr>
+  <tr><td class="b">&nbsp;</td><td class="b"></td><td class="b"></td><td class="b"></td><td class="b"></td><td class="b" colspan="2"></td></tr>
+
 
   <!-- รวม -->
   <tr>
