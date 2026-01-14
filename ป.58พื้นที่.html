@@ -57,21 +57,15 @@ table, tr, td{
   font-family:"TH Sarabun New","Kanit",sans-serif;
 }
 
-/* ปุ่มกลับ */
-.btn-back{
-  background:#ff8fb1;
-  color:#fff;
-}
-
 /* Export HTML */
 .btn-html{
-  background:#f56060;
+  background:#080000;
   color:#fff;
 }
 
 /* Export PDF */
 .btn-pdf{
-  background:#0a8b0f;
+  background:#e81e1e;
   color:#fff;
 }
 
@@ -99,8 +93,8 @@ table, tr, td{
 
 /* สีแต่ละปุ่ม */
 .nav3 button:nth-child(1){ background:#ff5fa2; } /* หน้าแรก */
-.nav3 button:nth-child(2){ background:#4f7cff; } /* ป.58 */
-.nav3 button:nth-child(3){ background:#18a957; } /* SCB */
+.nav3 button:nth-child(2){ background:#225aff; } /* ป.58 */
+.nav3 button:nth-child(3){ background:#02cd5a; } /* SCB */
 
 @media print{
   .no-print{ display:none !important; }
@@ -165,10 +159,7 @@ table.waffle{
 <body>
   <!-- ✅ ปุ่มกลับหน้าแรก -->
 <div class="no-print" style="margin:10px">
-  <button onclick="goBack()" class="btn-export btn-back">
-    ⬅ กลับหน้าแรก
-  </button>
-
+  
   <button onclick="exportHTML()" class="btn-export btn-html">
     📄 Export HTML
   </button>
@@ -820,19 +811,6 @@ table.waffle{
 </div>
 </div>  
   
-<script>
-function goBack(){
-  // ถ้ามี history ให้ย้อนกลับ
-  if (history.length > 1) {
-    history.back();
-    return;
-  }
-
-  // ถ้าไม่มี history (เช่นเปิดหน้า 2 ตรงๆ / PWA)
-  location.href = "./index.html";
-}
-</script>
-
  <script>
 (function setThaiDateTime(){
   const now = new Date();
