@@ -79,6 +79,33 @@ table, tr, td{
 .btn-export:hover{
   opacity:0.85;
 }
+  /* ✅ แถบเมนู 3 หน้า */
+.nav3{
+  display:flex;
+  gap:8px;
+  flex-wrap:wrap;
+  margin:10px;
+}
+
+.nav3 button{
+  padding:8px 14px;
+  border-radius:10px;
+  border:0;
+  cursor:pointer;
+  font-size:14px;
+  font-weight:600;
+  color:#fff;
+}
+
+/* สีแต่ละปุ่ม */
+.nav3 button:nth-child(1){ background:#ff5fa2; } /* หน้าแรก */
+.nav3 button:nth-child(2){ background:#4f7cff; } /* ป.58 */
+.nav3 button:nth-child(3){ background:#18a957; } /* SCB */
+
+@media print{
+  .no-print{ display:none !important; }
+}
+
 
 
 
@@ -150,6 +177,13 @@ table.waffle{
     🖨 Export PDF
   </button>
 </div>
+  <!-- ✅ เมนูสลับหน้า 3 หน้า (ไม่พิมพ์) -->
+<div class="no-print nav3">
+  <button onclick="goHome()">🏠 หน้าแรก</button>
+  <button onclick="location.href='ป.58พื้นที่.html'">📄 ป.58พื้นที่</button>
+  <button onclick="location.href='SCB.html'">🏦 SCB</button>
+</div>
+
 
 <div class="page-a4">  
 
@@ -280,7 +314,7 @@ table.waffle{
 	
 	<tr>
   <td class="s7"> คต.ศาลากลาง</td>
-  <td class="s8" id="cnt-bag-0034234010"></td><td class="s8"></td>
+  <td class="s8" id="cnt-bag-0012934010"></td><td class="s8"></td>
   <td class="s8"></td><td class="s8"></td><td class="s8"></td>
   <td class="s9"></td>
 
@@ -994,6 +1028,24 @@ function exportPDF(){
   window.print();
 }
 </script>
-
+  <script>
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", async () => {
+    const reg = await navigator.serviceWorker.register("./service-worker.js");
+    reg.update();
+  });
+}
+</script>
+  <script>
+function goHome(){
+  // ✅ ถ้ามี history ให้กลับก่อน (ใช้กับ PWA ได้ดี)
+  if (history.length > 1) {
+    history.back();
+    return;
+  }
+  // ✅ fallback ไปหน้าแรกแบบชัวร์
+  location.href = "./index.html";
+}
+</script>
 </body>
 </html>
