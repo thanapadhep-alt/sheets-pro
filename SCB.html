@@ -149,13 +149,11 @@ td{
 </head>
 <body>
   <!-- ✅ เมนูสลับหน้า 3 หน้า (ไม่พิมพ์) -->
-<button onclick="exportHTML()" class="btn-export btn-html">
-    📄 Export HTML
-  </button>
+<div class="no-print">
+  <button onclick="exportHTML()" class="btn-export btn-html">📄 Export HTML</button>
+  <button onclick="exportPDF()" class="btn-export btn-pdf">🖨 Export PDF</button>
+</div>
 
-  <button onclick="exportPDF()" class="btn-export btn-pdf">
-    🖨 Export PDF
-  </button>
   <div class="no-print nav3">
   <button onclick="goHome()">🏠 หน้าแรก</button>
   <button onclick="location.href='ป.58พื้นที่.html'">📄 ป.58พื้นที่</button>
@@ -188,7 +186,7 @@ td{
 
   <!-- หัวตาราง -->
   <tr>
-    <td class="b center bold">ต้นทาง</td>
+    <td class="b center bold">ต้นทาง →</td>
     <td class="b center bold" style="width:80px;">จำนวน</td>
     <td class="b center bold" style="width:60px;"></td>
     <td class="b center bold" style="width:90px;">ประเภท</td>
@@ -424,42 +422,45 @@ function goHome(){
 }
 </script>
    <script>
-/* ===== Export เป็น HTML ===== */
 function exportHTML(){
-  const content = document.querySelector(".sheet").outerHTML;
+  const sheet = document.querySelector(".sheet");
+  if(!sheet){
+    alert("ไม่พบ .sheet สำหรับ Export HTML");
+    return;
+  }
 
-  const html = `
-<!doctype html>
+  const css = document.querySelector("style")?.innerHTML || "";
+
+  const html = `<!doctype html>
 <html lang="th">
 <head>
 <meta charset="utf-8">
-<title>ป.58 Export</title>
-<style>
-${document.querySelector("style").innerHTML}
-</style>
+<title>SCB Export</title>
+<style>${css}</style>
 </head>
 <body>
-${content}
+<div class="page">
+  ${sheet.outerHTML}
+</div>
 </body>
-</html>
-  `;
+</html>`;
 
   const blob = new Blob([html], {type:"text/html;charset=utf-8"});
   const url = URL.createObjectURL(blob);
 
   const a = document.createElement("a");
   a.href = url;
-  a.download = "ป.58.html";
+  a.download = "SCB.html";
   a.click();
 
   URL.revokeObjectURL(url);
 }
 
-/* ===== Export เป็น PDF ===== */
 function exportPDF(){
   window.print();
 }
 </script>
+
   <script>
 if ("serviceWorker" in navigator) {
   window.addEventListener("load", async () => {
