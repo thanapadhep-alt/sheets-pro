@@ -47,6 +47,32 @@ body{
     transform: scale(calc((100vw - 28px) / 210mm));
   }
 }
+  @page{
+  size: A4 portrait;
+  margin: 0;
+}
+
+@media print{
+  html, body{
+    width: 210mm;
+    height: 297mm;
+    margin: 0 !important;
+    padding: 0 !important;
+    overflow: hidden !important;
+  }
+
+  /* ✅ ย่อ/ขยายทั้งหน้าให้พอดี A4 */
+  body{
+    transform: scale(0.96);
+    transform-origin: top left;
+  }
+
+  /* ✅ ซ่อนปุ่ม */
+  .no-print{
+    display:none !important;
+  }
+}
+
 
 /* ===== ตาราง ===== */
 table{
@@ -111,37 +137,6 @@ td{
 .nav3 button:nth-child(2){ background:#225aff; }
 .nav3 button:nth-child(3){ background:#02cd5a; }
 
-/* ===== PRINT ===== */
-@media print{
-  body{
-    background:#fff !important;
-  }
-
-  .no-print{ display:none !important; }
-
-  .page{
-    padding:0 !important;
-    min-height:auto !important;
-    display:block !important;
-  }
-
-  .sheet{
-    width:210mm !important;
-    height:261mm !important; /* 297 - 18mm*2 */
-    box-shadow:none !important;
-    overflow:hidden !important;
-  }
-
-  /* ✅ ให้ตัวหนังสือ/ตาราง "ย่อพอดี" ไม่ล้นหน้า */
-  table{
-    font-size:12pt !important;
-    line-height:1.05 !important;
-  }
-
-  td{
-    padding:1px 4px !important;
-  }
-}
 </style>
 
 </head>
@@ -184,7 +179,7 @@ td{
 
   <!-- หัวตาราง -->
   <tr>
-    <td class="b center bold">ต้นทาง →</td>
+    <td class="b center bold">ต้นทาง </td>
     <td class="b center bold" style="width:80px;">จำนวน</td>
     <td class="b center bold" style="width:60px;"></td>
     <td class="b center bold" style="width:90px;">ประเภท</td>
@@ -193,15 +188,14 @@ td{
   </tr>
 
   <!-- แถวว่าง 1 -->
-  <tr>
-    <td class="b">&nbsp;</td>
-    <td class="b">&nbsp;</td>
-    <td class="b">&nbsp;</td>
-    <td class="b">&nbsp;</td>
-    <td class="b">&nbsp;</td>
-    <td class="b" colspan="2">&nbsp;</td>
-  </tr>
-
+  <tr class="fill-row">
+  <td class="b">&nbsp;</td>
+  <td class="b"></td>
+  <td class="b"></td>
+  <td class="b"></td>
+  <td class="b"></td>
+  <td class="b" colspan="2"></td>
+</tr>
   <!-- รายการ -->
   <tr>
     <td class="b">อุบลราชธานี</td>
@@ -315,9 +309,9 @@ td{
   <tr><td class="b">&nbsp;</td><td class="b"></td><td class="b"></td><td class="b"></td><td class="b"></td><td class="b" colspan="2"></td></tr>
   <tr><td class="b">&nbsp;</td><td class="b"></td><td class="b"></td><td class="b"></td><td class="b"></td><td class="b" colspan="2"></td></tr>
   <tr><td class="b">&nbsp;</td><td class="b"></td><td class="b"></td><td class="b"></td><td class="b"></td><td class="b" colspan="2"></td></tr>
+  
+  
   <tr><td class="b">&nbsp;</td><td class="b"></td><td class="b"></td><td class="b"></td><td class="b"></td><td class="b" colspan="2"></td></tr>
-  <tr><td class="b">&nbsp;</td><td class="b"></td><td class="b"></td><td class="b"></td><td class="b"></td><td class="b" colspan="2"></td></tr>
-
 
   <!-- รวม -->
   <tr>
@@ -363,7 +357,6 @@ td{
     </td>
   </tr>
 </table>
-  
 </div>
 </div>
   <script>
@@ -476,5 +469,68 @@ if ("serviceWorker" in navigator) {
   });
 }
 </script>
+  <script>
+(function autoScaleA4(){
+  const SHEET_SELECTOR = ".sheet";
+
+  // ขนาดกระดาษ A4 (px) ณ ตอน print: ใช้ CSS inches → px จะคำนวณเอง
+  // แต่เราจะคุมด้วย "อัตราส่วน" จาก DOM size จริงแทน
+  function computeScale(){
+    const sheet = document.querySelector(SHEET_SELECTOR);
+    if(!sheet) return 1;
+
+    // ขนาดพื้นที่กระดาษ A4 ในหน่วย px (คำนวณจาก 210mm x 297mm)
+    // 1 inch = 25.4mm, 1 inch = 96px (มาตรฐาน browser)
+    const A4_W = (210 / 25.4) * 96;
+    const A4_H = (297 / 25.4) * 96;
+
+    // ขนาดจริงของ sheet บนหน้าจอ
+    const rect = sheet.getBoundingClientRect();
+    const w = rect.width;
+    const h = rect.height;
+
+    // scale ที่ทำให้พอดีทั้งกว้างและสูง (ไม่เกิน 1 หน้า)
+    let scale = Math.min(A4_W / w, A4_H / h);
+
+    // กันเลื่อนนิดๆ
+    scale *= 0.995;
+
+    // จำกัดช่วงเพื่อไม่ให้เพี้ยน
+    if(scale > 1) scale = 1;
+    if(scale < 0.6) scale = 0.6;
+
+    return scale;
+  }
+
+  function applyScale(){
+    const sheet = document.querySelector(SHEET_SELECTOR);
+    if(!sheet) return;
+
+    // reset ก่อนคำนวณ
+    sheet.style.transform = "none";
+
+    // คำนวณหลัง layout update
+    requestAnimationFrame(() => {
+      const scale = computeScale();
+      sheet.style.transform = `scale(${scale})`;
+
+      // ป้องกันโดน margin/padding ทำให้ล้น
+      sheet.style.margin = "0";
+    });
+  }
+
+  // ก่อนพิมพ์
+  window.addEventListener("beforeprint", applyScale);
+
+  // หลังพิมพ์ กลับสู่ปกติ
+  window.addEventListener("afterprint", () => {
+    const sheet = document.querySelector(SHEET_SELECTOR);
+    if(sheet){
+      sheet.style.transform = "none";
+    }
+  });
+})();
+</script>
+
 </body>
 </html>
