@@ -33,26 +33,26 @@ self.addEventListener("activate", (event) => {
 self.addEventListener("fetch", (event) => {
   const req = event.request;
 
-  // ✅ ถ้าเป็นการเปิดหน้าเว็บ (navigate) ให้ fallback ไป cache
+  // ✅ กรณีเปิดหน้าเว็บ / refresh / เปลี่ยนหน้า (HTML navigation)
   if (req.mode === "navigate") {
     event.respondWith(
-      fetch(req).catch(() => caches.match(req).then(res => res || caches.match("./index.html")))
+      caches.match(req).then((cached) => {
+        // 1) ถ้ามีใน cache ใช้ทันที (รีเฟรช offline ได้แน่นอน)
+        if (cached) return cached;
+
+        // 2) ถ้าไม่มีค่อยไปเน็ต แล้วเก็บลง cache
+        return fetch(req).then((res) => {
+          const copy = res.clone();
+          caches.open(CACHE_NAME).then((cache) => cache.put(req, copy));
+          return res;
+        });
+      }).catch(() => caches.match("./index.html"))
     );
     return;
   }
 
-  // ไฟล์ทั่วไป
+  // ✅ ไฟล์อื่นๆ
   event.respondWith(
-    caches.match(req).then((cached) => {
-      return (
-        cached ||
-        fetch(req).then((networkRes) => {
-          return caches.open(CACHE_NAME).then((cache) => {
-            cache.put(req, networkRes.clone());
-            return networkRes;
-          });
-        }).catch(() => cached)
-      );
-    })
+    caches.match(req).then((cached) => cached || fetch(req))
   );
 });
