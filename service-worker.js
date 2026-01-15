@@ -1,17 +1,19 @@
-const CACHE_NAME = "sheets-pro-v5";
+const CACHE_NAME = "sheets-pro-v10"; // ✅ เปลี่ยนเลขทุกครั้งที่แก้
 
 const ASSETS = [
   "./",
   "./index.html",
-  "./ป.58พื้นที่.html",
   "./SCB.html",
+  "./ป.58พื้นที่.html",
   "./manifest.json",
   "./service-worker.js",
+
+  "./libs/xlsx.full.min.js",
+
   "./icons/icon-192.png",
   "./icons/icon-512.png"
 ];
 
-// ✅ install
 self.addEventListener("install", (event) => {
   event.waitUntil(
     caches.open(CACHE_NAME).then((cache) => cache.addAll(ASSETS))
@@ -19,7 +21,6 @@ self.addEventListener("install", (event) => {
   self.skipWaiting();
 });
 
-// ✅ activate
 self.addEventListener("activate", (event) => {
   event.waitUntil(
     caches.keys().then((keys) =>
@@ -29,18 +30,15 @@ self.addEventListener("activate", (event) => {
   self.clients.claim();
 });
 
-// ✅ fetch (รองรับ offline navigation หน้า 2/3)
 self.addEventListener("fetch", (event) => {
   const req = event.request;
 
-  // ✅ กรณีเปิดหน้าเว็บ / refresh / เปลี่ยนหน้า (HTML navigation)
+  // ✅ HTML / refresh / navigation: ใช้ cache ก่อน (สำคัญมาก)
   if (req.mode === "navigate") {
     event.respondWith(
       caches.match(req).then((cached) => {
-        // 1) ถ้ามีใน cache ใช้ทันที (รีเฟรช offline ได้แน่นอน)
         if (cached) return cached;
 
-        // 2) ถ้าไม่มีค่อยไปเน็ต แล้วเก็บลง cache
         return fetch(req).then((res) => {
           const copy = res.clone();
           caches.open(CACHE_NAME).then((cache) => cache.put(req, copy));
@@ -51,7 +49,7 @@ self.addEventListener("fetch", (event) => {
     return;
   }
 
-  // ✅ ไฟล์อื่นๆ
+  // ✅ ไฟล์อื่น ๆ: cache-first
   event.respondWith(
     caches.match(req).then((cached) => cached || fetch(req))
   );
