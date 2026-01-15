@@ -122,42 +122,6 @@ td.duplicate{
   background:var(--duplicate);
   font-weight:600;
 }
-	/* ===== ปุ่ม ===== */
-.no-print{ margin:10px; }
-
-.btn-export{
-  padding:8px 14px;
-  margin-right:6px;
-  border-radius:8px;
-  border:0;
-  cursor:pointer;
-  font-size:14px;
-  font-family:"TH Sarabun New","Kanit",sans-serif;
-}
-
-.btn-html{ background:#080000; color:#fff; }
-.btn-pdf{ background:#e81e1e; color:#fff; }
-
-/* เมนู 3 หน้า */
-.nav3{
-  display:flex;
-  gap:8px;
-  flex-wrap:wrap;
-  margin:10px;
-}
-.nav3 button{
-  padding:8px 14px;
-  border-radius:10px;
-  border:0;
-  cursor:pointer;
-  font-size:14px;
-  font-weight:600;
-  color:#fff;
-}
-.nav3 button:nth-child(1){ background:#ff5fa2; }
-.nav3 button:nth-child(2){ background:#225aff; }
-.nav3 button:nth-child(3){ background:#02cd5a; }
-
 </style>
 </head>
 
@@ -181,12 +145,8 @@ td.duplicate{
       <button class="btn-primary" id="openP58">
   เปิดแบบ ป.58
 </button>
-		<button class="btn-primary" id="openSCB">เปิดแบบ SCB</button>
 
     </div>
-	  <div class="no-print nav3">
-  
-</div>
 
     <div class="header-bottom">
       <span id="editorInfo">เลือก cell</span>
@@ -425,26 +385,16 @@ if(btnP58){
     location.href = "./ป.58พื้นที่.html";
   };
 }
-	
-	function exportScanColumnEV(){
-  const ev = [];
 
-  for(let r = 1; r < data.length; r++){
-    const evCode = String(data[r][2] || "").trim(); // ✅ EV อยู่คอลัมน์ที่ 2
-    if(evCode) ev.push(evCode);
-  }
 
-  localStorage.setItem("scan-EV", JSON.stringify(ev));
-  console.log("✅ scan-EV saved:", ev.length);
+</script>
+
+<script>
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", () => {
+    navigator.serviceWorker.register("service-worker.js");
+  });
 }
-	const openSCB = document.getElementById("openSCB");
-if(openSCB){
-  openSCB.onclick = () => {
-    exportScanColumnEV();        // ✅ export EV อัตโนมัติ
-    location.href = "./SCB.html";
-  };
-}
-
 </script>
   <script>
 if ("serviceWorker" in navigator) {
