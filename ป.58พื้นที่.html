@@ -1007,14 +1007,6 @@ function exportPDF(){
 }
 </script>
   <script>
-if ("serviceWorker" in navigator) {
-  window.addEventListener("load", async () => {
-    const reg = await navigator.serviceWorker.register("./service-worker.js");
-    reg.update();
-  });
-}
-</script>
-  <script>
 function goHome(){
   // ✅ ถ้ามี history ให้กลับก่อน (ใช้กับ PWA ได้ดี)
   if (history.length > 1) {
@@ -1023,6 +1015,14 @@ function goHome(){
   }
   // ✅ fallback ไปหน้าแรกแบบชัวร์
   location.href = "./index.html";
+}
+</script>
+  <script>
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", async () => {
+    const reg = await navigator.serviceWorker.register("./service-worker.js");
+    reg.update();
+  });
 }
 </script>
 </body>
