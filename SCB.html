@@ -641,6 +641,13 @@ function applyAutoCountEV(){
 /* ===== ทำงานทันทีเมื่อเปิดหน้า SCB ===== */
 document.addEventListener("DOMContentLoaded", applyAutoCountEV);
 </script>
-
+  <script>
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", async () => {
+    const reg = await navigator.serviceWorker.register("./service-worker.js");
+    reg.update();
+  });
+}
+</script>
 </body>
 </html>
