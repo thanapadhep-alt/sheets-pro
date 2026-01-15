@@ -1,19 +1,17 @@
-const CACHE_NAME = "sheets-pro-v10"; // ✅ เปลี่ยนเลขทุกครั้งที่แก้
+const CACHE_NAME = "sheets-pro-v3";
 
 const ASSETS = [
   "./",
   "./index.html",
-  "./SCB.html",
   "./ป.58พื้นที่.html",
+  "./SCB.html",
   "./manifest.json",
   "./service-worker.js",
-
-  "./libs/xlsx.full.min.js",
-
   "./icons/icon-192.png",
   "./icons/icon-512.png"
 ];
 
+// ✅ install
 self.addEventListener("install", (event) => {
   event.waitUntil(
     caches.open(CACHE_NAME).then((cache) => cache.addAll(ASSETS))
@@ -21,6 +19,7 @@ self.addEventListener("install", (event) => {
   self.skipWaiting();
 });
 
+// ✅ activate
 self.addEventListener("activate", (event) => {
   event.waitUntil(
     caches.keys().then((keys) =>
@@ -30,27 +29,30 @@ self.addEventListener("activate", (event) => {
   self.clients.claim();
 });
 
+// ✅ fetch (รองรับ offline navigation หน้า 2/3)
 self.addEventListener("fetch", (event) => {
   const req = event.request;
 
-  // ✅ HTML / refresh / navigation: ใช้ cache ก่อน (สำคัญมาก)
+  // ✅ ถ้าเป็นการเปิดหน้าเว็บ (navigate) ให้ fallback ไป cache
   if (req.mode === "navigate") {
     event.respondWith(
-      caches.match(req).then((cached) => {
-        if (cached) return cached;
-
-        return fetch(req).then((res) => {
-          const copy = res.clone();
-          caches.open(CACHE_NAME).then((cache) => cache.put(req, copy));
-          return res;
-        });
-      }).catch(() => caches.match("./index.html"))
+      fetch(req).catch(() => caches.match(req).then(res => res || caches.match("./index.html")))
     );
     return;
   }
 
-  // ✅ ไฟล์อื่น ๆ: cache-first
+  // ไฟล์ทั่วไป
   event.respondWith(
-    caches.match(req).then((cached) => cached || fetch(req))
+    caches.match(req).then((cached) => {
+      return (
+        cached ||
+        fetch(req).then((networkRes) => {
+          return caches.open(CACHE_NAME).then((cache) => {
+            cache.put(req, networkRes.clone());
+            return networkRes;
+          });
+        }).catch(() => cached)
+      );
+    })
   );
 });
