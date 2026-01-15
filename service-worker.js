@@ -6,6 +6,7 @@ const ASSETS = [
   "./manifest.json",
   "./service-worker.js",
   "./ป.58พื้นที่.html",
+  "./SCB.html",
   "./icon-192.png",
   "./icon-512.png",
 ];
