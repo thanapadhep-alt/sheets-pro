@@ -199,7 +199,7 @@ td{
   <!-- รายการ -->
   <tr>
     <td class="b">อุบลราชธานี</td>
-    <td class="b center">0</td>
+    <td class="b center" id="scb-ubon"></td>
     <td class="b"></td>
     <td class="b center">SCB</td>
     <td class="b"></td>
@@ -208,7 +208,7 @@ td{
 
   <tr>
     <td class="b">วารินชำราบ</td>
-    <td class="b center">0</td>
+    <td class="b center" id="scb-warin"></td>
     <td class="b"></td>
     <td class="b center">SCB</td>
     <td class="b"></td>
@@ -217,7 +217,7 @@ td{
 
   <tr>
     <td class="b">ศรีสะเกษ</td>
-    <td class="b center">0</td>
+    <td class="b center" id="scb-sisaket"></td>
     <td class="b"></td>
     <td class="b center">SCB</td>
     <td class="b"></td>
@@ -226,7 +226,7 @@ td{
 
   <tr>
     <td class="b">อุทุมพรพิสัย</td>
-    <td class="b center">0</td>
+    <td class="b center" id="scb-uthumphon"></td>
     <td class="b"></td>
     <td class="b center">SCB</td>
     <td class="b"></td>
@@ -235,7 +235,7 @@ td{
 
   <tr>
     <td class="b">ขุขันธ์</td>
-    <td class="b center">0</td>
+    <td class="b center" id="scb-khukhan"></td>
     <td class="b"></td>
     <td class="b center">SCB</td>
     <td class="b"></td>
@@ -244,7 +244,7 @@ td{
 
   <tr>
     <td class="b">เดชอุดม</td>
-    <td class="b center">0</td>
+    <td class="b center" id="scb-detudom"></td>
     <td class="b"></td>
     <td class="b center">SCB</td>
     <td class="b"></td>
@@ -253,7 +253,7 @@ td{
 
   <tr>
     <td class="b">ยโสธร</td>
-    <td class="b center">0</td>
+    <td class="b center" id="scb-yasothon"></td>
     <td class="b"></td>
     <td class="b center">SCB</td>
     <td class="b"></td>
@@ -262,7 +262,7 @@ td{
 
   <tr>
     <td class="b">มหาชนะชัย</td>
-    <td class="b center">0</td>
+    <td class="b center" id="scb-mahachana"></td>
     <td class="b"></td>
     <td class="b center">SCB</td>
     <td class="b"></td>
@@ -271,7 +271,7 @@ td{
 
   <tr>
     <td class="b">อำนาจเจริญ</td>
-    <td class="b center">0</td>
+    <td class="b center" id="scb-amnatcharoen"></td>
     <td class="b"></td>
     <td class="b center">SCB</td>
     <td class="b"></td>
@@ -280,7 +280,7 @@ td{
 
   <tr>
     <td class="b">กันทรลักษ์</td>
-    <td class="b center">0</td>
+    <td class="b center" id="scb-kantharalak"></td>
     <td class="b"></td>
     <td class="b center">SCB</td>
     <td class="b"></td>
@@ -289,7 +289,7 @@ td{
 
   <tr>
     <td class="b">คต.ช่องเม็ก</td>
-    <td class="b center">0</td>
+    <td class="b center" id="scb-chongmek"></td>
     <td class="b"></td>
     <td class="b center">SCB</td>
     <td class="b"></td>
@@ -314,7 +314,7 @@ td{
   <!-- รวม -->
   <tr>
     <td class="b bold">รวม</td>
-    <td class="b center bold">0</td>
+    <td class="b center bold" id="scb-sum"></td>
     <td class="b center bold">ถุง</td>
     <td class="b"></td>
     <td class="b"></td>
@@ -528,6 +528,118 @@ if ("serviceWorker" in navigator) {
     }
   });
 })();
+</script>
+ <script>
+/* ✅ โหลด EV จากหน้าแรก */
+const scanEV = JSON.parse(localStorage.getItem("scan-EV") || "[]");
+
+/* ✅ COUNTIF แบบ Google Sheets
+   ตัวอย่าง:
+   COUNTIF(scanEV, "*3400034010*")
+*/
+function COUNTIF(arr, pattern){
+  // แปลง pattern *xxx* → regex
+  const escaped = String(pattern)
+    .replace(/[.+?^${}()|[\]\\]/g, "\\$&")
+    .replace(/\*/g, ".*");
+
+  const re = new RegExp("^" + escaped + "$");
+
+  return arr.filter(v => re.test(String(v || ""))).length;
+}
+
+/* ✅ COUNTIF หลายรหัส */
+function COUNTIF_ANY(arr, codes){
+  return arr.filter(v =>
+    codes.some(code => String(v || "").includes(code))
+  ).length;
+}
+
+/* ✅ สูตรทั้งหมดหน้า SCB (ใช้ COUNTIF) */
+const FORMULAS = {
+  "scb-ubon":         () => COUNTIF(scanEV, "*3400034010*"),
+  "scb-warin":        () => COUNTIF(scanEV, "*3419034010*"),
+  "scb-sisaket":      () => COUNTIF(scanEV, "*3300034010*"),
+  "scb-uthumphon":    () => COUNTIF(scanEV, "*3312034010*"),
+  "scb-khukhan":      () => COUNTIF(scanEV, "*3314034010*"),
+  "scb-detudom":      () => COUNTIF(scanEV, "*3416034010*"),
+  "scb-yasothon":     () => COUNTIF(scanEV, "*3500034010*"),
+  "scb-mahachana":    () => COUNTIF(scanEV, "*3513034010*"),
+  "scb-amnatcharoen": () => COUNTIF(scanEV, "*3700034010*"),
+  "scb-kantharalak":  () => COUNTIF(scanEV, "*3311034010*"),
+  "scb-chongmek":     () => COUNTIF(scanEV, "*0007434010*"),
+
+  /* รวมทั้งหมด */
+  "scb-sum": () => (
+    FORMULAS["scb-ubon"]() +
+    FORMULAS["scb-warin"]() +
+    FORMULAS["scb-sisaket"]() +
+    FORMULAS["scb-uthumphon"]() +
+    FORMULAS["scb-khukhan"]() +
+    FORMULAS["scb-detudom"]() +
+    FORMULAS["scb-yasothon"]() +
+    FORMULAS["scb-mahachana"]() +
+    FORMULAS["scb-amnatcharoen"]() +
+    FORMULAS["scb-kantharalak"]() +
+    FORMULAS["scb-chongmek"]()
+  )
+};
+
+/* ✅ แสดงผลลงตาราง */
+function applyFormulas(){
+  Object.entries(FORMULAS).forEach(([id, fn]) => {
+    const el = document.getElementById(id);
+    if(!el) return;
+
+    let value = 0;
+    try{ value = fn(); }catch(e){ value = 0; }
+
+    el.textContent = value ? value : "";
+  });
+}
+
+window.addEventListener("DOMContentLoaded", applyFormulas);
+</script>
+  <script>
+/* ===== โหลดข้อมูลคอลัมน์ EV จากหน้าแรก ===== */
+const scanEV = JSON.parse(localStorage.getItem("scan-EV") || "[]");
+
+/* ===== COUNTIF แบบ contains ===== */
+function COUNTIF_EV(code){
+  return scanEV.filter(v => String(v || "").includes(code)).length;
+}
+
+/* ===== ใส่ค่าให้ช่องอัตโนมัติทั้งหมด ===== */
+function applyAutoCountEV(){
+  // 1) เติมช่อง cnt-ev-....
+  document.querySelectorAll('[id^="cnt-ev-"]').forEach(el => {
+    // ตัวอย่าง id: cnt-ev-3400034010 หรือ cnt-ev-3400+3419+3300
+    const codesStr = el.id.replace("cnt-ev-", "");
+    const codes = codesStr.split("+").map(x => x.trim()).filter(Boolean);
+
+    // รวมทุก code
+    let total = 0;
+    codes.forEach(code => {
+      total += COUNTIF_EV(code);
+    });
+
+    el.textContent = total ? total : "";
+  });
+
+  // 2) รวมทั้งหมด sum-ev
+  const sumEl = document.getElementById("sum-ev");
+  if(sumEl){
+    let sum = 0;
+    document.querySelectorAll('[id^="cnt-ev-"]').forEach(el => {
+      const v = parseInt(el.textContent || "0", 10);
+      if(!isNaN(v)) sum += v;
+    });
+    sumEl.textContent = sum ? sum : "";
+  }
+}
+
+/* ===== ทำงานทันทีเมื่อเปิดหน้า SCB ===== */
+document.addEventListener("DOMContentLoaded", applyAutoCountEV);
 </script>
 
 </body>
