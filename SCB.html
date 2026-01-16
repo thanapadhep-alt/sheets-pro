@@ -5,12 +5,6 @@
 <title>ป.58 พิเศษ</title>
 
 <style>
-/* ===== A4 PRINT SETUP ===== */
-@page{
-  size: A4 portrait;
-  margin: 18mm;
-}
-
 /* ===== SCREEN (มือถือ/คอม) ===== */
 html, body{
   margin:0;
@@ -49,7 +43,7 @@ body{
 }
   @page{
   size: A4 portrait;
-  margin: 0;
+  margin: 18mm;
 }
 
 @media print{
@@ -59,12 +53,6 @@ body{
     margin: 0 !important;
     padding: 0 !important;
     overflow: hidden !important;
-  }
-
-  /* ✅ ย่อ/ขยายทั้งหน้าให้พอดี A4 */
-  body{
-    transform: scale(0.96);
-    transform-origin: top left;
   }
 
   /* ✅ ซ่อนปุ่ม */
@@ -114,8 +102,8 @@ td{
   font-family:"TH Sarabun New","Kanit",sans-serif;
 }
 
-.btn-html{ background:#080000; color:#fff; }
-.btn-pdf{ background:#e81e1e; color:#fff; }
+.btn-html{ background:#3416dd; color:#fff; }
+.btn-pdf{ background:#a51ee8; color:#fff; }
 
 /* เมนู 3 หน้า */
 .nav3{
@@ -133,10 +121,9 @@ td{
   font-weight:600;
   color:#fff;
 }
-.nav3 button:nth-child(1){ background:#ff5fa2; }
-.nav3 button:nth-child(2){ background:#225aff; }
-.nav3 button:nth-child(3){ background:#02cd5a; }
-
+.nav3 button:nth-child(1){ background:#ff5fa2; } /* หน้าแรก */
+.nav3 button:nth-child(2){ background:#416ae3; } /* ป.58 */
+.nav3 button:nth-child(3){ background:#10e1f0; } /* SCB */
 </style>
 
 </head>
@@ -167,8 +154,7 @@ td{
   </colgroup>
   <!-- แถวบน -->
   <tr>
-    <td class="b">ป.58 พิเศษSCB</td>
-    <td colspan="6"></td>
+    <td  colspan="7" class="b">ป.58 พิเศษSCB</td>
   </tr>
 
   <tr>
@@ -188,7 +174,7 @@ td{
 
   <!-- หัวตาราง -->
   <tr>
-    <td class="b center bold">ต้นทาง➡ </td>
+    <td class="b center bold">ต้นทาง </td>
     <td class="b center bold">จำนวน</td>
     <td class="b center bold"></td>
     <td class="b center bold">ประเภท</td>
@@ -212,7 +198,7 @@ td{
     <td class="b"></td>
     <td class="b center">SCB</td>
     <td class="b"></td>
-    <td class="b" colspan="2"></td>
+    <td class="b center" colspan="2" id="ev1"></td>
   </tr>
 
   <tr>
@@ -221,7 +207,7 @@ td{
     <td class="b"></td>
     <td class="b center">SCB</td>
     <td class="b"></td>
-    <td class="b" colspan="2"></td>
+    <td class="b center" colspan="2" id="ev2"></td>
   </tr>
 
   <tr>
@@ -230,7 +216,7 @@ td{
     <td class="b"></td>
     <td class="b center">SCB</td>
     <td class="b"></td>
-    <td class="b" colspan="2"></td>
+    <td class="b center" colspan="2" id="ev3"></td>
   </tr>
 
   <tr>
@@ -239,7 +225,7 @@ td{
     <td class="b"></td>
     <td class="b center">SCB</td>
     <td class="b"></td>
-    <td class="b" colspan="2"></td>
+    <td class="b center" colspan="2" id="ev4"></td>
   </tr>
 
   <tr>
@@ -248,7 +234,7 @@ td{
     <td class="b"></td>
     <td class="b center">SCB</td>
     <td class="b"></td>
-    <td class="b" colspan="2"></td>
+    <td class="b center" colspan="2" id="ev5"></td>
   </tr>
 
   <tr>
@@ -257,7 +243,7 @@ td{
     <td class="b"></td>
     <td class="b center">SCB</td>
     <td class="b"></td>
-    <td class="b" colspan="2"></td>
+    <td class="b" colspan="2" id="ev6"></td>
   </tr>
 
   <tr>
@@ -266,7 +252,7 @@ td{
     <td class="b"></td>
     <td class="b center">SCB</td>
     <td class="b"></td>
-    <td class="b" colspan="2"></td>
+    <td class="b" colspan="2" id="ev7"></td>
   </tr>
 
   <tr>
@@ -275,7 +261,7 @@ td{
     <td class="b"></td>
     <td class="b center">SCB</td>
     <td class="b"></td>
-    <td class="b" colspan="2"></td>
+    <td class="b" colspan="2" id="ev8"></td>
   </tr>
 
   <tr>
@@ -284,7 +270,7 @@ td{
     <td class="b"></td>
     <td class="b center">SCB</td>
     <td class="b"></td>
-    <td class="b" colspan="2"></td>
+    <td class="b" colspan="2" id="ev9"></td>
   </tr>
 
   <tr>
@@ -293,7 +279,7 @@ td{
     <td class="b"></td>
     <td class="b center">SCB</td>
     <td class="b"></td>
-    <td class="b" colspan="2"></td>
+    <td class="b" colspan="2" id="ev10"></td>
   </tr>
 
   <tr>
@@ -302,11 +288,11 @@ td{
     <td class="b"></td>
     <td class="b center">SCB</td>
     <td class="b"></td>
-    <td class="b" colspan="2"></td>
+    <td class="b" colspan="2" id="ev11"></td>
   </tr>
 
   <!-- เพิ่มแถวว่างให้เหมือนต้นฉบับ -->
-  <tr><td class="b">&nbsp;</td><td class="b"></td><td class="b"></td><td class="b"></td><td class="b"></td><td class="b" colspan="2"></td></tr>
+  <tr><td class="b">&nbsp;</td><td class="b"></td><td class="b"></td><td class="b"></td><td class="b"></td><td class="b center" colspan="2" id="ev12"></td></tr>
   <tr><td class="b">&nbsp;</td><td class="b"></td><td class="b"></td><td class="b"></td><td class="b"></td><td class="b" colspan="2"></td></tr>
   <tr><td class="b">&nbsp;</td><td class="b"></td><td class="b"></td><td class="b"></td><td class="b"></td><td class="b" colspan="2"></td></tr>
   <tr><td class="b">&nbsp;</td><td class="b"></td><td class="b"></td><td class="b"></td><td class="b"></td><td class="b" colspan="2"></td></tr>
@@ -539,117 +525,60 @@ if ("serviceWorker" in navigator) {
 })();
 </script>
  <script>
-/* ✅ โหลด EV จากหน้าแรก */
+/* ===== โหลด EV จากหน้าแรก ===== */
 const scanEV = JSON.parse(localStorage.getItem("scan-EV") || "[]");
 
-/* ✅ COUNTIF แบบ Google Sheets
-   ตัวอย่าง:
-   COUNTIF(scanEV, "*3400034010*")
-*/
+/* ===== COUNTIF แบบ Google Sheets: *xxx* ===== */
 function COUNTIF(arr, pattern){
-  // แปลง pattern *xxx* → regex
   const escaped = String(pattern)
     .replace(/[.+?^${}()|[\]\\]/g, "\\$&")
     .replace(/\*/g, ".*");
-
   const re = new RegExp("^" + escaped + "$");
-
   return arr.filter(v => re.test(String(v || ""))).length;
 }
 
-/* ✅ COUNTIF หลายรหัส */
-function COUNTIF_ANY(arr, codes){
-  return arr.filter(v =>
-    codes.some(code => String(v || "").includes(code))
-  ).length;
-}
-
-/* ✅ สูตรทั้งหมดหน้า SCB (ใช้ COUNTIF) */
-const FORMULAS = {
-  "scb-ubon":         () => COUNTIF(scanEV, "*3400034010*"),
-  "scb-warin":        () => COUNTIF(scanEV, "*3419034010*"),
-  "scb-sisaket":      () => COUNTIF(scanEV, "*3300034010*"),
-  "scb-uthumphon":    () => COUNTIF(scanEV, "*3312034010*"),
-  "scb-khukhan":      () => COUNTIF(scanEV, "*3314034010*"),
-  "scb-detudom":      () => COUNTIF(scanEV, "*3416034010*"),
-  "scb-yasothon":     () => COUNTIF(scanEV, "*3500034010*"),
-  "scb-mahachana":    () => COUNTIF(scanEV, "*3513034010*"),
-  "scb-amnatcharoen": () => COUNTIF(scanEV, "*3700034010*"),
-  "scb-kantharalak":  () => COUNTIF(scanEV, "*3311034010*"),
-  "scb-chongmek":     () => COUNTIF(scanEV, "*0007434010*"),
-
-  /* รวมทั้งหมด */
-  "scb-sum": () => (
-    FORMULAS["scb-ubon"]() +
-    FORMULAS["scb-warin"]() +
-    FORMULAS["scb-sisaket"]() +
-    FORMULAS["scb-uthumphon"]() +
-    FORMULAS["scb-khukhan"]() +
-    FORMULAS["scb-detudom"]() +
-    FORMULAS["scb-yasothon"]() +
-    FORMULAS["scb-mahachana"]() +
-    FORMULAS["scb-amnatcharoen"]() +
-    FORMULAS["scb-kantharalak"]() +
-    FORMULAS["scb-chongmek"]()
-  )
-};
-
-/* ✅ แสดงผลลงตาราง */
+/* ===== เติมค่าลงช่องที่มี id ===== */
 function applyFormulas(){
-  Object.entries(FORMULAS).forEach(([id, fn]) => {
+
+  // (ตัวอย่าง) เทียบ =INDEX!EV1
+  const ev1 = document.getElementById("show-ev1");
+  if(ev1) ev1.textContent = scanEV[0] || "";
+
+  // COUNTIF แต่ละสาขา
+  const FORMULAS = {
+    "scb-ubon":         () => COUNTIF(scanEV, "*3400034010*"),
+    "scb-warin":        () => COUNTIF(scanEV, "*3419034010*"),
+    "scb-sisaket":      () => COUNTIF(scanEV, "*3300034010*"),
+    "scb-uthumphon":    () => COUNTIF(scanEV, "*3312034010*"),
+    "scb-khukhan":      () => COUNTIF(scanEV, "*3314034010*"),
+    "scb-detudom":      () => COUNTIF(scanEV, "*3416034010*"),
+    "scb-yasothon":     () => COUNTIF(scanEV, "*3500034010*"),
+    "scb-mahachana":    () => COUNTIF(scanEV, "*3513034010*"),
+    "scb-amnatcharoen": () => COUNTIF(scanEV, "*3700034010*"),
+    "scb-kantharalak":  () => COUNTIF(scanEV, "*3311034010*"),
+    "scb-chongmek":     () => COUNTIF(scanEV, "*0007434010*"),
+  };
+
+  // ใส่ค่าทีละช่อง
+  Object.entries(FORMULAS).forEach(([id, fn])=>{
     const el = document.getElementById(id);
     if(!el) return;
-
-    let value = 0;
-    try{ value = fn(); }catch(e){ value = 0; }
-
+    const value = fn();
     el.textContent = value ? value : "";
   });
-}
 
-window.addEventListener("DOMContentLoaded", applyFormulas);
-</script>
-  <script>
-/* ===== โหลดข้อมูลคอลัมน์ EV จากหน้าแรก ===== */
-const scanEV = JSON.parse(localStorage.getItem("scan-EV") || "[]");
-
-/* ===== COUNTIF แบบ contains ===== */
-function COUNTIF_EV(code){
-  return scanEV.filter(v => String(v || "").includes(code)).length;
-}
-
-/* ===== ใส่ค่าให้ช่องอัตโนมัติทั้งหมด ===== */
-function applyAutoCountEV(){
-  // 1) เติมช่อง cnt-ev-....
-  document.querySelectorAll('[id^="cnt-ev-"]').forEach(el => {
-    // ตัวอย่าง id: cnt-ev-3400034010 หรือ cnt-ev-3400+3419+3300
-    const codesStr = el.id.replace("cnt-ev-", "");
-    const codes = codesStr.split("+").map(x => x.trim()).filter(Boolean);
-
-    // รวมทุก code
-    let total = 0;
-    codes.forEach(code => {
-      total += COUNTIF_EV(code);
-    });
-
-    el.textContent = total ? total : "";
-  });
-
-  // 2) รวมทั้งหมด sum-ev
-  const sumEl = document.getElementById("sum-ev");
+  // รวม
+  const sumEl = document.getElementById("scb-sum");
   if(sumEl){
     let sum = 0;
-    document.querySelectorAll('[id^="cnt-ev-"]').forEach(el => {
-      const v = parseInt(el.textContent || "0", 10);
-      if(!isNaN(v)) sum += v;
-    });
+    Object.values(FORMULAS).forEach(fn => sum += fn());
     sumEl.textContent = sum ? sum : "";
   }
 }
 
-/* ===== ทำงานทันทีเมื่อเปิดหน้า SCB ===== */
-document.addEventListener("DOMContentLoaded", applyAutoCountEV);
+document.addEventListener("DOMContentLoaded", applyFormulas);
 </script>
+
   <script>
 if ("serviceWorker" in navigator) {
   window.addEventListener("load", async () => {
@@ -658,5 +587,20 @@ if ("serviceWorker" in navigator) {
   });
 }
 </script>
+  <script>
+
+function fillEV_1_to_15(){
+  for(let i=1; i<=15; i++){
+    const el = document.getElementById("ev" + i);
+    if(!el) continue;
+
+    // EV1 คือ index 0, EV2 index 1 ...
+    el.textContent = scanEV[i-1] || "";
+  }
+}
+
+document.addEventListener("DOMContentLoaded", fillEV_1_to_15);
+</script>
+
 </body>
 </html>
