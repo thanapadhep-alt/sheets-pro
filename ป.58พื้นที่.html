@@ -5,43 +5,68 @@
 <title>ป.58 พิเศษ</title>
 
 <style>
-@media print{
-  body{
-    font-size:95%;
-    /* ❌ ไม่พิมพ์ปุ่ม */
-  .no-print{ display:none !important; }
-  }
-}
-  /* ===== A4 PRINT SETUP ===== */
+
+  
+
+  /* ===== A4 PRINT SETUP (FIXED) ===== */
 @page{
   size: A4 portrait;
-  margin: 18mm;
+  margin: 10mm;
 }
 
-html, body{
+/* ===== PRINT MODE (รวมให้เหลือชุดเดียว) ===== */
+@media print{
+  html, body{
+    font-size: 88% !important;
+  }
+  html, body{
   width: 210mm;
   height: 297mm;
   margin: 0;
   padding: 0;
 }
 
+  body{
+    font-size: 90% !important;
+  }
+
+  *{
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+
+  /* ซ่อนปุ่ม/เมนูที่ไม่ต้องการพิมพ์ */
+  .no-print,
+  .nav3,
+  button{
+    display:none !important;
+  }
+
+  /* เอาสีไฮไลท์ออกตอนพิมพ์ */
+  .hl-have,
+  .hl-warn{
+    background:none !important;
+  }
+
+  /* กันตารางแตกหน้า */
+  table, tr, td{
+    page-break-inside: avoid;
+  }
+
+  /* กันตัวอักษรบางจนเหมือนหาย */
+  .ritz .waffle td{
+    font-weight: 400 !important;
+  }
+}
+
+/* ===== A4 PRINT SETUP ===== */
 /* ไม่ให้ตารางแตกหน้า */
 table, tr, td{
   page-break-inside: avoid;
 }
 
 /* ซ่อนสิ่งที่ไม่ต้องพิมพ์ */
-@media print{
-  .no-print{
-    display:none !important;
-  }
 
-  /* เอาสีไฮไลต์ออกตอนพิมพ์ */
-  .hl-have,
-  .hl-warn{
-    background:none !important;
-  }
-}
   .page-a4{
   box-sizing: border-box;
   width: 100%;
@@ -95,13 +120,6 @@ table, tr, td{
 .nav3 button:nth-child(1){ background:#ff5fa2; } /* หน้าแรก */
 .nav3 button:nth-child(2){ background:#416ae3; } /* ป.58 */
 .nav3 button:nth-child(3){ background:#10e1f0; } /* SCB */
-
-@media print{
-  .no-print{ display:none !important; }
-}
-
-
-
 
 body{
   margin:0;
