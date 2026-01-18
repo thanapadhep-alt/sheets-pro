@@ -5,9 +5,6 @@
 <title>ป.58 พิเศษ</title>
 
 <style>
-
-  
-
   /* ===== A4 PRINT SETUP (FIXED) ===== */
 @page{
   size: A4 portrait;
@@ -27,9 +24,10 @@
 }
 
   body{
-    font-size: 90% !important;
-  }
-
+  font-family:"Angsana New", serif;
+  font-size:16pt;
+  background:#f5f5f5;
+}
   *{
     -webkit-print-color-adjust: exact;
     print-color-adjust: exact;
@@ -122,24 +120,24 @@ table, tr, td{
 .nav3 button:nth-child(3){ background:#10e1f0; } /* SCB */
 
 body{
-  margin:0;
-  font-family:"TH Sarabun New","Kanit",sans-serif;
+  margin:1;
+  font-family:"TH Sarabun New",serif;
 }
 
 /* ===== style จาก Google Sheets (คงไว้เฉพาะที่ใช้จริง) ===== */
 .ritz .waffle a { color: inherit; }
 .ritz .waffle .s16{border-bottom:1px solid #000;background:#fff;text-align:center;font-size:9pt;}
-.ritz .waffle .s7{border-bottom:1px dotted #000;border-right:1px solid #000;text-align:left;font-size:9pt;}
+.ritz .waffle .s7{border-bottom:1px solid #000;border-right:1px solid #000;text-align:left;font-size:9pt;}
 .ritz .waffle .s11{border-bottom:1px dotted #000;text-align:right;font-size:7pt;}
 .ritz .waffle .s18{text-align:center;text-decoration:underline;font-size:7pt;}
 .ritz .waffle .s1{text-align:center;font-size:9pt;}
 .ritz .waffle .s19{text-align:right;font-size:7pt;}
-.ritz .waffle .s8{border-bottom:1px dotted #000;border-right:1px solid #000;text-align:center;font-size:9pt;}
+.ritz .waffle .s8{border-bottom:1px solid #000;border-right:1px solid #000;text-align:center;font-size:9pt;}
 .ritz .waffle .s12{border-bottom:1px dotted #000;text-align:center;font-size:7pt;}
 .ritz .waffle .s3{text-align:center;font-size:11pt;}
 .ritz .waffle .s10{border-bottom:1px dotted #000;text-align:center;text-decoration:underline;font-size:7pt;}
 .ritz .waffle .s6{border-bottom:1px solid #000;border-right:1px solid #000;text-align:center;font-weight:bold;font-size:9pt;}
-.ritz .waffle .s9{border-bottom:1px dotted #000;text-align:center;font-size:9pt;}
+.ritz .waffle .s9{border-bottom:1px solid #000;text-align:center;font-size:9pt;}
 .ritz .waffle .s14{border-bottom:1px solid #000;text-align:center;text-decoration:underline;font-size:7pt;}
 .ritz .waffle .s15{border-bottom:0px solid #000;text-align:center;font-size:7pt;}
 .ritz .waffle .s17{border-bottom:1px solid #000;border-right:1px solid #000;text-align:center;font-size:9pt;}
@@ -202,8 +200,7 @@ table.waffle{
 
 <tbody>
   <tr>
-    <td class="s8">ป.58 พิเศษ</td>
-    <td colspan="6"></td>
+    <td class="s3">ป.58 พิเศษ</td>
   </tr>
 
 <tr>
@@ -262,7 +259,7 @@ table.waffle{
 </tr>
 	
 <tr>
-  <td class="s1 s7">รวม</td>
+  <td class="s7 right">รวม</td>
   <td class="s8" id="sum-col2-row4to5"></td><td class="s8">ถุง</td>
   <td class="s8" id="sum-col3-row4to5"></td><td class="s8">Roll</td><td class="s8"></td>
   <td class="s9"></td>
@@ -280,7 +277,7 @@ table.waffle{
   <td class="s9"></td>
 
   <td class="s7"></td>
-  <td class="s1 s8">รวม</td><td class="s8" id="sum-col9-row5to6"></td>
+  <td class="s7 right">รวม</td><td class="s8" id="sum-col9-row5to6"></td>
   <td class="s8">ถุง</td><td class="s8" id="sum-col10-row5to6"></td><td class="s8">Roll</td>
   <td class="s9"></td>
 </tr>
@@ -328,7 +325,7 @@ table.waffle{
   <td class="s9"></td>
 
   <td class="s7"></td>
-  <td class="s8">รวม</td><td class="s8" id="sum-col9-row7to9"></td>
+  <td class="s8 right">รวม</td><td class="s8" id="sum-col9-row7to9"></td>
   <td class="s8">ถุง</td><td class="s8" id="sum-col10-row7to9"></td>
   <td class="s8">Roll</td><td class="s8"></td>
 </tr>
@@ -358,7 +355,7 @@ table.waffle{
 </tr>
 	
 	<tr>
-  <td class="s1 s7">รวม</td>
+  <td class="s7 right">รวม</td>
   <td class="s8" id="sum-col2-row6to12"></td><td class="s8">ถุง</td>
   <td class="s8" id="sum-col3-row6to12"></td><td class="s8">Roll</td><td class="s8"></td>
   <td class="s9"></td>
@@ -394,7 +391,7 @@ table.waffle{
 </tr>
 	
 	<tr>
-  <td class="s1 s7">รวม</td>
+  <td class="s7 right">รวม</td>
   <td class="s8" id="sum-col2-row13to14"></td><td class="s8">ถุง</td>
   <td class="s8" id="sum-col3-row13to14"></td><td class="s8">Roll</td><td class="s8"></td>
   <td class="s9"></td>
@@ -412,7 +409,7 @@ table.waffle{
   <td class="s9"></td>
 
   <td class="s7"></td>
-  <td class="s8">รวม</td><td class="s8" id="sum-col9-row10to15"></td>
+  <td class="s8 right">รวม</td><td class="s8" id="sum-col9-row10to15"></td>
   <td class="s8">ถุง</td><td class="s8" id="sum-col10-row10to15"></td><td class="s8">Roll</td>
   <td class="s9"></td>
 </tr>
@@ -454,13 +451,13 @@ table.waffle{
 </tr>
 	
 	<tr>
-  <td class="s1 s7">รวม</td>
+  <td class="s7 right">รวม</td>
   <td class="s8" id="sum-col2-row15to18"></td><td class="s8">ถุง</td>
   <td class="s8" id="sum-col3-row15to18"></td><td class="s8">Roll</td><td class="s8"></td>
   <td class="s9"></td>
 
   <td class="s7"></td>
-  <td class="s8">รวม</td><td class="s8" id="sum-col9-row16to18"></td>
+  <td class="s8 right">รวม</td><td class="s8" id="sum-col9-row16to18"></td>
   <td class="s8">ถุง</td><td class="s8" id="sum-col10-row16to18"></td><td class="s8">Roll</td>
   <td class="s9"></td>
 </tr>
@@ -490,7 +487,7 @@ table.waffle{
 </tr>
 	
 	<tr>
-  <td class="s1 s7">รวม</td>
+  <td class="s7 right">รวม</td>
   <td class="s8" id="sum-col2-row19to20"></td><td class="s8">ถุง</td>
   <td class="s8" id="sum-col3-row19to20"></td><td class="s8">Roll</td><td class="s8"></td>
   <td class="s9"></td>
@@ -520,7 +517,7 @@ table.waffle{
   <td class="s9"></td>
 
   <td class="s7"></td>
-  <td class="s8">รวม</td><td class="s8" id="sum-col9-row19to22"></td>
+  <td class="s8 right">รวม</td><td class="s8" id="sum-col9-row19to22"></td>
   <td class="s8">ถุง</td><td class="s8" id="sum-col10-row19to22"></td><td class="s8">Roll</td>
   <td class="s9"></td>
 </tr>
@@ -550,7 +547,7 @@ table.waffle{
 </tr>
 	
 	<tr>
-  <td class="s1 s7">รวม</td>
+  <td class="s7 right">รวม</td>
   <td class="s8" id="sum-col2-row21to24"></td><td class="s8">ถุง</td>
   <td class="s8" id="sum-col3-row21to24"></td><td class="s8">Roll</td><td class="s8"></td>
   <td class="s9"></td>
@@ -568,7 +565,7 @@ table.waffle{
   <td class="s9"></td>
 
   <td class="s7"></td>
-  <td class="s8">รวม</td><td class="s8" id="sum-col9-row23to25"></td>
+  <td class="s8 right">รวม</td><td class="s8" id="sum-col9-row23to25"></td>
   <td class="s8">ถุง</td><td class="s8" id="sum-col10-row23to25"></td><td class="s8">Roll</td>
   <td class="s9"></td>
 </tr>
@@ -586,7 +583,7 @@ table.waffle{
 </tr>
 	
 	<tr>
-  <td class="s1 s7">รวม</td>
+  <td class="s7 right">รวม</td>
   <td class="s8" id="sum-col2-row25to26"></td><td class="s8">ถุง</td>
   <td class="s8" id="sum-col3-row25to26"></td><td class="s8">Roll</td><td class="s8"></td>
   <td class="s9"></td>
@@ -628,7 +625,7 @@ table.waffle{
   <td class="s9"></td>
 
   <td class="s7"></td>
-  <td class="s8">รวม</td><td class="s8" id="sum-col9-row26to29"></td>
+  <td class="s8 right">รวม</td><td class="s8" id="sum-col9-row26to29"></td>
   <td class="s8">ถุง</td><td class="s8" id="sum-col10-row26to29"></td><td class="s8">Roll</td>
   <td class="s9"></td>
 </tr>
@@ -646,7 +643,7 @@ table.waffle{
 </tr>
 	
 	<tr>
-  <td class="s1 s7">รวม</td>
+  <td class="s7 right">รวม</td>
   <td class="s8" id="sum-col2-row27to30"></td><td class="s8">ถุง</td>
   <td class="s8" id="sum-col3-row27to30"></td><td class="s8">Roll</td><td class="s8"></td>
   <td class="s9"></td>
@@ -664,7 +661,7 @@ table.waffle{
   <td class="s9"></td>
 
   <td class="s7"></td>
-  <td class="s8">รวม</td><td class="s8" id="sum-col9-row30to31"></td>
+  <td class="s8 right">รวม</td><td class="s8" id="sum-col9-row30to31"></td>
   <td class="s8">ถุง</td><td class="s8" id="sum-col10-row30to31"></td><td class="s8">Roll</td>
   <td class="s9"></td>
 </tr>
@@ -706,7 +703,7 @@ table.waffle{
 </tr>
 	
 	<tr>
-  <td class="s1 s7">รวม</td>
+  <td class="s7 right">รวม</td>
   <td class="s8" id="sum-col2-row31to34"></td><td class="s8">ถุง</td>
   <td class="s8" id="sum-col3-row31to34"></td><td class="s8">Roll</td><td class="s8"></td>
   <td class="s9"></td>
@@ -748,13 +745,13 @@ table.waffle{
   <td class="s9"></td>
 
   <td class="s7"></td>
-  <td class="s8">รวม</td><td class="s8" id="sum-col9-row32to37"></td>
+  <td class="s8 right">รวม</td><td class="s8" id="sum-col9-row32to37"></td>
   <td class="s8">ถุง</td><td class="s8" id="sum-col10-row32to37"></td><td class="s8">Roll</td>
   <td class="s9"></td>
 </tr>
 	
 	<tr>
-  <td class="s1 s7">รวม</td>
+  <td class="s7 right">รวม</td>
   <td class="s8" id="sum-col2-row35to37"></td><td class="s8">ถุง</td>
   <td class="s8" id="sum-col3-row35to37"></td><td class="s8">Roll</td><td class="s8"></td>
   <td class="s9"></td>
@@ -791,7 +788,7 @@ table.waffle{
 	
 	
 	<tr>
-  <td class="s1 s7">รวม</td>
+  <td class="s7 right">รวม</td>
   <td class="s8" id="sum-col2-row38to39"></td><td class="s8">ถุง</td>
   <td class="s8" id="sum-col3-row38to39"></td><td class="s8">Roll</td><td class="s8"></td>
   <td class="s9"></td>
