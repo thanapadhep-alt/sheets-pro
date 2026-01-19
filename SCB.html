@@ -60,7 +60,7 @@ table{
   width:100%;
   border-collapse:collapse;
   table-layout:fixed;
-  border:1.2px solid #000000;
+  border:1.2px solid #999;
 }
 
 td{
@@ -69,7 +69,7 @@ td{
 }
 
 /* เส้นในตาราง */
-.b{ border:1px solid #000; }
+.b{ border:0.5px solid #999; }
 .bb{ border-bottom:1.2px solid #000; }
 .br{ border-right:1.2px solid #000; }
 
@@ -85,52 +85,32 @@ td{
 /* ===== ปุ่ม ===== */
 .no-print{ margin:10px; }
 
+ /* ===== BUTTON STYLE ===== */
 .btn-export{
-  padding:8px 14px;
+  padding:15px 39px;
   margin-right:6px;
-  border-radius:8px;
+  border-radius:20px;
   border:0;
   cursor:pointer;
-  font-size:14px;
+  font-size:15px;
   font-family:"TH Sarabun New","Kanit",sans-serif;
 }
-
+.btn-back{background:#ff8fb1;color:#fff;}
 .btn-html{ background:#3416dd; color:#fff; }
 .btn-pdf{ background:#a51ee8; color:#fff; }
 
-/* เมนู 3 หน้า */
-.nav3{
-  display:flex;
-  gap:8px;
-  flex-wrap:wrap;
-  margin:10px;
-}
-.nav3 button{
-  padding:8px 14px;
-  border-radius:10px;
-  border:0;
-  cursor:pointer;
-  font-size:14px;
-  font-weight:600;
-  color:#fff;
-}
-.nav3 button:nth-child(1){ background:#ff5fa2; } /* หน้าแรก */
-.nav3 button:nth-child(2){ background:#416ae3; } /* ป.58 */
-.nav3 button:nth-child(3){ background:#10e1f0; } /* SCB */
+
 </style>
 
 </head>
 <body>
-  <!-- ✅ เมนูสลับหน้า 3 หน้า (ไม่พิมพ์) -->
+  <!--  ปุ่ม--) -->
 <div class="no-print">
+  <button onclick="goBack()" class="btn-export btn-back">
+    ⬅ กลับหน้าแรก
+  </button>
   <button onclick="exportHTML()" class="btn-export btn-html">📄 Export HTML</button>
   <button onclick="exportPDF()" class="btn-export btn-pdf">🖨 Export PDF</button>
-</div>
-
-  <div class="no-print nav3">
-  <button onclick="goHome()">🏠 หน้าแรก</button>
-  <button onclick="location.href='ป.58พื้นที่.html'">📄 ป.58พื้นที่</button>
-  <button onclick="location.href='SCB.html'">🏦 SCB</button>
 </div>
 
 <div class="page">
@@ -594,6 +574,16 @@ function fillEV_1_to_15(){
 }
 
 document.addEventListener("DOMContentLoaded", fillEV_1_to_15);
+</script>
+  
+  <script>
+function goBack(){
+  if (window.history.length > 1) {
+    window.history.back();   // ✅ กลับไปหน้า index ที่เปิดมา
+  } else {
+    window.location.replace("/");
+  }
+}
 </script>
 
 </body>
