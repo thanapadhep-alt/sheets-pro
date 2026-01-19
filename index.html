@@ -329,14 +329,34 @@ saveHtml.onclick=()=>{
   if(!name.endsWith(".html")) name+=".html";
 
   const style=`
-  <style>
-    body{font-family:Kanit,sans-serif;padding:16px}
-    table{border-collapse:collapse;width:100%}
-    th,td{padding:10px;border:1px solid #d0d0d0}
-    th{background:#ff8fb1;color:#fff}
-    tr:nth-child(even){background:#fafafa}
-    td.duplicate{background:#fff0c2;font-weight:600}
-  </style>`;
+<style>
+  body{
+    font-family:Kanit,sans-serif;
+    padding:16px;
+  }
+
+  /* ✅ ห้ามบังคับเต็มจอ */
+  table{
+    border-collapse:collapse;
+    width:auto;               /* สำคัญ */
+    max-width:100%;
+    table-layout:auto;
+  }
+
+  th,td{
+    padding:6px 8px;          /* ลดช่องว่าง */
+    border:1px solid #d0d0d0;
+    white-space:nowrap;       /* ให้พอดีกับข้อความ */
+  }
+
+  th{
+    background:#ff8fb1;
+    color:#fff;
+  }
+
+  tr:nth-child(even){background:#fafafa}
+  td.duplicate{background:#fff0c2;font-weight:600}
+</style>`;
   const html=`<!doctype html><html lang="th"><head>
   <meta charset="utf-8"><title>${name}</title>${style}
   </head><body>${tableEl.innerHTML}</body></html>`;
