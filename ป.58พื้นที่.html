@@ -68,59 +68,33 @@ table, tr, td{
 }
   /* ===== BUTTON STYLE ===== */
 .btn-export{
-  padding:8px 14px;
+  padding:15px 39px;
   margin-right:6px;
-  border-radius:8px;
+  border-radius:20px;
   border:0;
   cursor:pointer;
-  font-size:14px;
+  font-size:15px;
   font-family:"TH Sarabun New","Kanit",sans-serif;
 }
+  /* ปุ่มกลับ */
+.btn-back{background:#ff8fb1;color:#fff;}
 
 /* Export HTML */
-.btn-html{
-  background:#4011d5;
-  color:#fff;
-}
+.btn-html{background:#4011d5;color:#fff;}
 
 /* Export PDF */
-.btn-pdf{
-  background:#8f049f;
-  color:#fff;
-}
+.btn-pdf{background:#8f049f;color:#fff;}
 
 /* hover */
 .btn-export:hover{
   opacity:0.85;
 }
-  /* ✅ แถบเมนู 3 หน้า */
-.nav3{
-  display:flex;
-  gap:8px;
-  flex-wrap:wrap;
-  margin:10px;
-}
-
-.nav3 button{
-  padding:8px 14px;
-  border-radius:10px;
-  border:0;
-  cursor:pointer;
-  font-size:14px;
-  font-weight:600;
-  color:#fff;
-}
-
-/* สีแต่ละปุ่ม */
-.nav3 button:nth-child(1){ background:#ff5fa2; } /* หน้าแรก */
-.nav3 button:nth-child(2){ background:#416ae3; } /* ป.58 */
-.nav3 button:nth-child(3){ background:#10e1f0; } /* SCB */
-
+ 
 body{
   margin:0;
   font-family:"TH Sarabun New","Kanit",sans-serif;
 }
-/* ===== style จาก Google Sheets (คงไว้เฉพาะที่ใช้จริง) ===== */
+/* =====font style จาก Google Sheets (คงไว้เฉพาะที่ใช้จริง) ===== */
 .ritz .waffle a { color: inherit; }
 .ritz .waffle .s16{border-bottom:1px solid #000;background:#fff;text-align:center;font-size:9pt;}
 .ritz .waffle .s7{border-bottom:1px solid #000;border-right:1px solid #000;text-align:left;font-size:9pt;}
@@ -171,6 +145,9 @@ table.waffle{
 <body>
   <!-- ✅ ปุ่มกลับหน้าแรก -->
 <div class="no-print" style="margin:10px">
+  <button onclick="goBack()" class="btn-export btn-back">
+    ⬅ กลับหน้าแรก
+  </button>
   
   <button onclick="exportHTML()" class="btn-export btn-html">
     📄 Export HTML
@@ -180,13 +157,6 @@ table.waffle{
     🖨 Export PDF
   </button>
 </div>
-  <!-- ✅ เมนูสลับหน้า 3 หน้า (ไม่พิมพ์) -->
-<div class="no-print nav3">
-  <button onclick="goHome()">🏠 หน้าแรก</button>
-  <button onclick="location.href='ป.58พื้นที่.html'">📄 ป.58พื้นที่</button>
-  <button onclick="location.href='SCB.html'">🏦 SCB</button>
-</div>
-
 
 <div class="page-a4">  
 
@@ -1409,6 +1379,16 @@ function calcSum_col3_row6_12(){
   ], "sum-col10-row32to37");
 }
   
+</script>
+  
+<script>
+function goBack(){
+  if (window.history.length > 1) {
+    window.history.back();   // ✅ กลับไปหน้า index ที่เปิดมา
+  } else {
+    window.location.replace("/");
+  }
+}
 </script>
   
 </body>
