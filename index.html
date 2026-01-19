@@ -310,17 +310,48 @@ resetBtn.onclick=()=>{
 };
 
 /* ===== SAVE XLSX (AUTO DATE) ===== */
+function autoFitColumns(ws, data) {
+  const colCount = data[0]?.length || 0;
+  const widths = new Array(colCount).fill(10); // ความกว้างขั้นต่ำ
+
+  for (let r = 0; r < data.length; r++) {
+    for (let c = 0; c < colCount; c++) {
+      const v = data[r][c] ?? "";
+      const text = String(v);
+
+      // ปรับให้เหมาะกับภาษาไทย/อังกฤษ
+      // ไทยมักกินพื้นที่มากกว่านิดหน่อย
+      const isThai = /[\u0E00-\u0E7F]/.test(text);
+      const len = text.length;
+
+      let w = len + (isThai ? 4 : 2);
+
+      // กันไม่ให้เล็กหรือใหญ่เกิน
+      w = Math.max(8, w);
+      w = Math.min(60, w);
+
+      if (w > widths[c]) widths[c] = w;
+    }
+  }
+
+  ws["!cols"] = widths.map(w => ({ wch: w }));
+}
+/* ===== SAVE XLSX (AUTO DATE) ===== */
 saveXlsx.onclick=()=>{
   const date=today();
   let name=prompt("ตั้งชื่อไฟล์",`sheet-${date}`);
   if(!name) return;
   if(!name.endsWith(".xlsx")) name+=".xlsx";
-  const ws=XLSX.utils.aoa_to_sheet(data);
+
+  const ws = XLSX.utils.aoa_to_sheet(data);
+
+  // ✅ เพิ่มบรรทัดนี้เพื่อขยายคอลัมน์อัตโนมัติ
+  autoFitColumns(ws, data);
+
   const wb=XLSX.utils.book_new();
   XLSX.utils.book_append_sheet(wb,ws,"Sheet1");
   XLSX.writeFile(wb,name);
 };
-
 /* ===== SAVE HTML (AUTO DATE) ===== */
 saveHtml.onclick=()=>{
   const date=today();
