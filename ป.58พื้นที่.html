@@ -1004,12 +1004,22 @@ fillGroup("ubon");
 function exportHTML(){
   const content = document.querySelector(".page-a4").outerHTML;
 
+  // ===== วันที่ปัจจุบัน (พ.ศ.) =====
+  const d = new Date();
+  const dd = String(d.getDate()).padStart(2,"0");
+  const mm = String(d.getMonth()+1).padStart(2,"0");
+  const yy = d.getFullYear() + 543;
+
+  // รูปแบบชื่อไฟล์
+  // ตัวอย่าง: ป.58-01-02-2569.html
+  const fileName = `ป.58พื้นที่-${dd}-${mm}-${yy}.html`;
+
   const html = `
 <!doctype html>
 <html lang="th">
 <head>
 <meta charset="utf-8">
-<title>ป.58 Export</title>
+<title>ป.58พื้นที่ ${dd}/${mm}/${yy}</title>
 <style>
 ${document.querySelector("style").innerHTML}
 </style>
@@ -1025,7 +1035,7 @@ ${content}
 
   const a = document.createElement("a");
   a.href = url;
-  a.download = "ป.58.html";
+  a.download = fileName;   // ✅ ชื่อไฟล์มีวันที่
   a.click();
 
   URL.revokeObjectURL(url);
