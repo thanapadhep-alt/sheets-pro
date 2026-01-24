@@ -1,427 +1,431 @@
 <!doctype html>
 <html lang="th">
-<head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Sheets Pro 💕</title>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Sheets Pro 💕</title>
 
-<!-- PWA -->
-<link rel="manifest" href="manifest.json">
-<meta name="theme-color" content="#ff8fb1">
-<link rel="apple-touch-icon" href="icon-192.png">
+    <!-- PWA -->
+    <link rel="manifest" href="manifest.json" />
+    <meta name="theme-color" content="#ff8fb1" />
+    <link rel="apple-touch-icon" href="icon-192.png" />
 
-<script src="https://cdn.jsdelivr.net/npm/xlsx-js-style@1.2.0/dist/xlsx.bundle.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/xlsx-js-style@1.2.0/dist/xlsx.bundle.js"></script>
 
-<style>
-:root{
-  --primary:#ff8fb1;
-  --danger:#ff6b6b;
-  --bg:#fdf6f9;
-  --card:#ffffff;
-  --grid:#d0d0d0;
-  --grid-soft:#e0e0e0;
-  --row-alt:#fafafa;
-  --active:#ff5fa8;
-  --duplicate:#fff0c2;
-}
-body{
-  margin:0;
-  background:var(--bg);
-  font-family:"Kanit",sans-serif;
-}
-.container{
-  max-width:1200px;
-  margin:16px auto;
-  background:var(--card);
-  padding:16px;
-  border-radius:16px;
-  box-shadow:0 10px 30px rgba(255,143,177,.25);
-}
-
-/* ===== HEADER ===== */
-.header{
-  display:grid;
-  grid-template-columns:1fr;
-  gap:12px;
-}
-.header-top{
-  display:flex;
-  flex-wrap:wrap;
-  gap:8px;
-  align-items:center;
-}
-.header-bottom{
-  display:flex;
-  gap:8px;
-  align-items:center;
-  background:#fff0f6;
-  padding:8px 12px;
-  border-radius:12px;
-  border:1px solid var(--active);
-}
-button{
-  border:0;
-  padding:8px 14px;
-  border-radius:10px;
-  cursor:pointer;
-  color:#fff;
-}
-.btn-primary{background:var(--primary)}
-.btn-danger{background:var(--danger)}
-.btn-round{
-  width:40px;height:40px;
-  border-radius:50%;
-  font-size:1.1rem;
-  padding:0;
-}
-#editor{
-  flex:1;
-  padding:8px 10px;
-  border:1px solid var(--grid);
-  border-radius:8px;
-  font-size:1rem;
-  outline:none;
-}
-
-/* ===== TABLE ===== */
-.sheet-wrapper{
-  margin-top:16px;
-  border:1px solid var(--grid);
-  border-radius:12px;
-  overflow:auto;
-  max-height:560px;
-  scroll-behavior:smooth;
-}
-table{
-  border-collapse:collapse;
-  width:100%;
-}
-th,td{
-  padding:10px;
-  border-bottom:1px solid var(--grid);
-  white-space:nowrap;
-}
-th + th,
-td + td{
-  border-left:1px solid var(--grid-soft);
-}
-tbody tr:nth-child(even){
-  background:var(--row-alt);
-}
-th{
-  background:var(--primary);
-  color:#fff;
-  position:sticky;
-  top:0;
-}
-td.active{
-  box-shadow:0 0 0 2px var(--active) inset;
-  background:#ffe3ed;
-}
-td.duplicate{
-  background:var(--duplicate);
-  font-weight:600;
-}
-</style>
-</head>
-
-<body>
-
-<div class="container">
-
-  <!-- HEADER -->
-  <div class="header">
-    <div class="header-top">
-      <strong>Sheets Pro 💕</strong>
-
-      <button class="btn-primary" id="saveXlsx">Save XLSX</button>
-      <button class="btn-primary" id="saveHtml">Save HTML</button>
-
-      <button class="btn-danger" id="clearBtn">Clear</button>
-      <button class="btn-danger" id="resetBtn">Reset</button>
-
-      <button class="btn-danger btn-round" id="undoBtn">⟲</button>
-      <button class="btn-primary btn-round" id="redoBtn">⟳</button>
-      <button class="btn-primary" id="openP58">
-  เปิดแบบ ป.58
-</button>
-      <button class="btn-primary" id="openSCB">เปิดแบบ SCB</button>
-
-    </div>
-
-    <div class="header-bottom">
-      <span id="editorInfo">เลือก cell</span>
-      <input id="editor" disabled>
-    </div>
-  </div>
-
-  <!-- TABLE -->
-  <div class="sheet-wrapper" id="sheetWrap">
-    <div id="table"></div>
-  </div>
-</div>
-
-<script>
-/* ===== CONFIG ===== */
-const ROWS = 501;
-const COLS = 3;
-const STORAGE_KEY = "sheets-pro-final";
-
-/* ===== DATE HELPER ===== */
-function today(){
-  const d=new Date();
-  const y=d.getFullYear();
-  const m=String(d.getMonth()+1).padStart(2,"0");
-  const day=String(d.getDate()).padStart(2,"0");
-  return `${y}-${m}-${day}`;
-}
-
-/* ===== DATA ===== */
-let data=[["ถุง","ROLL","EV"]];
-for(let i=1;i<ROWS;i++) data.push(["","",""]);
-
-/* ===== STATE ===== */
-let cur={r:null,c:null};
-let undoStack=[], redoStack=[];
-const snapshot=()=>JSON.parse(JSON.stringify(data));
-
-/* ===== DOM ===== */
-const tableEl=document.getElementById("table");
-const sheetWrap=document.getElementById("sheetWrap");
-const editor=document.getElementById("editor");
-const editorInfo=document.getElementById("editorInfo");
-
-/* ===== STORAGE ===== */
-function saveLocal(){
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
-}
-function loadLocal(){
-  const raw=localStorage.getItem(STORAGE_KEY);
-  if(raw){
-    try{ data=JSON.parse(raw); }catch{}
-  }
-}
-
-/* ===== DUPLICATE ===== */
-function buildDupMap(){
-  const map=new Map();
-  for(let r=1;r<data.length;r++)
-    for(let c=0;c<COLS;c++){
-      const v=data[r][c].trim();
-      if(v) map.set(v,(map.get(v)||0)+1);
-    }
-  return map;
-}
-
-/* ===== RENDER ===== */
-function render(){
-  const dupMap=buildDupMap();
-  let html='<table><thead><tr><th>#</th>';
-  for(let c=0;c<COLS;c++) html+=`<th>${data[0][c]}</th>`;
-  html+='</tr></thead><tbody>';
-
-  for(let r=1;r<data.length;r++){
-    html+=`<tr data-row="${r}"><td>${r}</td>`;
-    for(let c=0;c<COLS;c++){
-      const v=data[r][c];
-      const a=(cur.r===r&&cur.c===c)?'active':'';
-      const d=v && dupMap.get(v)>1?'duplicate':'';
-      html+=`<td class="${a} ${d}" data-r="${r}" data-c="${c}">${v}</td>`;
-    }
-    html+='</tr>';
-  }
-  html+='</tbody></table>';
-  tableEl.innerHTML=html;
-}
-
-/* ===== AUTO SCROLL ===== */
-function centerRow(r){
-  const row=document.querySelector(`tr[data-row="${r}"]`);
-  if(!row) return;
-  const wrapRect=sheetWrap.getBoundingClientRect();
-  const rowRect=row.getBoundingClientRect();
-  const BIAS=-160;
-  sheetWrap.scrollTop+=
-    (rowRect.top-wrapRect.top)
-    -wrapRect.height/2
-    +rowRect.height/2
-    -BIAS;
-}
-
-/* ===== INIT ===== */
-loadLocal();
-render();
-
-/* ===== CLICK CELL ===== */
-tableEl.onclick=e=>{
-  const td=e.target.closest("td[data-r]");
-  if(!td) return;
-  cur={r:+td.dataset.r,c:+td.dataset.c};
-  render();
-  editor.disabled=false;
-  editor.value=data[cur.r][cur.c];
-  editor.focus();
-  editorInfo.textContent=`แถว ${cur.r} | ${data[0][cur.c]}`;
-  requestAnimationFrame(()=>centerRow(cur.r));
-};
-
-/* ===== EDIT ===== */
-editor.onkeydown=e=>{
-  if(e.key==="Enter" && cur.r){
-    undoStack.push(snapshot());
-    redoStack.length=0;
-    data[cur.r][cur.c]=editor.value.trim();
-    saveLocal();
-    cur.r=Math.min(cur.r+1,ROWS-1);
-    render();
-    editor.value=data[cur.r][cur.c];
-    editorInfo.textContent=`แถว ${cur.r} | ${data[0][cur.c]}`;
-    requestAnimationFrame(()=>centerRow(cur.r));
-  }
-};
-
-/* ===== UNDO / REDO ===== */
-undoBtn.onclick=()=>{
-  if(!undoStack.length) return;
-  redoStack.push(snapshot());
-  data=undoStack.pop();
-  saveLocal(); render();
-};
-redoBtn.onclick=()=>{
-  if(!redoStack.length) return;
-  undoStack.push(snapshot());
-  data=redoStack.pop();
-  saveLocal(); render();
-};
-
-/* ===== CLEAR / RESET ===== */
-clearBtn.onclick=()=>{
-  if(!confirm("ลบข้อมูลทั้งหมด?")) return;
-  undoStack.push(snapshot());
-  redoStack.length=0;
-  for(let r=1;r<data.length;r++)
-    for(let c=0;c<COLS;c++) data[r][c]="";
-  saveLocal(); render();
-};
-resetBtn.onclick=()=>{
-  if(!confirm("รีเซ็ตทั้งหมดถาวร?")) return;
-  localStorage.removeItem(STORAGE_KEY);
-  location.reload();
-};
-
-function autoFitColumns(ws, data) {
-  const colCount = data[0]?.length || 0;
-  const widths = new Array(colCount).fill(10);
-
-  for (let r = 0; r < data.length; r++) {
-    for (let c = 0; c < colCount; c++) {
-      const v = data[r][c] ?? "";
-      const text = String(v);
-
-      // ภาษาไทยกินพื้นที่มากกว่าเล็กน้อย
-      const isThai = /[\u0E00-\u0E7F]/.test(text);
-      const len = text.length;
-
-      let w = len + (isThai ? 4 : 2);
-
-      // ป้องกันเล็ก/ใหญ่เกิน
-      w = Math.max(6, w);
-      w = Math.min(60, w);
-
-      if (w > widths[c]) widths[c] = w;
-    }
-  }
-
-  ws["!cols"] = widths.map(w => ({ wch: w }));
-}
-
-function styleSheet(ws, data) {
-  const range = XLSX.utils.decode_range(ws["!ref"]);
-  const lastRow = range.e.r;
-  const lastCol = range.e.c;
-
-  // ✅ สไตล์เส้นตาราง (ทุกช่อง)
-  const borderAll = {
-    top:    { style: "thin", color: { rgb: "D0D0D0" } },
-    bottom: { style: "thin", color: { rgb: "D0D0D0" } },
-    left:   { style: "thin", color: { rgb: "D0D0D0" } },
-    right:  { style: "thin", color: { rgb: "D0D0D0" } },
-  };
-
-  // ✅ หัวตาราง
-  const headerStyle = {
-    font: { bold: true, color: { rgb: "FFFFFF" } },
-    fill: { patternType: "solid", fgColor: { rgb: "FF8FB1" } },
-    alignment: { horizontal: "center", vertical: "center", wrapText: true },
-    border: borderAll
-  };
-
-  // ✅ cell ปกติ
-  const cellStyle = {
-    alignment: { vertical: "center", wrapText: true },
-    border: borderAll
-  };
-
-  // ✅ คอลัมน์ลำดับ (#) จัดกึ่งกลาง
-  const centerStyle = {
-    alignment: { horizontal: "center", vertical: "center", wrapText: true },
-    border: borderAll
-  };
-
-  // ✅ ใส่สไตล์ทุก cell
-  for (let r = 0; r <= lastRow; r++) {
-    for (let c = 0; c <= lastCol; c++) {
-      const addr = XLSX.utils.encode_cell({ r, c });
-      const cell = ws[addr];
-      if (!cell) continue;
-
-      // หัวตาราง = แถวแรก
-      if (r === 0) {
-        cell.s = headerStyle;
-      } else {
-        // คอลัมน์แรก (#) ให้กึ่งกลาง
-        if (c === 0) cell.s = centerStyle;
-        else cell.s = cellStyle;
+    <style>
+      :root {
+        --primary: #ff8fb1;
+        --danger: #ff6b6b;
+        --bg: #fdf6f9;
+        --card: #ffffff;
+        --grid: #d0d0d0;
+        --grid-soft: #e0e0e0;
+        --row-alt: #fafafa;
+        --active: #ff5fa8;
+        --duplicate: #fff0c2;
       }
-    }
-  }
+      body {
+        margin: 0;
+        background: var(--bg);
+        font-family: "Kanit", sans-serif;
+      }
+      .container {
+        max-width: 1200px;
+        margin: 16px auto;
+        background: var(--card);
+        padding: 16px;
+        border-radius: 16px;
+        box-shadow: 0 10px 30px rgba(255, 143, 177, 0.25);
+      }
 
-  // ✅ ปรับความสูงแถวหัวตารางให้ดูเหมือนชีต
-  ws["!rows"] = ws["!rows"] || [];
-  ws["!rows"][0] = { hpt: 22 };
-}
-/* ===== SAVE XLSX (AUTO DATE + AUTOFIT + STYLE) ===== */
-saveXlsx.onclick=()=>{
-  const date=today();
-  let name=prompt("ตั้งชื่อไฟล์",`sheet-${date}`);
-  if(!name) return;
-  if(!name.endsWith(".xlsx")) name+=".xlsx";
+      /* ===== HEADER ===== */
+      .header {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 12px;
+      }
+      .header-top {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        align-items: center;
+      }
+      .header-bottom {
+        display: flex;
+        gap: 8px;
+        align-items: center;
+        background: #fff0f6;
+        padding: 8px 12px;
+        border-radius: 12px;
+        border: 1px solid var(--active);
+      }
+      button {
+        border: 0;
+        padding: 8px 14px;
+        border-radius: 10px;
+        cursor: pointer;
+        color: #fff;
+      }
+      .btn-primary {
+        background: var(--primary);
+      }
+      .btn-danger {
+        background: var(--danger);
+      }
+      .btn-round {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        font-size: 1.1rem;
+        padding: 0;
+      }
+      #editor {
+        flex: 1;
+        padding: 8px 10px;
+        border: 1px solid var(--grid);
+        border-radius: 8px;
+        font-size: 1rem;
+        outline: none;
+      }
 
-  const ws = XLSX.utils.aoa_to_sheet(data);
+      /* ===== TABLE ===== */
+      .sheet-wrapper {
+        margin-top: 16px;
+        border: 1px solid var(--grid);
+        border-radius: 12px;
+        overflow: auto;
+        max-height: 560px;
+        scroll-behavior: smooth;
+      }
+      table {
+        border-collapse: collapse;
+        width: 100%;
+      }
+      th,
+      td {
+        padding: 10px;
+        border-bottom: 1px solid var(--grid);
+        white-space: nowrap;
+      }
+      th + th,
+      td + td {
+        border-left: 1px solid var(--grid-soft);
+      }
+      tbody tr:nth-child(even) {
+        background: var(--row-alt);
+      }
+      th {
+        background: var(--primary);
+        color: #fff;
+        position: sticky;
+        top: 0;
+      }
+      td.active {
+        box-shadow: 0 0 0 2px var(--active) inset;
+        background: #ffe3ed;
+      }
+      td.duplicate {
+        background: var(--duplicate);
+        font-weight: 600;
+      }
+    </style>
+  </head>
 
-  // ✅ ขยายคอลัมน์ตามข้อความ
-  autoFitColumns(ws, data);
+  <body>
+    <div class="container">
+      <!-- HEADER -->
+      <div class="header">
+        <div class="header-top">
+          <strong>Sheets Pro 💕</strong>
 
-  // ✅ ทำให้เหมือน Excel (สีหัวตาราง + เส้นตาราง)
-  styleSheet(ws, data);
+          <button class="btn-primary" id="saveXlsx">Save XLSX</button>
+          <button class="btn-primary" id="saveHtml">Save HTML</button>
+          <button class="btn-danger" id="clearBtn">Clear</button>
+          <button class="btn-danger" id="resetBtn">Reset</button>
+          <button class="btn-danger btn-round" id="undoBtn">⟲</button>
+          <button class="btn-primary btn-round" id="redoBtn">⟳</button>
+          </div> 
+        
+        <div class="header-top">  
+          <button class="btn-primary" id="openP58">เปิดแบบ ป.58</button>
+          <button class="btn-primary" id="openSCB">เปิดแบบ SCB</button>
+          <button class="btn-primary" id="openEMS">เปิดแบบ EMS</button>
+        </div>
 
-  // ✅ เพิ่มคอลัมน์บางช่องให้กว้างพิเศษ (เลือกใช้ได้)
-  // ws["!cols"][0] = { wch: 5 };   // #
-  // ws["!cols"][2] = { wch: 30 };  // ROLL
-  // ws["!cols"][3] = { wch: 30 };  // EV
+        <div class="header-bottom">
+          <span id="editorInfo">เลือก cell</span>
+          <input id="editor" disabled />
+        </div>
+      </div>
 
-  const wb = XLSX.utils.book_new();
-  XLSX.utils.book_append_sheet(wb, ws, "Sheet1");
-  XLSX.writeFile(wb, name);
-};
-/* ===== SAVE HTML (AUTO DATE) ===== */
-saveHtml.onclick=()=>{
-  const date=today();
-  let name=prompt("ตั้งชื่อไฟล์",`sheet-${date}`);
-  if(!name) return;
-  if(!name.endsWith(".html")) name+=".html";
+      <!-- TABLE -->
+      <div class="sheet-wrapper" id="sheetWrap">
+        <div id="table"></div>
+      </div>
+    </div>
 
-  const style=`
+    <script>
+      /* ===== CONFIG ===== */
+      const ROWS = 501;
+      const COLS = 3;
+      const STORAGE_KEY = "sheets-pro-final";
+
+      /* ===== DATE HELPER ===== */
+      function today() {
+        const d = new Date();
+        const y = d.getFullYear();
+        const m = String(d.getMonth() + 1).padStart(2, "0");
+        const day = String(d.getDate()).padStart(2, "0");
+        return `${y}-${m}-${day}`;
+      }
+
+      /* ===== DATA ===== */
+      let data = [["ถุง", "ROLL", "EV"]];
+      for (let i = 1; i < ROWS; i++) data.push(["", "", ""]);
+
+      /* ===== STATE ===== */
+      let cur = { r: null, c: null };
+      let undoStack = [],
+        redoStack = [];
+      const snapshot = () => JSON.parse(JSON.stringify(data));
+
+      /* ===== DOM ===== */
+      const tableEl = document.getElementById("table");
+      const sheetWrap = document.getElementById("sheetWrap");
+      const editor = document.getElementById("editor");
+      const editorInfo = document.getElementById("editorInfo");
+
+      /* ===== STORAGE ===== */
+      function saveLocal() {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+      }
+      function loadLocal() {
+        const raw = localStorage.getItem(STORAGE_KEY);
+        if (raw) {
+          try {
+            data = JSON.parse(raw);
+          } catch {}
+        }
+      }
+
+      /* ===== DUPLICATE ===== */
+      function buildDupMap() {
+        const map = new Map();
+        for (let r = 1; r < data.length; r++)
+          for (let c = 0; c < COLS; c++) {
+            const v = data[r][c].trim();
+            if (v) map.set(v, (map.get(v) || 0) + 1);
+          }
+        return map;
+      }
+
+      /* ===== RENDER ===== */
+      function render() {
+        const dupMap = buildDupMap();
+        let html = "<table><thead><tr><th>#</th>";
+        for (let c = 0; c < COLS; c++) html += `<th>${data[0][c]}</th>`;
+        html += "</tr></thead><tbody>";
+
+        for (let r = 1; r < data.length; r++) {
+          html += `<tr data-row="${r}"><td>${r}</td>`;
+          for (let c = 0; c < COLS; c++) {
+            const v = data[r][c];
+            const a = cur.r === r && cur.c === c ? "active" : "";
+            const d = v && dupMap.get(v) > 1 ? "duplicate" : "";
+            html += `<td class="${a} ${d}" data-r="${r}" data-c="${c}">${v}</td>`;
+          }
+          html += "</tr>";
+        }
+        html += "</tbody></table>";
+        tableEl.innerHTML = html;
+      }
+
+      /* ===== AUTO SCROLL ===== */
+      function centerRow(r) {
+        const row = document.querySelector(`tr[data-row="${r}"]`);
+        if (!row) return;
+        const wrapRect = sheetWrap.getBoundingClientRect();
+        const rowRect = row.getBoundingClientRect();
+        const BIAS = -160;
+        sheetWrap.scrollTop += rowRect.top - wrapRect.top - wrapRect.height / 2 + rowRect.height / 2 - BIAS;
+      }
+
+      /* ===== INIT ===== */
+      loadLocal();
+      render();
+
+      /* ===== CLICK CELL ===== */
+      tableEl.onclick = (e) => {
+        const td = e.target.closest("td[data-r]");
+        if (!td) return;
+        cur = { r: +td.dataset.r, c: +td.dataset.c };
+        render();
+        editor.disabled = false;
+        editor.value = data[cur.r][cur.c];
+        editor.focus();
+        editorInfo.textContent = `แถว ${cur.r} | ${data[0][cur.c]}`;
+        requestAnimationFrame(() => centerRow(cur.r));
+      };
+
+      /* ===== EDIT ===== */
+      editor.onkeydown = (e) => {
+        if (e.key === "Enter" && cur.r) {
+          undoStack.push(snapshot());
+          redoStack.length = 0;
+          data[cur.r][cur.c] = editor.value.trim();
+          saveLocal();
+          cur.r = Math.min(cur.r + 1, ROWS - 1);
+          render();
+          editor.value = data[cur.r][cur.c];
+          editorInfo.textContent = `แถว ${cur.r} | ${data[0][cur.c]}`;
+          requestAnimationFrame(() => centerRow(cur.r));
+        }
+      };
+
+      /* ===== UNDO / REDO ===== */
+      undoBtn.onclick = () => {
+        if (!undoStack.length) return;
+        redoStack.push(snapshot());
+        data = undoStack.pop();
+        saveLocal();
+        render();
+      };
+      redoBtn.onclick = () => {
+        if (!redoStack.length) return;
+        undoStack.push(snapshot());
+        data = redoStack.pop();
+        saveLocal();
+        render();
+      };
+
+      /* ===== CLEAR / RESET ===== */
+      clearBtn.onclick = () => {
+        if (!confirm("ลบข้อมูลทั้งหมด?")) return;
+        undoStack.push(snapshot());
+        redoStack.length = 0;
+        for (let r = 1; r < data.length; r++) for (let c = 0; c < COLS; c++) data[r][c] = "";
+        saveLocal();
+        render();
+      };
+      resetBtn.onclick = () => {
+        if (!confirm("รีเซ็ตทั้งหมดถาวร?")) return;
+        localStorage.removeItem(STORAGE_KEY);
+        location.reload();
+      };
+
+      function autoFitColumns(ws, data) {
+        const colCount = data[0]?.length || 0;
+        const widths = new Array(colCount).fill(10);
+
+        for (let r = 0; r < data.length; r++) {
+          for (let c = 0; c < colCount; c++) {
+            const v = data[r][c] ?? "";
+            const text = String(v);
+
+            // ภาษาไทยกินพื้นที่มากกว่าเล็กน้อย
+            const isThai = /[\u0E00-\u0E7F]/.test(text);
+            const len = text.length;
+
+            let w = len + (isThai ? 4 : 2);
+
+            // ป้องกันเล็ก/ใหญ่เกิน
+            w = Math.max(6, w);
+            w = Math.min(60, w);
+
+            if (w > widths[c]) widths[c] = w;
+          }
+        }
+
+        ws["!cols"] = widths.map((w) => ({ wch: w }));
+      }
+
+      function styleSheet(ws, data) {
+        const range = XLSX.utils.decode_range(ws["!ref"]);
+        const lastRow = range.e.r;
+        const lastCol = range.e.c;
+
+        // ✅ สไตล์เส้นตาราง (ทุกช่อง)
+        const borderAll = {
+          top: { style: "thin", color: { rgb: "D0D0D0" } },
+          bottom: { style: "thin", color: { rgb: "D0D0D0" } },
+          left: { style: "thin", color: { rgb: "D0D0D0" } },
+          right: { style: "thin", color: { rgb: "D0D0D0" } }
+        };
+
+        // ✅ หัวตาราง
+        const headerStyle = {
+          font: { bold: true, color: { rgb: "FFFFFF" } },
+          fill: { patternType: "solid", fgColor: { rgb: "FF8FB1" } },
+          alignment: { horizontal: "center", vertical: "center", wrapText: true },
+          border: borderAll
+        };
+
+        // ✅ cell ปกติ
+        const cellStyle = {
+          alignment: { vertical: "center", wrapText: true },
+          border: borderAll
+        };
+
+        // ✅ คอลัมน์ลำดับ (#) จัดกึ่งกลาง
+        const centerStyle = {
+          alignment: { horizontal: "center", vertical: "center", wrapText: true },
+          border: borderAll
+        };
+
+        // ✅ ใส่สไตล์ทุก cell
+        for (let r = 0; r <= lastRow; r++) {
+          for (let c = 0; c <= lastCol; c++) {
+            const addr = XLSX.utils.encode_cell({ r, c });
+            const cell = ws[addr];
+            if (!cell) continue;
+
+            // หัวตาราง = แถวแรก
+            if (r === 0) {
+              cell.s = headerStyle;
+            } else {
+              // คอลัมน์แรก (#) ให้กึ่งกลาง
+              if (c === 0) cell.s = centerStyle;
+              else cell.s = cellStyle;
+            }
+          }
+        }
+
+        // ✅ ปรับความสูงแถวหัวตารางให้ดูเหมือนชีต
+        ws["!rows"] = ws["!rows"] || [];
+        ws["!rows"][0] = { hpt: 22 };
+      }
+      /* ===== SAVE XLSX (AUTO DATE + AUTOFIT + STYLE) ===== */
+      saveXlsx.onclick = () => {
+        const date = today();
+        let name = prompt("ตั้งชื่อไฟล์", `sheet-${date}`);
+        if (!name) return;
+        if (!name.endsWith(".xlsx")) name += ".xlsx";
+
+        const ws = XLSX.utils.aoa_to_sheet(data);
+
+        // ✅ ขยายคอลัมน์ตามข้อความ
+        autoFitColumns(ws, data);
+
+        // ✅ ทำให้เหมือน Excel (สีหัวตาราง + เส้นตาราง)
+        styleSheet(ws, data);
+
+        // ✅ เพิ่มคอลัมน์บางช่องให้กว้างพิเศษ (เลือกใช้ได้)
+        // ws["!cols"][0] = { wch: 5 };   // #
+        // ws["!cols"][2] = { wch: 30 };  // ROLL
+        // ws["!cols"][3] = { wch: 30 };  // EV
+
+        const wb = XLSX.utils.book_new();
+        XLSX.utils.book_append_sheet(wb, ws, "Sheet1");
+        XLSX.writeFile(wb, name);
+      };
+      /* ===== SAVE HTML (AUTO DATE) ===== */
+      saveHtml.onclick = () => {
+        const date = today();
+        let name = prompt("ตั้งชื่อไฟล์", `sheet-${date}`);
+        if (!name) return;
+        if (!name.endsWith(".html")) name += ".html";
+
+        const style = `
 <style>
   body{
     font-family:Kanit,sans-serif;
@@ -450,89 +454,128 @@ saveHtml.onclick=()=>{
   tr:nth-child(even){background:#fafafa}
   td.duplicate{background:#fff0c2;font-weight:600}
 </style>`;
-  const html=`<!doctype html><html lang="th"><head>
+        const html = `<!doctype html><html lang="th"><head>
   <meta charset="utf-8"><title>${name}</title>${style}
   </head><body>${tableEl.innerHTML}</body></html>`;
-  const blob=new Blob([html],{type:"text/html"});
-  const a=document.createElement("a");
-  a.href=URL.createObjectURL(blob);
-  a.download=name;
-  a.click();
-};
-  
-function exportScanColumnA(){
-  const result = [];
+        const blob = new Blob([html], { type: "text/html" });
+        const a = document.createElement("a");
+        a.href = URL.createObjectURL(blob);
+        a.download = name;
+        a.click();
+      };
 
-  for(let r = 1; r < data.length; r++){
-    const bagCode  = String(data[r][0] || "").trim(); // A = ถุง
-    const rollCode = String(data[r][1] || "").trim(); // D = ROLL
+      function exportScanColumnA() {
+        const result = [];
 
-    // ถุง
-    if(bagCode){
-      result.push({
-        code: bagCode,
-        type: "bag"
-      });
-    }
+        for (let r = 1; r < data.length; r++) {
+          const bagCode = String(data[r][0] || "").trim(); // A = ถุง
+          const rollCode = String(data[r][1] || "").trim(); // D = ROLL
 
-    // ROLL
-    if(rollCode){
-      result.push({
-        code: rollCode,
-        type: "roll"
-      });
-    }
-  }
+          // ถุง
+          if (bagCode) {
+            result.push({
+              code: bagCode,
+              type: "bag"
+            });
+          }
 
-  localStorage.setItem("scan-A", JSON.stringify(result));
-}
+          // ROLL
+          if (rollCode) {
+            result.push({
+              code: rollCode,
+              type: "roll"
+            });
+          }
+        }
 
-  openP58.onclick = () => {
-  exportScanColumnA();
-  location.href = "./ป.58พื้นที่.html";
-};
-  
-  const btnP58 = document.getElementById("openP58");
-if(btnP58){
-  btnP58.onclick = () => {
-    exportScanColumnA();     // เตรียมข้อมูล (แม้ยังไม่ใช้ก็ไม่เป็นไร)
-    location.href = "./ป.58พื้นที่.html";
-  };
-}
-  function exportScanColumnEV(){
-  const ev = [];
+        localStorage.setItem("scan-A", JSON.stringify(result));
+      }
 
-  for(let r = 1; r < data.length; r++){
-    const evCode = String(data[r][2] || "").trim(); // ✅ EV อยู่คอลัมน์ที่ 2
-    if(evCode) ev.push(evCode);
-  }
+      openP58.onclick = () => {
+        exportScanColumnA();
+        location.href = "./ป.58พื้นที่.html";
+      };
 
-  localStorage.setItem("scan-EV", JSON.stringify(ev));
-  console.log("✅ scan-EV saved:", ev.length);
-}
-	const openSCB = document.getElementById("openSCB");
-if(openSCB){
-  openSCB.onclick = () => {
-    exportScanColumnEV();        // ✅ export EV อัตโนมัติ
-    location.href = "./SCB.html";
-  };
-}
-</script>
+      const btnP58 = document.getElementById("openP58");
+      if (btnP58) {
+        btnP58.onclick = () => {
+          exportScanColumnA(); // เตรียมข้อมูล (แม้ยังไม่ใช้ก็ไม่เป็นไร)
+          location.href = "./ป.58พื้นที่.html";
+        };
+      }
+      function exportScanColumnEV() {
+        const ev = [];
 
-<script>
-if ("serviceWorker" in navigator) {
-  window.addEventListener("load", () => {
-    navigator.serviceWorker.register("service-worker.js");
-  });
-}
-</script>
-  <script>
-if ("serviceWorker" in navigator) {
-  window.addEventListener("load", async () => {
-    const reg = await navigator.serviceWorker.register("./service-worker.js");
-    reg.update(); // ✅ บังคับเช็คอัปเดต
-  });
-}
-  </script>
-</body>
+        for (let r = 1; r < data.length; r++) {
+          const evCode = String(data[r][2] || "").trim(); // ✅ EV อยู่คอลัมน์ที่ 2
+          if (evCode) ev.push(evCode);
+        }
+
+        localStorage.setItem("scan-EV", JSON.stringify(ev));
+        console.log("✅ scan-EV saved:", ev.length);
+      }
+      const openSCB = document.getElementById("openSCB");
+      if (openSCB) {
+        openSCB.onclick = () => {
+          exportScanColumnEV(); // ✅ export EV อัตโนมัติ
+          location.href = "./SCB.html";
+        };
+      }
+      function exportScanColumnA() {
+        const result = [];
+
+        for (let r = 1; r < data.length; r++) {
+          const bagCode = String(data[r][0] || "").trim(); // A = ถุง
+          const rollCode = String(data[r][1] || "").trim(); // D = ROLL
+
+          // ถุง
+          if (bagCode) {
+            result.push({
+              code: bagCode,
+              type: "bag"
+            });
+          }
+
+          // ROLL
+          if (rollCode) {
+            result.push({
+              code: rollCode,
+              type: "roll"
+            });
+          }
+        }
+
+        localStorage.setItem("scan-A", JSON.stringify(result));
+      }
+
+      openEMS.onclick = () => {
+        exportScanColumnA();
+        location.href = "./EMS.html";
+      };
+
+      const btnEMS = document.getElementById("openEMS");
+      if (btnEMS) {
+        btnEMS.onclick = () => {
+          exportScanColumnA(); // เตรียมข้อมูล (แม้ยังไม่ใช้ก็ไม่เป็นไร)
+          location.href = "./EMS.html";
+        };
+      }
+    </script>
+
+    <script>
+      if ("serviceWorker" in navigator) {
+        window.addEventListener("load", () => {
+          navigator.serviceWorker.register("service-worker.js");
+        });
+      }
+    </script>
+    <script>
+      if ("serviceWorker" in navigator) {
+        window.addEventListener("load", async () => {
+          const reg = await navigator.serviceWorker.register("./service-worker.js");
+          reg.update(); // ✅ บังคับเช็คอัปเดต
+        });
+      }
+    </script>
+  </body>
 </html>
