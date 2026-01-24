@@ -1,4 +1,4 @@
-const CACHE_NAME = "sheets-pro-v4";
+const CACHE_NAME = "sheets-pro-v5";
 
 const ASSETS = [
   "./",
@@ -7,6 +7,7 @@ const ASSETS = [
   "./service-worker.js",
   "./ป.58พื้นที่.html",
   "./SCB.html",
+  "./EMS.html",
   "./icon-192.png",
   "./icon-512.png",
 ];
