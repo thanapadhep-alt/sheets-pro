@@ -1,532 +1,404 @@
 <!doctype html>
 <html lang="th">
-  <head>
-    <meta charset="utf-8" />
-    <title>ป.58 พิเศษ</title>
+<head>
+<meta charset="utf-8">
+<title>ป.58 พิเศษ</title>
 
-    <style>
-      /* ===== SCREEN (มือถือ/คอม) ===== */
-      html,
-      body {
-        width: 210mm;
-        height: 297mm;
-        margin: 0;
-        padding: 0;
-      }
+<style>
+/* ===== SCREEN (มือถือ/คอม) ===== */
+ html, body{
+  width: 210mm;
+  height: 297mm;
+  margin: 0;
+  padding: 0;
+}
 
-      body {
-        font-family: "Angsana New", serif;
-        font-size: 16pt;
-        background: #f5f5f5;
-      }
+body{
+  font-family:"Angsana New", serif;
+  font-size:16pt;
+  background:#f5f5f5;
+}
 
-      /* กล่องกระดาษ A4 */
-      .sheet {
-        width: 210mm;
-        background: #fff;
-        box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
-        padding: 0;
-      }
+/* กล่องกระดาษ A4 */
+.sheet{
+  width:210mm;
+  background:#fff;
+  box-shadow:0 6px 16px rgba(0,0,0,.15);
+  padding:0;
+}
 
-      /* ✅ มือถือ: scale ให้พอดีกับจอ ไม่บีบตาราง */
-      @media screen and (max-width: 900px) {
-        .sheet {
-          transform-origin: top center;
-          transform: scale(calc((100vw - 28px) / 210mm));
-        }
-      }
-      @page {
-        size: A4 portrait;
-        margin: 18mm;
-      }
+/* ✅ มือถือ: scale ให้พอดีกับจอ ไม่บีบตาราง */
+@media screen and (max-width: 900px){
+  .sheet{
+    transform-origin: top center;
+    transform: scale(calc((100vw - 28px) / 210mm));
+  }
+}
+  @page{
+  size: A4 portrait;
+  margin: 18mm;
+}
 
-      @media print {
-        html,
-        body {
-          width: 210mm;
-          height: 297mm;
-          margin: 0 !important;
-          padding: 0 !important;
-          overflow: hidden !important;
-        }
+@media print{
+  html, body{
+    width: 210mm;
+    height: 297mm;
+    margin: 0 !important;
+    padding: 0 !important;
+    overflow: hidden !important;
+  }
 
-        /* ✅ ซ่อนปุ่ม */
-        .no-print {
-          display: none !important;
-        }
-      }
+  /* ✅ ซ่อนปุ่ม */
+  .no-print{
+    display:none !important;
+  }
+}
 
-      /* ===== ตาราง ===== */
-      table {
-        width: 100%;
-        border-collapse: collapse;
-        table-layout: fixed;
-        border: 1.2px solid #999;
-      }
 
-      td {
-        padding: 2px 6px;
-        vertical-align: middle;
-      }
+/* ===== ตาราง ===== */
+table{
+  width:100%;
+  border-collapse:collapse;
+  table-layout:fixed;
+  border:1.2px solid #999;
+}
 
-      /* เส้นในตาราง */
-      .b {
-        border: 0.5px solid #999;
-      }
-      .bb {
-        border-bottom: 1.2px solid #000;
-      }
-      .br {
-        border-right: 1.2px solid #000;
-      }
+td{
+  padding:2px 6px;
+  vertical-align:middle;
+}
 
-      /* ตัวอักษร */
-      .center {
-        text-align: center;
-      }
-      .bold {
-        font-weight: bold;
-      }
-      .top-title {
-        font-size: 16pt;
-        font-weight: bold;
-      }
-      .bigtitle {
-        font-size: 24pt;
-        font-weight: bold;
-      }
-      .small {
-        font-size: 10pt;
-      }
+/* เส้นในตาราง */
+.b{ border:0.5px solid #999; }
+.bb{ border-bottom:1.2px solid #000; }
+.br{ border-right:1.2px solid #000; }
 
-      .mt {
-        margin-top: 6mm;
-      }
+/* ตัวอักษร */
+.center{ text-align:center; }
+.bold{ font-weight:bold; }
+.top-title{ font-size:16pt; font-weight:bold; }
+.bigtitle{ font-size:24pt; font-weight:bold; }
+.small{ font-size:10pt; }
 
-      /* ===== ปุ่ม ===== */
-      .no-print {
-        margin: 10px;
-      }
+.mt{ margin-top:6mm; }
 
-      /* ===== BUTTON STYLE ===== */
-      .btn-export {
-        padding: 15px 39px;
-        margin-right: 6px;
-        border-radius: 20px;
-        border: 0;
-        cursor: pointer;
-        font-size: 15px;
-        font-family: "TH Sarabun New", "Kanit", sans-serif;
-      }
-      .btn-back {
-        background: #ff8fb1;
-        color: #fff;
-      }
-      .btn-html {
-        background: #3416dd;
-        color: #fff;
-      }
-      .btn-pdf {
-        background: #a51ee8;
-        color: #fff;
-      }
-    </style>
-  </head>
-  <body>
-    <!--  ปุ่ม--) -->
-    <div class="no-print">
-      <button onclick="goBack()" class="btn-export btn-back">⬅ กลับหน้าแรก</button>
-      <button onclick="exportHTML()" class="btn-export btn-html">📄 Export HTML</button>
-      <button onclick="exportPDF()" class="btn-export btn-pdf">🖨 Export PDF</button>
-    </div>
+/* ===== ปุ่ม ===== */
+.no-print{ margin:10px; }
 
-    <div class="page">
-      <div class="sheet">
-        <table>
-          <colgroup>
-            <col style="width: 160px" />
-            <!-- คอลัมน์ 1: ต้นทาง -->
-            <col style="width: 90px" />
-            <!-- คอลัมน์ 2: จำนวน -->
-            <col style="width: 70px" />
-            <!-- คอลัมน์ 3 -->
-            <col style="width: 110px" />
-            <!-- คอลัมน์ 4: ประเภท -->
-            <col style="width: 70px" />
-            <!-- คอลัมน์ 5 -->
-            <col style="width: 100px" />
-            <!-- คอลัมน์ 6 -->
-            <col style="width: 100px" />
-            <!-- คอลัมน์ 7 -->
-          </colgroup>
-          <!-- แถวบน -->
-          <tr>
-            <td colspan="7" class="br">ป.58 พิเศษSCB</td>
-          </tr>
+ /* ===== BUTTON STYLE ===== */
+.btn-export{
+  padding:15px 39px;
+  margin-right:6px;
+  border-radius:20px;
+  border:0;
+  cursor:pointer;
+  font-size:15px;
+  font-family:"TH Sarabun New","Kanit",sans-serif;
+}
+.btn-back{background:#ff8fb1;color:#fff;}
+.btn-html{ background:#3416dd; color:#fff; }
+.btn-pdf{ background:#a51ee8; color:#fff; }
 
-          <tr>
-            <td colspan="7" class="center top-title">
-              บัญชีรับ-ส่งมอบบริการ ธ.ไทยพาณิชย์ฯ ประจำสาย ลส.ศป.อุบลราชธานี
-              <span class="s7"></span>
-            </td>
-          </tr>
 
-          <tr>
-            <td colspan="7" class="14 center">
-              ประจำวันที่ <span id="day"></span> เดือน <span id="month"></span> พ.ศ. <span id="year"></span>
-            </td>
-          </tr>
+</style>
 
-          <!-- หัวตาราง -->
-          <tr>
-            <td class="b center bold">ต้นทาง</td>
-            <td class="b center bold">จำนวน</td>
-            <td class="b center bold"></td>
-            <td class="b center bold">ประเภท</td>
-            <td class="b center bold"></td>
-            <td class="b center bold" colspan="2">หมายเลขป้ายปากถุง</td>
-          </tr>
+</head>
+<body>
+  <!--  ปุ่ม--) -->
+<div class="no-print">
+  <button onclick="goBack()" class="btn-export btn-back">
+    ⬅ กลับหน้าแรก
+  </button>
+  <button onclick="exportHTML()" class="btn-export btn-html">📄 Export HTML</button>
+  <button onclick="exportPDF()" class="btn-export btn-pdf">🖨 Export PDF</button>
+</div>
 
-          <!-- แถวว่าง 1 -->
-          <tr class="fill-row">
-            <td class="b">&nbsp;</td>
-            <td class="b"></td>
-            <td class="b"></td>
-            <td class="b"></td>
-            <td class="b"></td>
-            <td class="b" colspan="2"></td>
-          </tr>
-          <!-- รายการ -->
-          <tr>
-            <td class="b">อุบลราชธานี</td>
-            <td class="b center" id="scb-ubon"></td>
-            <td class="b"></td>
-            <td class="b center">SCB</td>
-            <td class="b"></td>
-            <td class="b center" colspan="2" id="ev1"></td>
-          </tr>
+<div class="page">
+  <div class="sheet">
+<table>
+  <colgroup>
+    <col style="width: 160px;">  <!-- คอลัมน์ 1: ต้นทาง -->
+    <col style="width: 90px;">   <!-- คอลัมน์ 2: จำนวน -->
+    <col style="width: 70px;">   <!-- คอลัมน์ 3 -->
+    <col style="width: 110px;">  <!-- คอลัมน์ 4: ประเภท -->
+    <col style="width: 70px;">   <!-- คอลัมน์ 5 -->
+    <col style="width: 100px;">  <!-- คอลัมน์ 6 -->
+    <col style="width: 100px;">  <!-- คอลัมน์ 7 -->
+  </colgroup>
+  <!-- แถวบน -->
+  <tr>
+    <td  colspan="7" class="br">ป.58 พิเศษSCB</td>
+  </tr>
 
-          <tr>
-            <td class="b">วารินชำราบ</td>
-            <td class="b center" id="scb-warin"></td>
-            <td class="b"></td>
-            <td class="b center">SCB</td>
-            <td class="b"></td>
-            <td class="b center" colspan="2" id="ev2"></td>
-          </tr>
+  <tr>
+    <td colspan="7" class="center top-title">
+      บัญชีรับ-ส่งมอบบริการ ธ.ไทยพาณิชย์ฯ ประจำสาย  ลส.ศป.อุบลราชธานี
+      <span class="s7"></span>
+    </td>
+  </tr>
 
-          <tr>
-            <td class="b">ศรีสะเกษ</td>
-            <td class="b center" id="scb-sisaket"></td>
-            <td class="b"></td>
-            <td class="b center">SCB</td>
-            <td class="b"></td>
-            <td class="b center" colspan="2" id="ev3"></td>
-          </tr>
+  <tr>
+    <td colspan="7" class="14 center">
+  ประจำวันที่ <span id="day"></span>
+  เดือน <span id="month"></span>
+  พ.ศ. <span id="year"></span>
+</td>
+  </tr>
 
-          <tr>
-            <td class="b">อุทุมพรพิสัย</td>
-            <td class="b center" id="scb-uthumphon"></td>
-            <td class="b"></td>
-            <td class="b center">SCB</td>
-            <td class="b"></td>
-            <td class="b center" colspan="2" id="ev4"></td>
-          </tr>
+  <!-- หัวตาราง -->
+  <tr>
+    <td class="b center bold">ต้นทาง </td>
+    <td class="b center bold">จำนวน</td>
+    <td class="b center bold"></td>
+    <td class="b center bold">ประเภท</td>
+    <td class="b center bold"></td>
+    <td class="b center bold" colspan="2">หมายเลขป้ายปากถุง</td>
+  </tr>
 
-          <tr>
-            <td class="b">ขุขันธ์</td>
-            <td class="b center" id="scb-khukhan"></td>
-            <td class="b"></td>
-            <td class="b center">SCB</td>
-            <td class="b"></td>
-            <td class="b center" colspan="2" id="ev5"></td>
-          </tr>
+  <!-- แถวว่าง 1 -->
+  <tr class="fill-row">
+  <td class="b">&nbsp;</td>
+  <td class="b"></td>
+  <td class="b"></td>
+  <td class="b"></td>
+  <td class="b"></td>
+  <td class="b" colspan="2"></td>
+</tr>
+  <!-- รายการ -->
+  <tr>
+    <td class="b">อุบลราชธานี</td>
+    <td class="b center" id="scb-ubon"></td>
+    <td class="b"></td>
+    <td class="b center">SCB</td>
+    <td class="b"></td>
+    <td class="b center" colspan="2" id="ev1"></td>
+  </tr>
 
-          <tr>
-            <td class="b">เดชอุดม</td>
-            <td class="b center" id="scb-detudom"></td>
-            <td class="b"></td>
-            <td class="b center">SCB</td>
-            <td class="b"></td>
-            <td class="b" colspan="2" id="ev6"></td>
-          </tr>
+  <tr>
+    <td class="b">วารินชำราบ</td>
+    <td class="b center" id="scb-warin"></td>
+    <td class="b"></td>
+    <td class="b center">SCB</td>
+    <td class="b"></td>
+    <td class="b center" colspan="2" id="ev2"></td>
+  </tr>
 
-          <tr>
-            <td class="b">ยโสธร</td>
-            <td class="b center" id="scb-yasothon"></td>
-            <td class="b"></td>
-            <td class="b center">SCB</td>
-            <td class="b"></td>
-            <td class="b" colspan="2" id="ev7"></td>
-          </tr>
+  <tr>
+    <td class="b">ศรีสะเกษ</td>
+    <td class="b center" id="scb-sisaket"></td>
+    <td class="b"></td>
+    <td class="b center">SCB</td>
+    <td class="b"></td>
+    <td class="b center" colspan="2" id="ev3"></td>
+  </tr>
 
-          <tr>
-            <td class="b">มหาชนะชัย</td>
-            <td class="b center" id="scb-mahachana"></td>
-            <td class="b"></td>
-            <td class="b center">SCB</td>
-            <td class="b"></td>
-            <td class="b" colspan="2" id="ev8"></td>
-          </tr>
+  <tr>
+    <td class="b">อุทุมพรพิสัย</td>
+    <td class="b center" id="scb-uthumphon"></td>
+    <td class="b"></td>
+    <td class="b center">SCB</td>
+    <td class="b"></td>
+    <td class="b center" colspan="2" id="ev4"></td>
+  </tr>
 
-          <tr>
-            <td class="b">อำนาจเจริญ</td>
-            <td class="b center" id="scb-amnatcharoen"></td>
-            <td class="b"></td>
-            <td class="b center">SCB</td>
-            <td class="b"></td>
-            <td class="b" colspan="2" id="ev9"></td>
-          </tr>
+  <tr>
+    <td class="b">ขุขันธ์</td>
+    <td class="b center" id="scb-khukhan"></td>
+    <td class="b"></td>
+    <td class="b center">SCB</td>
+    <td class="b"></td>
+    <td class="b center" colspan="2" id="ev5"></td>
+  </tr>
 
-          <tr>
-            <td class="b">กันทรลักษ์</td>
-            <td class="b center" id="scb-kantharalak"></td>
-            <td class="b"></td>
-            <td class="b center">SCB</td>
-            <td class="b"></td>
-            <td class="b" colspan="2" id="ev10"></td>
-          </tr>
+  <tr>
+    <td class="b">เดชอุดม</td>
+    <td class="b center" id="scb-detudom"></td>
+    <td class="b"></td>
+    <td class="b center">SCB</td>
+    <td class="b"></td>
+    <td class="b" colspan="2" id="ev6"></td>
+  </tr>
 
-          <tr>
-            <td class="b">คต.ช่องเม็ก</td>
-            <td class="b center" id="scb-chongmek"></td>
-            <td class="b"></td>
-            <td class="b center">SCB</td>
-            <td class="b"></td>
-            <td class="b" colspan="2" id="ev11"></td>
-          </tr>
+  <tr>
+    <td class="b">ยโสธร</td>
+    <td class="b center" id="scb-yasothon"></td>
+    <td class="b"></td>
+    <td class="b center">SCB</td>
+    <td class="b"></td>
+    <td class="b" colspan="2" id="ev7"></td>
+  </tr>
 
-          <!-- เพิ่มแถวว่างให้เหมือนต้นฉบับ -->
-          <tr>
-            <td class="b">&nbsp;</td>
-            <td class="b"></td>
-            <td class="b"></td>
-            <td class="b"></td>
-            <td class="b"></td>
-            <td class="b center" colspan="2" id="ev12"></td>
-          </tr>
-          <tr>
-            <td class="b">&nbsp;</td>
-            <td class="b"></td>
-            <td class="b"></td>
-            <td class="b"></td>
-            <td class="b"></td>
-            <td class="b" colspan="2"></td>
-          </tr>
-          <tr>
-            <td class="b">&nbsp;</td>
-            <td class="b"></td>
-            <td class="b"></td>
-            <td class="b"></td>
-            <td class="b"></td>
-            <td class="b" colspan="2"></td>
-          </tr>
-          <tr>
-            <td class="b">&nbsp;</td>
-            <td class="b"></td>
-            <td class="b"></td>
-            <td class="b"></td>
-            <td class="b"></td>
-            <td class="b" colspan="2"></td>
-          </tr>
-          <tr>
-            <td class="b">&nbsp;</td>
-            <td class="b"></td>
-            <td class="b"></td>
-            <td class="b"></td>
-            <td class="b"></td>
-            <td class="b" colspan="2"></td>
-          </tr>
-          <tr>
-            <td class="b">&nbsp;</td>
-            <td class="b"></td>
-            <td class="b"></td>
-            <td class="b"></td>
-            <td class="b"></td>
-            <td class="b" colspan="2"></td>
-          </tr>
-          <tr>
-            <td class="b">&nbsp;</td>
-            <td class="b"></td>
-            <td class="b"></td>
-            <td class="b"></td>
-            <td class="b"></td>
-            <td class="b" colspan="2"></td>
-          </tr>
-          <tr>
-            <td class="b">&nbsp;</td>
-            <td class="b"></td>
-            <td class="b"></td>
-            <td class="b"></td>
-            <td class="b"></td>
-            <td class="b" colspan="2"></td>
-          </tr>
-          <tr>
-            <td class="b">&nbsp;</td>
-            <td class="b"></td>
-            <td class="b"></td>
-            <td class="b"></td>
-            <td class="b"></td>
-            <td class="b" colspan="2"></td>
-          </tr>
-          <tr>
-            <td class="b">&nbsp;</td>
-            <td class="b"></td>
-            <td class="b"></td>
-            <td class="b"></td>
-            <td class="b"></td>
-            <td class="b" colspan="2"></td>
-          </tr>
-          <tr>
-            <td class="b">&nbsp;</td>
-            <td class="b"></td>
-            <td class="b"></td>
-            <td class="b"></td>
-            <td class="b"></td>
-            <td class="b" colspan="2"></td>
-          </tr>
+  <tr>
+    <td class="b">มหาชนะชัย</td>
+    <td class="b center" id="scb-mahachana"></td>
+    <td class="b"></td>
+    <td class="b center">SCB</td>
+    <td class="b"></td>
+    <td class="b" colspan="2" id="ev8"></td>
+  </tr>
 
-          <tr>
-            <td class="b">&nbsp;</td>
-            <td class="b"></td>
-            <td class="b"></td>
-            <td class="b"></td>
-            <td class="b"></td>
-            <td class="b" colspan="2"></td>
-          </tr>
+  <tr>
+    <td class="b">อำนาจเจริญ</td>
+    <td class="b center" id="scb-amnatcharoen"></td>
+    <td class="b"></td>
+    <td class="b center">SCB</td>
+    <td class="b"></td>
+    <td class="b" colspan="2" id="ev9"></td>
+  </tr>
 
-          <!-- รวม -->
-          <tr>
-            <td class="b bold">รวม</td>
-            <td class="b center bold" id="scb-sum"></td>
-            <td class="b center bold">ถุง</td>
-            <td class="b"></td>
-            <td class="b"></td>
-            <td class="b" colspan="2"></td>
-          </tr>
+  <tr>
+    <td class="b">กันทรลักษ์</td>
+    <td class="b center" id="scb-kantharalak"></td>
+    <td class="b"></td>
+    <td class="b center">SCB</td>
+    <td class="b"></td>
+    <td class="b" colspan="2" id="ev10"></td>
+  </tr>
 
-          <!-- ลายเซ็น -->
+  <tr>
+    <td class="b">คต.ช่องเม็ก</td>
+    <td class="b center" id="scb-chongmek"></td>
+    <td class="b"></td>
+    <td class="b center">SCB</td>
+    <td class="b"></td>
+    <td class="b" colspan="2" id="ev11"></td>
+  </tr>
 
-          <tr>
-            <td colspan="7" style="height: 20px"></td>
-          </tr>
-          <tr>
-            <td class="center small" colspan="3">
-              <div class="sig-line">ลงชื่อ.....................................ผู้ส่งมอบ</div>
-              <div></div>
-            </td>
+  <!-- เพิ่มแถวว่างให้เหมือนต้นฉบับ -->
+  <tr><td class="b">&nbsp;</td><td class="b"></td><td class="b"></td><td class="b"></td><td class="b"></td><td class="b center" colspan="2" id="ev12"></td></tr>
+  <tr><td class="b">&nbsp;</td><td class="b"></td><td class="b"></td><td class="b"></td><td class="b"></td><td class="b" colspan="2"></td></tr>
+  <tr><td class="b">&nbsp;</td><td class="b"></td><td class="b"></td><td class="b"></td><td class="b"></td><td class="b" colspan="2"></td></tr>
+  <tr><td class="b">&nbsp;</td><td class="b"></td><td class="b"></td><td class="b"></td><td class="b"></td><td class="b" colspan="2"></td></tr>
+  <tr><td class="b">&nbsp;</td><td class="b"></td><td class="b"></td><td class="b"></td><td class="b"></td><td class="b" colspan="2"></td></tr>
+  <tr><td class="b">&nbsp;</td><td class="b"></td><td class="b"></td><td class="b"></td><td class="b"></td><td class="b" colspan="2"></td></tr>
+  <tr><td class="b">&nbsp;</td><td class="b"></td><td class="b"></td><td class="b"></td><td class="b"></td><td class="b" colspan="2"></td></tr>
+  <tr><td class="b">&nbsp;</td><td class="b"></td><td class="b"></td><td class="b"></td><td class="b"></td><td class="b" colspan="2"></td></tr>
+  <tr><td class="b">&nbsp;</td><td class="b"></td><td class="b"></td><td class="b"></td><td class="b"></td><td class="b" colspan="2"></td></tr>
+  <tr><td class="b">&nbsp;</td><td class="b"></td><td class="b"></td><td class="b"></td><td class="b"></td><td class="b" colspan="2"></td></tr>
+  <tr><td class="b">&nbsp;</td><td class="b"></td><td class="b"></td><td class="b"></td><td class="b"></td><td class="b" colspan="2"></td></tr>
+  
+  
+  <tr><td class="b">&nbsp;</td><td class="b"></td><td class="b"></td><td class="b"></td><td class="b"></td><td class="b" colspan="2"></td></tr>
 
-            <td></td>
+  <!-- รวม -->
+  <tr>
+    <td class="b bold">รวม</td>
+    <td class="b center bold" id="scb-sum"></td>
+    <td class="b center bold">ถุง</td>
+    <td class="b"></td>
+    <td class="b"></td>
+    <td class="b" colspan="2"></td>
+  </tr>
 
-            <td class="center small" colspan="3">
-              <div class="sig-line">ลงชื่อ.....................................ผู้รับมอบ</div>
-              <div></div>
-            </td>
-          </tr>
-          <tr>
-            <td class="center small" colspan="3">
-              วันที่ <span id="d2-day"></span> เดือน <span id="d2-month"></span> พ.ศ. <span id="d2-year"></span> เวลา
-              <span id="d2-time"></span> น.
-            </td>
 
-            <td></td>
+<!-- ลายเซ็น -->
 
-            <td class="center small" colspan="3">วันที่ ........ เดือน ........ พ.ศ. ........ เวลา ........ น.</td>
-          </tr>
-        </table>
-      </div>
-    </div>
-    <script>
-      (function setThaiDateTime() {
-        const now = new Date();
+  <tr>
+    <td colspan="7" style="height:20px;"></td>
+  </tr>
+  <tr>
+    <td class="center top-title" colspan="3">
+      <div class="sig-line">ลงชื่อ.....................................ผู้ส่งมอบ</div>
+      <div></div>
+    </td>
 
-        const day = now.getDate();
-        const monthNames = [
-          "มกราคม",
-          "กุมภาพันธ์",
-          "มีนาคม",
-          "เมษายน",
-          "พฤษภาคม",
-          "มิถุนายน",
-          "กรกฎาคม",
-          "สิงหาคม",
-          "กันยายน",
-          "ตุลาคม",
-          "พฤศจิกายน",
-          "ธันวาคม"
-        ];
-        const month = monthNames[now.getMonth()];
-        const year = now.getFullYear() + 543;
+    <td></td>
 
-        const hh = String(now.getHours()).padStart(2, "0");
-        const mm = String(now.getMinutes()).padStart(2, "0");
-        const time = `${hh}:${mm}`;
+    <td class="center top-title" colspan="3">
+      <div class="sig-line">ลงชื่อ.....................................ผู้รับมอบ</div>
+      <div></div>
+    </td>
+  </tr>
+  <tr>
+    <td class="center top-title" colspan="3">
+      วันที่ <span id="d2-day"></span>
+      เดือน <span id="d2-month"></span>
+      พ.ศ. <span id="d2-year"></span>
+      เวลา <span id="d2-time"></span> น.
+    </td>
 
-        const d = document.getElementById("d2-day");
-        const m = document.getElementById("d2-month");
-        const y = document.getElementById("d2-year");
-        const t = document.getElementById("d2-time");
+    <td></td>
 
-        if (d) d.textContent = day;
-        if (m) m.textContent = month;
-        if (y) y.textContent = year;
-        if (t) t.textContent = time;
-      })();
-    </script>
-    <script>
-      (function setThaiDate() {
-        const now = new Date();
+    <td class="center top-title" colspan="3">
+      วันที่ ........ เดือน ........ พ.ศ. ........ เวลา ........ น.
+    </td>
+  </tr>
+</table>
+</div>
+</div>
+  <script>
+(function setThaiDateTime(){
+  const now = new Date();
 
-        const day = now.getDate();
-        const monthNames = [
-          "มกราคม",
-          "กุมภาพันธ์",
-          "มีนาคม",
-          "เมษายน",
-          "พฤษภาคม",
-          "มิถุนายน",
-          "กรกฎาคม",
-          "สิงหาคม",
-          "กันยายน",
-          "ตุลาคม",
-          "พฤศจิกายน",
-          "ธันวาคม"
-        ];
-        const month = monthNames[now.getMonth()];
-        const year = now.getFullYear() + 543;
+  const day = now.getDate();
+  const monthNames = [
+    "มกราคม","กุมภาพันธ์","มีนาคม","เมษายน",
+    "พฤษภาคม","มิถุนายน","กรกฎาคม","สิงหาคม",
+    "กันยายน","ตุลาคม","พฤศจิกายน","ธันวาคม"
+  ];
+  const month = monthNames[now.getMonth()];
+  const year = now.getFullYear() + 543;
 
-        const d = document.getElementById("day");
-        const m = document.getElementById("month");
-        const y = document.getElementById("year");
+  const hh = String(now.getHours()).padStart(2,"0");
+  const mm = String(now.getMinutes()).padStart(2,"0");
+  const time = `${hh}:${mm}`;
 
-        if (d) d.textContent = day;
-        if (m) m.textContent = month;
-        if (y) y.textContent = year;
-      })();
-    </script>
+  const d = document.getElementById("d2-day");
+  const m = document.getElementById("d2-month");
+  const y = document.getElementById("d2-year");
+  const t = document.getElementById("d2-time");
 
-    <script>
-      function goHome() {
-        // ✅ ถ้ามี history ให้กลับก่อน (ใช้กับ PWA ได้ดี)
-        if (history.length > 1) {
-          history.back();
-          return;
-        }
-        // ✅ fallback ไปหน้าแรกแบบชัวร์
-        location.href = "./index.html";
-      }
-    </script>
-    <script>
-      function exportHTML() {
-        const sheet = document.querySelector(".sheet");
-        if (!sheet) {
-          alert("ไม่พบ .sheet สำหรับ Export HTML");
-          return;
-        }
+  if(d) d.textContent = day;
+  if(m) m.textContent = month;
+  if(y) y.textContent = year;
+  if(t) t.textContent = time;
+})();
+</script>
+  <script>
+(function setThaiDate(){
+  const now = new Date();
 
-        const css = document.querySelector("style")?.innerHTML || "";
+  const day = now.getDate();
+  const monthNames = [
+    "มกราคม","กุมภาพันธ์","มีนาคม","เมษายน",
+    "พฤษภาคม","มิถุนายน","กรกฎาคม","สิงหาคม",
+    "กันยายน","ตุลาคม","พฤศจิกายน","ธันวาคม"
+  ];
+  const month = monthNames[now.getMonth()];
+  const year = now.getFullYear() + 543;
 
-        const html = `<!doctype html>
+  const d = document.getElementById("day");
+  const m = document.getElementById("month");
+  const y = document.getElementById("year");
+
+  if(d) d.textContent = day;
+  if(m) m.textContent = month;
+  if(y) y.textContent = year;
+})();
+</script>
+  
+  <script>
+function goHome(){
+  // ✅ ถ้ามี history ให้กลับก่อน (ใช้กับ PWA ได้ดี)
+  if (history.length > 1) {
+    history.back();
+    return;
+  }
+  // ✅ fallback ไปหน้าแรกแบบชัวร์
+  location.href = "./index.html";
+}
+</script>
+   <script>
+function exportHTML(){
+  const sheet = document.querySelector(".sheet");
+  if(!sheet){
+    alert("ไม่พบ .sheet สำหรับ Export HTML");
+    return;
+  }
+
+  const css = document.querySelector("style")?.innerHTML || "";
+
+  const html = `<!doctype html>
 <html lang="th">
 <head>
 <meta charset="utf-8">
@@ -540,117 +412,118 @@
 </body>
 </html>`;
 
-        // ✅ วันที่ชื่อไฟล์อัตโนมัติ
-        const now = new Date();
-        const yyyy = now.getFullYear(); // ถ้าต้องการ พ.ศ. ให้ +543
-        const mm = String(now.getMonth() + 1).padStart(2, "0");
-        const dd = String(now.getDate()).padStart(2, "0");
-        const dateStr = `${yyyy}-${mm}-${dd}`; // 2026-01-23
+  // ✅ วันที่ชื่อไฟล์อัตโนมัติ
+  const now = new Date();
+  const yyyy = now.getFullYear(); // ถ้าต้องการ พ.ศ. ให้ +543
+  const mm = String(now.getMonth() + 1).padStart(2, "0");
+  const dd = String(now.getDate()).padStart(2, "0");
+  const dateStr = `${yyyy}-${mm}-${dd}`; // 2026-01-23
 
-        const blob = new Blob([html], { type: "text/html;charset=utf-8" });
-        const url = URL.createObjectURL(blob);
+  const blob = new Blob([html], {type:"text/html;charset=utf-8"});
+  const url = URL.createObjectURL(blob);
 
-        const a = document.createElement("a");
-        a.href = url;
-        a.download = `SCB-${dateStr}.html`; // ✅ ชื่อไฟล์มีวันที่
-        a.click();
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = `SCB-${dateStr}.html`;   // ✅ ชื่อไฟล์มีวันที่
+  a.click();
 
-        URL.revokeObjectURL(url);
-      }
+  URL.revokeObjectURL(url);
+}
 
-      function exportPDF() {
-        window.print();
-      }
-    </script>
+function exportPDF(){
+  window.print();
+}
+</script>
 
-    <script>
-      if ("serviceWorker" in navigator) {
-        window.addEventListener("load", async () => {
-          const reg = await navigator.serviceWorker.register("./service-worker.js");
-          reg.update();
-        });
-      }
-    </script>
-    <script>
-      (function autoScaleA4() {
-        const SHEET_SELECTOR = ".sheet";
+  <script>
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", async () => {
+    const reg = await navigator.serviceWorker.register("./service-worker.js");
+    reg.update();
+  });
+}
+</script>
+  <script>
+(function autoScaleA4(){
+  const SHEET_SELECTOR = ".sheet";
 
-        // ขนาดกระดาษ A4 (px) ณ ตอน print: ใช้ CSS inches → px จะคำนวณเอง
-        // แต่เราจะคุมด้วย "อัตราส่วน" จาก DOM size จริงแทน
-        function computeScale() {
-          const sheet = document.querySelector(SHEET_SELECTOR);
-          if (!sheet) return 1;
+  // ขนาดกระดาษ A4 (px) ณ ตอน print: ใช้ CSS inches → px จะคำนวณเอง
+  // แต่เราจะคุมด้วย "อัตราส่วน" จาก DOM size จริงแทน
+  function computeScale(){
+    const sheet = document.querySelector(SHEET_SELECTOR);
+    if(!sheet) return 1;
 
-          // ขนาดพื้นที่กระดาษ A4 ในหน่วย px (คำนวณจาก 210mm x 297mm)
-          // 1 inch = 25.4mm, 1 inch = 96px (มาตรฐาน browser)
-          const A4_W = (210 / 25.4) * 96;
-          const A4_H = (297 / 25.4) * 96;
+    // ขนาดพื้นที่กระดาษ A4 ในหน่วย px (คำนวณจาก 210mm x 297mm)
+    // 1 inch = 25.4mm, 1 inch = 96px (มาตรฐาน browser)
+    const A4_W = (210 / 25.4) * 96;
+    const A4_H = (297 / 25.4) * 96;
 
-          // ขนาดจริงของ sheet บนหน้าจอ
-          const rect = sheet.getBoundingClientRect();
-          const w = rect.width;
-          const h = rect.height;
+    // ขนาดจริงของ sheet บนหน้าจอ
+    const rect = sheet.getBoundingClientRect();
+    const w = rect.width;
+    const h = rect.height;
 
-          // scale ที่ทำให้พอดีทั้งกว้างและสูง (ไม่เกิน 1 หน้า)
-          let scale = Math.min(A4_W / w, A4_H / h);
+    // scale ที่ทำให้พอดีทั้งกว้างและสูง (ไม่เกิน 1 หน้า)
+    let scale = Math.min(A4_W / w, A4_H / h);
 
-          // กันเลื่อนนิดๆ
-          scale *= 0.995;
+    // กันเลื่อนนิดๆ
+    scale *= 0.995;
 
-          // จำกัดช่วงเพื่อไม่ให้เพี้ยน
-          if (scale > 1) scale = 1;
-          if (scale < 0.6) scale = 0.6;
+    // จำกัดช่วงเพื่อไม่ให้เพี้ยน
+    if(scale > 1) scale = 1;
+    if(scale < 0.6) scale = 0.6;
 
-          return scale;
-        }
+    return scale;
+  }
 
-        function applyScale() {
-          const sheet = document.querySelector(SHEET_SELECTOR);
-          if (!sheet) return;
+  function applyScale(){
+    const sheet = document.querySelector(SHEET_SELECTOR);
+    if(!sheet) return;
 
-          // reset ก่อนคำนวณ
-          sheet.style.transform = "none";
+    // reset ก่อนคำนวณ
+    sheet.style.transform = "none";
 
-          // คำนวณหลัง layout update
-          requestAnimationFrame(() => {
-            const scale = computeScale();
-            sheet.style.transform = `scale(${scale})`;
+    // คำนวณหลัง layout update
+    requestAnimationFrame(() => {
+      const scale = computeScale();
+      sheet.style.transform = `scale(${scale})`;
 
-            // ป้องกันโดน margin/padding ทำให้ล้น
-            sheet.style.margin = "0";
-          });
-        }
+      // ป้องกันโดน margin/padding ทำให้ล้น
+      sheet.style.margin = "0";
+    });
+  }
 
-        // ก่อนพิมพ์
-        window.addEventListener("beforeprint", applyScale);
+  // ก่อนพิมพ์
+  window.addEventListener("beforeprint", applyScale);
 
-        // หลังพิมพ์ กลับสู่ปกติ
-        window.addEventListener("afterprint", () => {
-          const sheet = document.querySelector(SHEET_SELECTOR);
-          if (sheet) {
-            sheet.style.transform = "none";
-          }
-        });
-      })();
-    </script>
-    <script>
-      /* ===== โหลด EV จากหน้าแรก ===== */
-      const scanEV = JSON.parse(localStorage.getItem("scan-EV") || "[]");
+  // หลังพิมพ์ กลับสู่ปกติ
+  window.addEventListener("afterprint", () => {
+    const sheet = document.querySelector(SHEET_SELECTOR);
+    if(sheet){
+      sheet.style.transform = "none";
+    }
+  });
+})();
+</script>
+ <script>
+/* ===== โหลด EV จากหน้าแรก ===== */
+const scanEV = JSON.parse(localStorage.getItem("scan-EV") || "[]");
 
-      /* ===== COUNTIF แบบ Google Sheets: *xxx* ===== */
-      function COUNTIF(arr, pattern) {
-        const escaped = String(pattern)
-          .replace(/[.+?^${}()|[\]\\]/g, "\\$&")
-          .replace(/\*/g, ".*");
-        const re = new RegExp("^" + escaped + "$");
-        return arr.filter((v) => re.test(String(v || ""))).length;
-      }
+/* ===== COUNTIF แบบ Google Sheets: *xxx* ===== */
+function COUNTIF(arr, pattern){
+  const escaped = String(pattern)
+    .replace(/[.+?^${}()|[\]\\]/g, "\\$&")
+    .replace(/\*/g, ".*");
+  const re = new RegExp("^" + escaped + "$");
+  return arr.filter(v => re.test(String(v || ""))).length;
+}
 
-      /* ===== เติมค่าลงช่องที่มี id ===== */
-      function applyFormulas() {
-        // (ตัวอย่าง) เทียบ =INDEX!EV1
-        const ev1 = document.getElementById("show-ev1");
-        if (ev1) ev1.textContent = scanEV[0] || "";
+/* ===== เติมค่าลงช่องที่มี id ===== */
+function applyFormulas(){
+
+  // (ตัวอย่าง) เทียบ =INDEX!EV1
+  const ev1 = document.getElementById("show-ev1");
+  if(ev1) ev1.textContent = scanEV[0] || "";
 
   // COUNTIF แต่ละสาขา
   const FORMULAS = {
@@ -667,57 +540,58 @@
     "scb-chongmek":     () => COUNTIF(scanEV, "*0007434010*"),
   };
 
+  // ใส่ค่าทีละช่อง
+  Object.entries(FORMULAS).forEach(([id, fn])=>{
+    const el = document.getElementById(id);
+    if(!el) return;
+    const value = fn();
+    el.textContent = value ? value : "";
+  });
+
+  // รวม
+  const sumEl = document.getElementById("scb-sum");
+  if(sumEl){
+    let sum = 0;
+    Object.values(FORMULAS).forEach(fn => sum += fn());
+    sumEl.textContent = sum ? sum : "";
+  }
+}
+
+document.addEventListener("DOMContentLoaded", applyFormulas);
+</script>
+
+  <script>
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", async () => {
+    const reg = await navigator.serviceWorker.register("./service-worker.js");
+    reg.update();
+  });
+}
+</script>
+  <script>
+
+function fillEV_1_to_15(){
+  for(let i=1; i<=15; i++){
+    const el = document.getElementById("ev" + i);
+    if(!el) continue;
+
+    // EV1 คือ index 0, EV2 index 1 ...
+    el.textContent = scanEV[i-1] || "";
+  }
+}
+
+document.addEventListener("DOMContentLoaded", fillEV_1_to_15);
+</script>
   
-        // ใส่ค่าทีละช่อง
-        Object.entries(FORMULAS).forEach(([id, fn]) => {
-          const el = document.getElementById(id);
-          if (!el) return;
-          const value = fn();
-          el.textContent = value ? value : "";
-        });
+  <script>
+function goBack(){
+  if (window.history.length > 1) {
+    window.history.back();   // ✅ กลับไปหน้า index ที่เปิดมา
+  } else {
+    window.location.replace("/");
+  }
+}
+</script>
 
-        // รวม
-        const sumEl = document.getElementById("scb-sum");
-        if (sumEl) {
-          let sum = 0;
-          Object.values(FORMULAS).forEach((fn) => (sum += fn()));
-          sumEl.textContent = sum ? sum : "";
-        }
-      }
-
-      document.addEventListener("DOMContentLoaded", applyFormulas);
-    </script>
-
-    <script>
-      if ("serviceWorker" in navigator) {
-        window.addEventListener("load", async () => {
-          const reg = await navigator.serviceWorker.register("./service-worker.js");
-          reg.update();
-        });
-      }
-    </script>
-    <script>
-      function fillEV_1_to_15() {
-        for (let i = 1; i <= 15; i++) {
-          const el = document.getElementById("ev" + i);
-          if (!el) continue;
-
-          // EV1 คือ index 0, EV2 index 1 ...
-          el.textContent = scanEV[i - 1] || "";
-        }
-      }
-
-      document.addEventListener("DOMContentLoaded", fillEV_1_to_15);
-    </script>
-
-    <script>
-      function goBack() {
-        if (window.history.length > 1) {
-          window.history.back(); // ✅ กลับไปหน้า index ที่เปิดมา
-        } else {
-          window.location.replace("/");
-        }
-      }
-    </script>
-  </body>
+</body>
 </html>
