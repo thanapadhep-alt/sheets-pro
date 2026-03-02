@@ -8,13 +8,13 @@
   /* ===== A4 PRINT SETUP (FIXED) ===== */
 @page{
   size: A4 portrait;
-  margin: 10mm;
+  margin: 18mm;
 }
 
 /* ===== PRINT MODE (รวมให้เหลือชุดเดียว) ===== */
 @media print{
   html, body{
-    font-size: 78% !important;
+    font-size: 28% !important;
   }
   html, body{
   width: 245mm;
@@ -22,9 +22,6 @@
   margin: 0;
   padding: 0;
 }
-  body{
-    font-size: 80% !important;
-  }
   
   *{
     -webkit-print-color-adjust: exact;
@@ -93,7 +90,7 @@ table, tr, td{
  
 body{
   margin:0;
-  font-family:"TH Sarabun New","Kanit",sans-serif;
+  font-family:"Angsana New","TH Sarabun New","Kanit",sans-serif;
 }
 /* =====font style จาก Google Sheets (คงไว้เฉพาะที่ใช้จริง) ===== */
 .ritz .waffle a { color: inherit; }
@@ -105,7 +102,7 @@ body{
 .ritz .waffle .s19{text-align:right;font-size:10pt;}
 .ritz .waffle .s8{border-bottom:1px solid #000;border-right:1px solid #000;text-align:center;font-size:10pt;}
 .ritz .waffle .s12{border-bottom:1px dotted #000;text-align:center;font-size:7pt;}
-.ritz .waffle .s3{text-align:center;font-size:10pt;}
+.ritz .waffle .s3{text-align:center;font-weight:bold;font-size:14pt;}
 .ritz .waffle .s10{border-bottom:1px dotted #000;text-align:center;text-decoration:underline;font-size:10pt;}
 .ritz .waffle .s6{border-bottom:1px solid #000;border-right:1px solid #000;text-align:center;font-weight:bold;font-size:10pt;}
 .ritz .waffle .s9{border-bottom:1px solid #000;text-align:center;font-size:10pt;}
@@ -114,14 +111,15 @@ body{
 .ritz .waffle .s17{border-bottom:1px solid #000;border-right:1px solid #000;text-align:center;font-size:10pt;}
 .ritz .waffle .s13{border-bottom:1px solid #000;text-align:right;font-size:10pt;}
 .ritz .waffle .s0{text-align:left;font-size:10pt;}
-.ritz .waffle .s4{border-bottom:1px solid #000;text-align:center;font-size:10pt;}
+.ritz .waffle .s4{border-bottom:1px solid #000;text-align:center;font-size:14pt;}
 .ritz .waffle .s5{border-bottom:1px solid #000;border-right:1px solid #000;text-align:center;font-weight:bold;font-size:11pt;}
 .ritz .waffle .s20{text-align:center;font-size:10pt;}
 .ritz .waffle .s2{text-align:left;font-size:10pt;}
 
 table.waffle{
   width:100%;
-  border-collapse:collapse;
+   border-collapse:collapse;
+  border:1.2px solid #999;
 }
 .row-write td{
   padding-top:1px;
@@ -186,10 +184,10 @@ table.waffle{
 
 <!-- ====== ตารางจริง (ยกมาจากต้นฉบับ) ====== -->
 
-<tr class="row-write">
+<tr class="s3">
   <td class="s5" colspan="2"><br>เที่ยว / เข้า	
 </td>
-  <td class="s5" colspan="15"><br> แผนก EMS ประเภท จ่าย / ผ่าน											</td>
+  <td class="s5" colspan="13"><br> แผนก EMS ประเภท จ่าย / ผ่าน											</td>
 </tr>
 
 <tr>
