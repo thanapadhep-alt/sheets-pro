@@ -228,10 +228,16 @@
       table.waffle {
         width: 100%;
         border-collapse: collapse;
+        table-layout:fixed;
+        border:1.2px solid #999
+      }
+      td{
+        padding:2px 6px;
+        vertical-align:middle;
       }
       .row-write td {
-        padding-top: 30px;
-        padding-bottom: 8px;
+        padding-top: 10px;
+        padding-bottom: 1px;
       }
       table.waffle {
         border: 2px solid #000;
@@ -261,9 +267,27 @@
     <div class="page-a4">
       <div class="ritz">
         <table class="waffle">
+           <colgroup>
+    <col style="width: 50px;">  <!-- คอลัมน์ 1: ต้นทาง -->
+    <col style="width: 14px;">   <!-- คอลัมน์ 2: จำนวน -->
+    <col style="width: 14px;">   <!-- คอลัมน์ 3 -->
+    <col style="width: 20px;">  <!-- คอลัมน์ 4: ประเภท -->
+    <col style="width: 30px;">   <!-- คอลัมน์ 5 -->
+    <col style="width: 10px;">  <!-- คอลัมน์ 6 -->
+    <col style="width: 10px;">  <!-- คอลัมน์ 7 -->
+             
+    <col style="width: 1px;">  <!-- คอลัมน์ 1: ต้นทาง -->
+    <col style="width: 50px;">   <!-- คอลัมน์ 2: จำนวน -->
+    <col style="width: 14px;">   <!-- คอลัมน์ 3 -->
+    <col style="width: 14px;">  <!-- คอลัมน์ 4: ประเภท -->
+    <col style="width: 20px;">   <!-- คอลัมน์ 5 -->
+    <col style="width: 30px;">  <!-- คอลัมน์ 6 -->
+    <col style="width: 10px;">  <!-- คอลัมน์ 7 -->
+  </colgroup>
+  <!-- แถวบน -->
           <tbody>
             <tr>
-              <td class="s3">ป.58 พิเศษ</td>
+              <td class="s3" >ป.58 พิเศษ</td>
             </tr>
 
             <tr>
@@ -281,16 +305,16 @@
             <tr class="row-write">
               <td class="s5">ต้นทาง</td>
               <td class="s5" colspan="2">ศป.อุบลฯ</td>
-              <td class="s5">ศป.นม.</td>
-              <td class="s5">ศป.อด.</td>
-              <td class="s5">ศป.ขก.</td>
-              <td class="s6" colspan="2">อื่นๆ</td>
+              <td class="s5"></td>
+              <td class="s5"></td>
+              <td class="s5"></td>
+              <td class="s6" colspan="2"></td>
 
               <td class="s5">ต้นทาง</td>
               <td class="s5" colspan="2">ศป.อุบลฯ</td>
-              <td class="s5">ศป.นม.</td>
-              <td class="s5">ศป.อด.</td>
-              <td class="s5">ศป.ขก.</td>
+              <td class="s5"></td>
+              <td class="s5"></td>
+              <td class="s5"></td>
             </tr>
 
             <tr>
@@ -1144,7 +1168,7 @@
             <tr class="row-write">
               <td class="s1" colspan="7">ลงชื่อ..................................... ผู้ส่งมอบ</td>
               <td></td>
-              <td class="s1" colspan="7">ลงชื่อ..................................... ผู้รับมอบ</td>
+              <td class="s1" colspan="6">ลงชื่อ..................................... ผู้รับมอบ</td>
             </tr>
 
             <tr class="row-write">
@@ -1153,7 +1177,7 @@
                 <span id="d2-time"></span> น.
               </td>
               <td></td>
-              <td class="s1" colspan="7">วันที่ ........ เดือน ........ พ.ศ. ........ เวลา ........ น.</td>
+              <td class="s1" colspan="6">วันที่ ........ เดือน ........ พ.ศ. ........ เวลา ........ น.</td>
             </tr>
           </tbody>
         </table>
