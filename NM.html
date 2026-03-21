@@ -5,74 +5,48 @@
     <title>ป.58 EMS</title>
 
     <style>
-      /* ===== A4 PRINT SETUP (FIXED) ===== */
-      @page {
-        size: A4 portrait;
-        margin: 10mm;
-      }
+     /* ===== SCREEN (มือถือ/คอม) ===== */
+ html, body{
+  width: 210mm;
+  height: 297mm;
+  margin: 0;
+  padding: 0;
+}
+/* กล่องกระดาษ A4 */
+.sheet{
+  width:210mm;
+  background:#fff;
+  box-shadow:0 6px 16px rgba(0,0,0,.15);
+  padding:0;
+}
 
-      /* ===== PRINT MODE (รวมให้เหลือชุดเดียว) ===== */
-      @media print {
-        html,
-        body {
-          font-size: 88% !important;
-        }
-        html,
-        body {
-          width: 210mm;
-          height: 297mm;
-          margin: 0;
-          padding: 0;
-        }
-        body {
-          font-size: 90% !important;
-        }
+/* ✅ มือถือ: scale ให้พอดีกับจอ ไม่บีบตาราง */
+@media screen and (max-width: 900px){
+  .sheet{
+    transform-origin: top center;
+    transform: scale(calc((100vw - 28px) / 210mm));
+  }
+}
+ /* ขนาดกระดาษ */
+@page{
+  size: A4 portrait;
+  margin: 10mm;
+}
 
-        * {
-          -webkit-print-color-adjust: exact;
-          print-color-adjust: exact;
-        }
+/* โหมดพิมพ์ */
+@media print{
 
-        /* ซ่อนปุ่ม/เมนูที่ไม่ต้องการพิมพ์ */
-        .no-print,
-        .nav3,
-        button {
-          display: none !important;
-        }
-
-        /* เอาสีไฮไลท์ออกตอนพิมพ์ */
-        .hl-have,
-        .hl-warn {
-          background: none !important;
-        }
-
-        /* กันตารางแตกหน้า */
-        table,
-        tr,
-        td {
-          page-break-inside: avoid;
-        }
-
-        /* กันตัวอักษรบางจนเหมือนหาย */
-        .ritz .waffle td {
-          font-weight: 400 !important;
-        }
-      }
-
-      /* ===== A4 PRINT SETUP ===== */
-      /* ไม่ให้ตารางแตกหน้า */
-      table,
-      tr,
-      td {
-        page-break-inside: avoid;
-      }
-
-      /* ซ่อนสิ่งที่ไม่ต้องพิมพ์ */
-
-      .page-a4 {
-        box-sizing: border-box;
-        width: 100%;
-      }
+  html,body{
+    width:210mm;
+    height:229mm;
+    font-size:12px;
+    line-height:1.3;
+  }
+/* ✅ ซ่อนปุ่ม */
+  .no-print{
+    display:none !important;
+  }
+}
       /* ===== BUTTON STYLE ===== */
       .btn-export {
         padding: 15px 39px;
@@ -108,7 +82,7 @@
 
       body {
         margin: 0;
-        font-family: "TH Sarabun New", "Kanit", sans-serif;
+        font-family: "Angsana New", serif;
       }
       /* =====font style จาก Google Sheets (คงไว้เฉพาะที่ใช้จริง) ===== */
       .ritz .waffle a {
